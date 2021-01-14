@@ -1,0 +1,91 @@
+<div class="layui-form" lay-filter="layuiadmin-ftp-form-list" id="layuiadmin-ftp-form-list"style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">网址：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="url" value="{{ d.params.url || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">后台网址：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="admin_host"  value="{{ d.params.admin_host || '无' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">关键字：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="keywords"  value="{{ d.params.keywords || '无' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">后台账号：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <script type="text/html" template>
+                    <input type="text" name="admin_access"  value="{{ d.params.admin_access || '无' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">后台密码：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <script type="text/html" template>
+                    <input type="text" name="admin_password"  value="{{ d.params.admin_password || '无' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">FTP网址：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="ftp_host"  value="{{ d.params.ftp_host || '无' }}" readonly autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline" >
+            <label class="layui-form-label">FTP端口：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="ftp_port"  value="{{ d.params.ftp_port || '21' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">FTP账号：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="ftp_access"  value="{{ d.params.ftp_access || '无' }}" readonly autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline" >
+            <label class="layui-form-label">FTP密码：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="ftp_password"  value="{{ d.params.ftp_password || '无' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+

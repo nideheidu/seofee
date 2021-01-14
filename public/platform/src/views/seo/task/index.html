@@ -1,0 +1,846 @@
+
+
+<title>优化任务审核管理</title>
+<style>
+    .layui-btn+.layui-btn{margin-left: 2px;}
+    .layui-table-cell{padding: 0 5px;}
+    #layui-layer3{width: 400px;}
+    #layui-layer5{width: 400px;}
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化中任务管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keywords" placeholder="可搜索关键字、网址、客户" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!-- <div class="layui-inline">
+                    <label class="layui-form-label">网址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="weburl" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                    </div>
+                </div> -->
+                <div id="view" class="layui-inline">
+        
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <select name="type">
+                            <option value="">全部</option>
+                            <option value="1">新达标</option>
+                            <option value="2">已达标</option>
+                            <option value="3">未达标</option>
+                            <option value="5">需要更新排名（可操作）</option>
+                            <option value="6">无需更新排名（不可操作）</option>
+                        </select>
+                    </div>
+                </div>
+                <script id="ngines_select" type="text/html">
+                    <label class="layui-form-label">{{ d.title }}</label>
+                    <div class="layui-input-inline">
+                            <select name="search_ngines" lay-verify="search_ngines">
+                                <option value="">全部</option>
+                                {{#  layui.each(d.list, function(index, item){ }}
+                                    <option value="{{index}}">{{item}}</option>
+                                {{#  }); }}
+                                
+                            </select>
+                        
+                    </div>
+                </script>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <!-- <button class="layui-btn layuiadmin-btn-list" data-type="batchUpdate">批量更新</button> -->
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchSettlement">批量结算</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchStop">批量停止</button>
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="addtask">添加关键词</button>-->
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchaddtask">批量添加关键词</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchupprice">批量修改价格</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchuprank">批量修改排名</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchoperable">批量设置不可操作词</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdelete">自定义批量删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="domainmatch">域名完全匹配账号设置</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="huifu">恢复已删除账号</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="export">导出EXCEL</button>
+            </div>
+            <div class="layui-tab" lay-filter="orderStatus">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" data-type="1">优化中</li>
+                    <!-- <li data-type="2">停止优化</li>
+                    <li data-type="-1">全部</li> -->
+                </ul>
+                <div class="layui-tab-content">
+
+                    <div class="layui-tab-item layui-show">
+                        <div style="padding-bottom: 10px;" id="topBtnBox" >
+                            <!-- <button class="layui-btn layuiadmin-btn-list" data-type="stop"><i class="layui-icon layui-icon-pause"></i>停止优化</button> -->
+                           
+                        </div>
+                        <table id="LAY-admin-task-list" lay-filter="LAY-admin-task-list"></table>
+                    </div>
+
+                </div>
+            </div>
+            
+
+         <!--    <script type="text/html" id="buttonTpl">
+                {{#  if(d.status ==2){ }}
+                <button class="layui-btn layui-btn-xs">优化中</button>
+                {{#  } else if(d.status ==2) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">优化停止</button>
+                {{#  } else { }}
+                <button class="layui-btn  layui-btn-xs">未优化</button>
+                {{#  } }}
+            </script> -->
+            <script type="text/html" id="rankTplN">
+                {{#  if(d.original_rank ==101){ }}
+                   >100
+                {{#  } else { }}
+                    {{d.original_rank}}
+                {{#  } }}
+            </script>
+            <script type="text/html" id="rankTpl">
+                {{#  if(d.current_ranking < 10 && d.current_ranking >0){ }}
+                    <span style="color: red;">{{d.current_ranking}}</span>
+                
+                {{#  } else { }}
+                    {{d.current_ranking}}
+                {{#  } }}
+            </script>
+            <script type="text/html" id="liftingTpl">
+                {{#  if((d.original_rank - d.current_ranking) > 0 ){ }}
+                    
+                    <span style="color: #FF5722">
+                       ↑ {{d.original_rank>100? (100 - d.current_ranking):(d.original_rank - d.current_ranking)}}
+                    </span>
+                {{#  } else if(d.original_rank == d.current_ranking) { }}
+                        --
+                {{#  } else { }}
+                        ↓ <span style="color:  #0da919">{{d.current_ranking - d.original_rank}}</span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-content-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="saveRank"><i class="layui-icon layui-icon-radio"></i>更新排名</a>
+                <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="saveRank"><i class="layui-icon layui-icon-radio"></i>停止优化</a> -->
+            </script>
+            <script type="text/html" id="ftpHostTpl">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="orderinfo" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
+                <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="ftpInfo" title="FTP"><i class="layui-icon layui-icon-website"></i></a>-->
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update" title="更新"><i class="layui-icon layui-icon-refresh"></i></a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="settlement" title="结算"><i class="layui-icon layui-icon-rmb"></i></a>
+                <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="rank" title="走势"><i class="layui-icon layui-icon-chart"></i></a>-->
+                <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stop" title="停止"><i class="layui-icon layui-icon-pause"></i></a>-->
+            </script>
+            <script type="text/html" id="ftpHostTplx">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="ftpInfo">查看</a>
+            </script>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('admintask', layui.factory('admintask')).use(['admin', 'admintask', 'table','setter','element','laytpl'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,form = layui.form;
+       
+        form.render(null, 'app-content-list');
+        //监听选项卡
+        element.on('tab(orderStatus)', function(data){
+            //当前Tab标题所在的原始DOM元素
+            var _status = $(this).data('type');
+            table.reload('LAY-admin-task-list', {
+                where: {status:_status}
+            });
+            var getTpl = topBtnTpl.innerHTML
+                ,view = document.getElementById('topBtnBox');
+            laytpl(getTpl).render(_status, function(html){
+                view.innerHTML = html;
+            });
+            $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-admin-task-list', {
+                where: field
+            });
+        });
+        table.on('checkbox(LAY-admin-task-list)', function(obj){
+              // console.log(obj.checked); //当前是否选中状态
+              // console.log(obj.data); //选中行的相关数据
+              // console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        });
+
+        var active = {
+            //停止
+            stop: function(othis)
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要停止的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idsStr = ids.join(',',ids);
+                layer.confirm('确定停止吗？', function(index) {
+                    //执行 Ajax 后重载
+                    admin.req({
+                        url: '/admin/order/status'
+                        ,type:'post'
+                        ,data:{ids:idsStr,type:'stop'}
+                        ,done: function( res ){
+                            layer.msg(res.msg, {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-admin-task-list'); //重载表格
+                                layer.close(index); //执行关闭
+
+                            });
+                        }
+                    });
+                });
+
+            }
+            ,start: function(othis)
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要启动的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idsStr = ids.join(',',ids);
+                layer.confirm('确定启动吗？', function(index) {
+                    //执行 Ajax 后重载
+                    admin.req({
+                        url: '/admin/order/status'
+                        ,type:'post'
+                        ,data:{ids:idsStr,type:'start'}
+                        ,done: function( res ){
+                            layer.msg(res.msg, {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-admin-task-list'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        }
+                    });
+                });
+
+            }
+            ,batchUpdate: function()
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定批量更新吗？', function(index) {
+
+                    //执行 Ajax 后重载
+
+                    admin.req({
+                      url: '/platform/task/update'
+                        ,type:"post"
+                        ,data: {tid:_ids}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('更新成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-admin-task-list');
+                            });
+                        }
+                    });
+
+                    
+                });
+            }
+            ,batchSettlement: function()
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定批量结算吗？', function(index) {
+
+                    //执行 Ajax 后重载
+
+                    admin.req({
+                      url: '/platform/task/settlement'
+                        ,type:"post"
+                        ,data: {tid:_ids}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('结算成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-admin-task-list');
+                            });
+                        }
+                    });
+
+                    
+                });
+            }
+            ,batchStop:function()
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定批量停止吗？', function(index) {
+
+                    //执行 Ajax 后重载
+
+                    admin.req({
+                      url: '/platform/task/stop'
+                        ,type:"post"
+                        ,data: {tid:_ids}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-admin-task-list');
+                            });
+                        }
+                    });
+
+                    
+                });
+            },
+            addtask:function()
+            {
+                admin.popup({
+                title: '添加关键词'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('seo/task/add-form').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                           var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                            admin.req({
+                                url: '/platform/task/add' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg(res.msg, {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                },
+                                success:function(){
+                                    layer.close(index);
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        },
+            batchaddtask:function()
+            {
+                admin.popup({
+                    title: '批量添加关键词'
+                    , area: ['800px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/batchadd-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+                            console.log(layui.$.fn.jquery);
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                var arr = data.field.wordinfo.split("\n");
+                                var wordinfos = [];
+                                var add_count = 0;  //添加成功数
+                                var add_msg = '';
+                                for (var i=1;i<=arr.length;i++)
+                                {
+                                    wordinfos.push(arr[i-1]);
+                                    if (i === arr.length)
+                                    {
+                                        console.log(add_count)
+                                        data.field.wordinfo = wordinfos.join("\n");
+                                        wordinfos = [];
+                                        admin.req({
+                                            url: '/platform/task/add' //实际使用请改成服务端真实接口
+                                            ,type:'post'
+                                            ,data: data.field
+                                            ,async:false
+                                            ,success: function( res ){
+                                                add_count += res.count;  //添加成功数
+                                                //登入成功的提示与跳转
+                                                console.log(res.code, res.uid, add_count)
+                                                if (isNaN(add_count))
+                                                {
+                                                    add_msg = '';
+                                                }
+                                                else
+                                                {
+                                                    add_msg = "已成功添加 " + add_count + " 条， ";  //总计 添加成功数
+                                                }
+                                                if (res.code === 1 || res.uid)
+                                                {
+                                                    /*layer.close(index);
+                                                    return false;*/
+                                                    layer.alert(add_msg + res.msg, {
+                                                        offset: '15px'
+                                                        ,icon: 1
+                                                    })
+                                                }
+                                                else
+                                                {
+                                                    layer.alert(add_msg + res.msg,{
+                                                        offset: '15px'
+                                                        ,icon: 1
+                                                        ,area: ['400px', 'auto']
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }
+                                    else if (i%500 === 0)
+                                    {
+                                        data.field.wordinfo = wordinfos.join("\n");
+                                        wordinfos = [];
+                                        admin.req({
+                                            url: '/platform/task/add' //实际使用请改成服务端真实接口
+                                            ,type:'post'
+                                            ,data: data.field
+                                            ,async:false
+                                            ,done: function( res ){
+                                                add_count += res.count;  //添加成功数
+                                                add_msg = "已成功添加 " + add_count + " 条， ";  //总计 添加成功数
+                                                if (res.code === 1)
+                                                {
+                                                    layer.close(index);
+                                                    return false;
+                                                }
+                                                else
+                                                {
+                                                    layer.alert("添加成功！" + add_msg, {
+                                                        offset: '15px'
+                                                        ,icon: 1
+                                                    });
+                                                }
+                                            },
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            batchupprice:function()
+            {
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要修改的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idstr = ids.join(',',ids);
+                admin.popup({
+                    title: '批量修改价格'
+                    , area: ['400px', '250px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/batchupprice-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                if (field.price === '')
+                                {
+                                    return layer.msg('请输入价格');
+                                }
+                                var index = layer.msg('处理中...', {shade: [0.8, '#393D49'], time: 60 * 60 * 1000});
+                                admin.req({
+                                    url: '/platform/task/edit' //实际使用请改成服务端真实接口
+                                    , type: 'post'
+                                    , data: {edittype:field.edittype,price:field.price,id:idstr}
+                                    , done: function (res) {
+                                        layer.msg('修改成功！', {
+                                            offset: '15px'
+                                            ,icon: 1
+                                            ,time: 1000
+                                        }, function(){
+                                            //执行重载
+                                            table.reload('LAY-admin-task-list');
+                                            layer.closeAll();
+                                        });
+                                    },
+                                    success: function () {
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            batchdelete:function()
+            {
+                admin.popup({
+                    title: '自定义批量删除'
+                    , area: ['800px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/batchdel-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                admin.req({
+                                    url: '/platform/Keywords/del' //实际使用请改成服务端真实接口
+                                    ,type:'post'
+                                    ,data: field
+                                    ,done: function( res ){
+                                        //请求成功后，写入 access_token
+
+                                        //删除成功和失败的提示与跳转
+                                        layer.alert(res.msg,{
+                                            yes: function(){
+                                                window.location.reload();
+                                            }
+                                        });
+                                        //执行重载
+                                        // table.reload('LAY-admin-task-list');
+                                    },
+                                    success:function(){
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            batchuprank:function()
+            {
+                admin.popup({
+                    title: '批量修改排名'
+                    , area: ['820px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/batchuprank-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                admin.req({
+                                    url: '/platform/task/edit' //实际使用请改成服务端真实接口
+                                    ,type:'post'
+                                    ,data: field
+                                    ,done: function( res ){
+                                        layer.alert(res.msg,{
+                                            yes: function(){
+                                                layer.closeAll();
+                                            }
+                                        });
+                                        //执行重载
+                                        table.reload('LAY-admin-task-list');
+                                    },
+                                    success:function(){
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            batchoperable:function()
+            {
+                admin.popup({
+                    title: '批量设置不可操作词'
+                    , area: ['820px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/batchoperable-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                admin.req({
+                                    url: '/platform/task/edit' //实际使用请改成服务端真实接口
+                                    ,type:'post'
+                                    ,data: field
+                                    ,done: function( res ){
+                                        layer.alert(res.msg,{
+                                            yes: function(){
+                                                layer.closeAll();
+                                            }
+                                        });
+                                        //执行重载
+                                        table.reload('LAY-admin-task-list');
+                                    },
+                                    success:function(){
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            domainmatch: function () {
+                admin.popup({
+                    title: '域名完全匹配账号设置'
+                    , area: ['800px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/domainmatch-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                admin.req({
+                                    url: '/platform/Keywords/domainmatch' //实际使用请改成服务端真实接口
+                                    ,type:'post'
+                                    ,data: field
+                                    ,done: function( res ){
+                                        //请求成功后，写入 access_token
+
+                                        //删除成功和失败的提示与跳转
+                                        layer.alert(res.msg,{
+                                            yes: function(){
+                                                window.location.reload();
+                                            }
+                                        });
+                                        //执行重载
+                                        // table.reload('LAY-admin-task-list');
+                                    },
+                                    success:function(){
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            huifu:function () {
+                admin.popup({
+                    title: '恢复已删除账号'
+                    , area: ['800px', '600px']
+                    , id: 'LAY-popup-content-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/task/huifu-form').done(function () {
+                            form.render(null, 'layuiadmin-app-task-add');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                                admin.req({
+                                    url: '/platform/Keywords/huifu' //实际使用请改成服务端真实接口
+                                    ,type:'post'
+                                    ,data: field
+                                    ,done: function( res ){
+                                        //请求成功后，写入 access_token
+
+                                        //删除成功和失败的提示与跳转
+                                        layer.alert(res.msg,{
+                                            yes: function(){
+                                                window.location.reload();
+                                            }
+                                        });
+                                        //执行重载
+                                        // table.reload('LAY-admin-task-list');
+                                    },
+                                    success:function(){
+                                        layer.close(index);
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            },
+            export: function (othis)
+            {
+                var layer_index  = layer.load(1);
+                setTimeout(function(){
+                    // 如果数据量特别大，最好直接传入 AOA 数组，减少内存/CPU消耗
+                    var data = [
+                        [ "序号", "客户", '关键字', '网址', '搜索引擎', '添加时间', '初排', '新排', '排名更新时间', '达标天数', '用户单价' ]
+                    ];
+                    for (var k=1;k<=1000;k++)
+                    {
+                        admin.req({
+                            url: '/platform/keywords/export'
+                            ,type:"get"
+                            ,data:{'page':k,'limit':100,'status':'2,6','keywords':$("input[name='keywords']").val(),'search_ngines':$("select[name='search_ngines']").val(),'type':$("select[name='type']").val()}
+                            ,async:false
+                            ,done: function( res ){
+                                var res_data = res['data']['data'];
+                                if (res_data.length === 0)
+                                {
+                                    k=1001;
+                                }
+                                for (var i = 0; i < res_data.length; i++) {
+                                    original_rank = res_data[i]['original_rank'] >=101?'>100':res_data[i]['original_rank'];
+                                    current_ranking = res_data[i]['current_ranking'] >=101?'>100':res_data[i]['current_ranking'];
+                                    data.push([
+                                        k*i+1,
+                                        res_data[i]['username'],
+                                        res_data[i]['keywords'],
+                                        res_data[i]['web_url'],
+                                        res_data[i]['search_ngines'],
+                                        res_data[i]['create_time'],
+                                        original_rank,
+                                        current_ranking,
+                                        res_data[i]['rank_time'],
+                                        res_data[i]['standard'],
+                                        res_data[i]['price']
+                                    ]);
+                                }
+                            }
+                        });
+                    }
+                    layui.use(['excel'], function() {
+                        var excel = layui.excel;
+                        // 造 num 条数据
+                        excel.exportExcel({
+                            sheet1: data
+                        }, '优化中任务导出共'+(data.length-1)+'条数据.xlsx', 'xlsx');
+                    });
+                    layer.close(layer_index);
+                },100);
+            },
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        var data = { //数据
+          "title":"搜索引擎"
+          ,"list":setter.search_ngines
+        }
+        var getTpl = ngines_select.innerHTML
+        ,viewSearch = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+          viewSearch.innerHTML = html;
+        });
+        form.render(null, 'app-content-list');
+
+        $(document).on('click','.countreduce',function(){
+            var min = 1;
+            var value = parseInt($("input[name='cycle']").val());
+            if( (value-1) >=min)
+            {
+                $("input[name='cycle']").val(value-1);
+            }else {
+                layer.msg('合作周期最少'+min+'个月');
+            }
+        });
+        $(document).on('click','.countadd',function(){
+            var value = parseInt($("input[name='cycle']").val());
+            $("input[name='cycle']").val( value+1 );
+        });
+    });
+</script>

@@ -1,0 +1,121 @@
+
+
+<title>资金变动明细</title>
+
+<style>
+    .custom-card-body{padding-top: 0;}
+    .layui-fluid{padding-top: 0;}
+    .layui-tab-title{margin: 20px 0 0 15px;}
+    .layui-tab-content{padding: 0;}
+    .layui-card-body{padding: 0;}
+    .layui-table thead tr{background: #e2e2e2;}
+</style>
+
+<!--<div class="layui-card layadmin-header">-->
+<!--    <div class="layui-breadcrumb" lay-filter="breadcrumb">-->
+<!--        <a lay-href="">主页</a>-->
+<!--        <a><cite>我的明细</cite></a>-->
+<!--        <a><cite>资金变动明细</cite></a>-->
+<!--    </div>-->
+<!--</div>-->
+<ul class="layui-tab-title">
+    <li class="layui-this">资金变动明细</li>
+</ul>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+            <div class="layui-tab">
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-app-free-list" lay-filter="LAY-app-free-list"></table>
+                    </div>
+
+                </div>
+            </div>
+            <script type="text/html" id="buttonTpl">
+                {{d.remarks.replace('关键字','关键词')}}
+            </script>
+            <script type="text/html" id="table-content-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('detailedlist', layui.factory('detailedlist')).use(['admin', 'detailedlist', 'table','setter','element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+
+        //监听选项卡
+        element.on('tab(status)', function(data){
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            var _status = $(this).data('type');
+            table.reload('LAY-app-task-list', {
+                where: {status:_status}
+            });
+        });
+
+        var active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+
+                    //执行 Ajax 后重载
+                    /*
+                    admin.req({
+                      url: 'xxx'
+                      //,……
+                    });
+                    */
+                    table.reload('LAY-app-content-list');
+                    layer.msg('已删除');
+                });
+            }
+
+            //添加
+            ,add: function(othis){
+                admin.popup({
+                    title: '添加文章'
+                    ,area: ['550px', '550px']
+                    ,id: 'LAY-popup-content-add'
+                    ,success: function(layero, index){
+                        view(this.id).render('app/content/listform').done(function(){
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function(data){
+                                var field = data.field; //获取提交的字段
+
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                //$.ajax({});
+                                layui.table.reload('LAY-app-content-list'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>

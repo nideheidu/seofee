@@ -1,0 +1,104 @@
+<style>
+    .bordernone{border: none;}
+</style>
+
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-add" id="layuiadmin-app-form-add"style="padding: 20px 30px 0 0;">
+    
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+                key
+        </div>
+        <div class="layui-input-inline">
+                默认值
+        </div>
+        <div class="layui-input-inline">
+                排序
+        </div>
+    </div>
+    <div class="layui-form-item" v-for="(item,i) in commands">
+        <div class="layui-input-inline">
+                <input type="text"  v-model="item.key" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+                <input type="text" v-model="item.value" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline" style="width: 80px;">
+                <input type="text" v-model="item.sort" autocomplete="off" class="layui-input" >
+        </div>
+        <a v-if="i===commands.length-1" class="layui-btn layui-btn-primary bordernone" v-on:click="addItem()" title="添加"><i class="layui-icon layui-icon-add-1"></i></a>
+        <a v-else class="layui-btn layui-btn-primary bordernone" v-on:click="deleteItem(i)" title="删除"><i class="layui-icon layui-icon-close"></i></a>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">命令代码</label>
+        
+            <textarea placeholder="命令代码" class="layui-textarea" readonly="readonly" rows="1" style="    height: 48px !important;line-height: 32px;">${reversedCode}</textarea>
+        
+    </div>
+    
+    <!-- <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" value="1" lay-verify="required" lay-filter="status" name="status" lay-skin="switch" lay-text="启用|停用">
+        </div>
+    </div> -->
+    
+    
+</div>
+<script type="text/html" template>
+        <input type="hidden" name="data_content" value="{{d.params.content}}">
+    </script>
+<script type="text/javascript">
+    //var commandData = d.content;
+    //console.log(data)
+    layui.define(['table', 'form'], function(exports){
+      var $ = layui.$
+      ,setter = layui.setter
+      ,request = setter.request
+      ,form = layui.form;
+        form.render('checkbox');
+    })
+</script>
+
+<script>
+    var vm = new Vue({
+      el: '#layuiadmin-app-form-add',
+      data: {
+        commands: [
+            {'key':'命令','value':'','sort':0,'isdefault':1}
+        ]
+      },
+      computed: {
+        reversedCode: function () {
+            var code = '';
+            var item;
+            for(let index in this.commands) {  
+                item = this.commands[index];
+
+                if(item.key)
+                {
+                    if(index != 0)
+                    {
+                        code += ',';
+                    }
+                    code += '"'+item.key+'":"'+item.value+'"';  
+                }
+                this.commands[index].sort = index;
+            };
+            return '{'+code+'}';
+        }
+      },
+      methods: {
+        addItem: function () {
+            vm.commands.push({'key':'','value':'',sort:0})
+        },
+        deleteItem: function (index) {
+            
+            vm.commands.splice(index,1)
+        }
+
+      },
+      delimiters:['${', '}'] 
+    })
+</script>

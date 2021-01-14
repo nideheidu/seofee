@@ -1,0 +1,113 @@
+<style> button, input, select, textarea {font-family: inherit; font-size: inherit; line-height: inherit; color: inherit; } span{margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline;} .zent-number-input-arrow, .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-countreduce {left: 1px; border-right: 1px solid #bbb; } .zent-input-wrapper {display: -webkit-box; display: -ms-flexbox; display: flex; position: relative; height: 38px; max-height: 38px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper .zent-input {padding: 0 35px; text-align: center; } .zent-input[type=text]{display: inline-block; -webkit-box-flex: 1; -ms-flex: 1; flex: 1; min-width: 80px; height: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; padding: 0 10px; margin: 0; border: 1px solid #bbb; color: #333; font-size: 12px; border-radius: 2px; -webkit-box-shadow: none; box-shadow: none; -webkit-transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; -webkit-appearance: none; -moz-appearance: none; appearance: none; } .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-countadd {right: 1px; border-left: 1px solid #bbb; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper {width: 108px; } </style>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-app-task-add" id="layuiadmin-app-task-add"style="padding: 20px 30px 0 0;">
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户</label>
+        <div class="layui-input-inline">
+            
+                <select name="agent_id" lay-verify="agent_id" lay-filter="agent_id" id="agent_id">
+                    <option value=""></option>
+                </select>
+            
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键词数据</label>
+        <div class="layui-input-inline" style="width: 390px;">
+            <script type="text/html" template>
+                <textarea type="text" name="wordinfo" lay-verify="wordinfo" placeholder="请输入关键字，多个换行" autocomplete="off" class="layui-textarea" style="width: 390px;height: 350px;z-index: 9;"></textarea>
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="float: none;">
+            *请输入数据<br>
+            用户名,关键词,链接,搜索引擎,价格<br>
+            搜索引擎：<br>
+            1：百度PC<br>
+            2：百度移动<br>
+            3：360PC<br>
+            4：360移动<br>
+            5：搜狗PC<br>
+            6：搜狗移动
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="type" value="{{ d.params.type ||1 }}">
+    </script>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-task-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['admin', 'form', 'layer','element','setter','laytpl'],function () {
+        var $ = layui.$;
+        var form = layui.form;
+        var layer = layui.layer;
+        var setter = layui.setter;
+        var laytpl = layui.laytpl;
+        var admin = layui.admin ,view = layui.view,element = layui.element;
+        
+
+        form.verify({
+            wordinfo:function (value,item) {
+                if(value == ''){
+                    return '请填写关键词数据';
+                }
+
+            }
+            
+        });
+        form.on('select(agent_id)', function(data){
+
+            admin.req({
+                url: '/platform/customer/list' 
+                ,type:'get'
+                ,data: {'page':1,'limit':100,'agentid':data.value}
+                ,done: function( res ){
+                    data = res.data.data;
+                    if(data.length > 0)
+                    {
+                        $("#user_id").find("option").remove();
+                        for (var i = 0; i < data.length; i++) {
+     
+                            $("#user_id").append("<option value="+data[i].id+">"+data[i].username+"</option>");
+                            form.render('select');//表单重新渲染，要不然添加完显示不出来新的option
+                        }
+                    }else{
+                        var agent_id = $("#agent_id").val()
+                        if(agent_id == -1){
+                            //如果是闲置词库
+                            $("#user_id").find("option").remove();
+                            $("#user_id").append("<option value=-1>闲置词库</option>");
+                            form.render('select');//表单重新渲染，要不然添加完显示不出来新的option
+                        }
+                    }
+                }
+            });
+        });
+        admin.req({
+            url: '/platform/agent/list'
+            ,type:'get'
+            ,data: {'page':1,'limit':100,'action':'agent'}
+            ,done: function( res ){
+                data = res.data.data;
+                if(data.length > 0)
+                {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#agent_id").append("<option value="+data[i].id+">"+data[i].username+"</option>");
+                        if(i == data.length - 1){
+                            //默认一个用户，id = -1
+                            $("#agent_id").append("<option value=-1>闲置词库</option>");
+                        }
+                        form.render('select');//表单重新渲染，要不然添加完显示不出来新的option
+                    }
+                }
+            }
+
+
+        });
+    })
+</script>

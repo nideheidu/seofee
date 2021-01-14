@@ -1,0 +1,218 @@
+<title>系统公告</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>系统公告</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">系统公告</div>
+                <div class="layui-card-body" pad15>
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="addnotice">添加公告</button>
+                    </div>
+                    <table id="LAY-notice" lay-filter="LAY-notice"></table>
+
+                    <script type="text/html" id="table-notice-option">
+
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="noticeinfo" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('admintask_check', layui.factory('admintask_check')).use(['admin', 'admintask_check', 'table','setter','element','layedit'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,laytpl = layui.laytpl
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+        
+        var layedit = layui.layedit;
+        var editindex;
+
+        table.render({
+            elem: '#LAY-notice'
+            ,url: '/platform/getnotice'
+            ,headers:{
+                'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+            ,cols: [[
+                {field: 'id', width: 80, title: 'ID',align: 'center'}
+                ,{field: 'group', title: '会员组',align: 'center',width:120}
+                ,{field: 'title', title: '标题'}
+                ,{field: 'is_display', title: '是否显示',align: 'center',width:100,templet:function(d){return d.is_display==1?"显示":"不显示"}}
+                ,{field: 'create_time', title: '添加时间', sort: true,align: 'center',width:240}
+                ,{title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-notice-option'}
+            ]]
+            ,parseData:function ( res ) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total,  //解析数据长度
+                    "data": res.data.data.length>0? res.data.data:null //解析数据列表
+                };
+            }
+            ,page: true
+            ,limit: 30
+            ,limits: [30, 50, 100, 200, 500]
+            ,text: {none: '一条数据也没有^_^'}
+        });
+        
+
+        var active = {
+            //添加
+            addnotice: function(othis){
+                admin.popup({
+                    title: '添加公告'
+                    ,area: ['800px', '620px']
+                    ,id: 'LAY-popup-content-add'
+                    ,btn:['提交','关闭']
+                    ,success: function(layero, index){
+                        view(this.id).render('set/system/noticeform').done(function(){
+                            var layedit = layui.layedit;
+                            
+                            var index = layer.load(1, {
+                              shade: [0.1,'#fff'] //0.1透明度的白色背景
+                            });
+
+                            setTimeout(function(){
+                                form.render(); 
+                                editindex = layedit.build('content'); 
+                                layer.close(index); //执行关闭
+                            },100)
+
+                        });
+                    }
+                    ,yes:function (index, layero) {
+                        
+                        var id = $("input[name='id']").val();
+                    
+                        var group_id = $("select[name='group_id']").val();
+                        var title = $("input[name='title']").val();
+                        var content = layedit.getContent(editindex);
+                        var is_display = $('input[name=is_display]:checked').length ;
+                        console.log(is_display);
+                        admin.req({
+                            url: '/platform/addnotice'
+                            ,type:"post"
+                            ,data:{id:id,group:group_id,title:title,content:content,is_display:is_display}
+                            ,done: function( res ){
+                                layer.msg(res.msg, {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                },function () {
+                                    layui.table.reload('LAY-notice'); //重载表格
+                                    layer.close(index); //执行关闭
+                                });
+                            }
+                        });
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close(index); //执行关闭
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        table.on('tool(LAY-notice)', function(obj){
+            
+            var data = obj.data;
+            if(obj.event === 'noticeinfo'){
+                admin.popup({
+                    title: '编辑'
+                    ,area: ['800px', '620px']
+                    ,id: 'LAY-popup-content-add'
+                    ,btn:['提交','关闭']
+                    ,success: function(layero, index){
+                        view(this.id).render('set/system/noticeform',data).done(function(){
+                            var layedit = layui.layedit;
+                            
+                            var index = layer.load(1, {
+                              shade: [0.1,'#fff'] //0.1透明度的白色背景
+                            });
+
+                            setTimeout(function(){
+                                form.render(); 
+                                editindex = layedit.build('content'); 
+                                layer.close(index); //执行关闭
+                            },100)
+
+                        });
+                    }
+                    ,yes:function (index, layero) {
+                        
+                        var id = $("input[name='id']").val();
+                    
+                        var group_id = $("select[name='group_id']").val();
+                        var title = $("input[name='title']").val();
+                        var is_display = $('input[name=is_display]:checked').length ;  //$("input[name='is_display']").val();
+                        var content = layedit.getContent(editindex);
+                        
+                        admin.req({
+                            url: '/platform/addnotice'
+                            ,type:"post"
+                            ,data:{id:id,group:group_id,title:title,content:content,is_display:is_display}
+                            ,done: function( res ){
+                                layer.msg(res.msg, {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                },function () {
+                                    layui.table.reload('LAY-notice'); //重载表格
+                                    layer.close(index); //执行关闭
+                                });
+                            }
+                        });
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close(index); //执行关闭
+                    }
+                });
+            }
+            else if(obj.event === 'delete')
+            {
+                layer.confirm('确定删除此条公告？', function(index){
+                admin.req({
+                    url:'/platform/delnotice'
+                    ,type:'get'
+                    ,data:{id:data.id}
+                    ,done:function (res) {
+                        layer.msg(res.msg, {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        },function () {
+                            obj.del();
+                            layer.close(index);
+                        });
+                    }
+                });
+                obj.del();
+                layer.close(index);
+            });
+            }
+        });
+    });
+</script>
+

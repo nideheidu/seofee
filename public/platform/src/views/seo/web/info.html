@@ -1,0 +1,70 @@
+
+<div class="layui-form" lay-filter="layuiadmin-query-form-rank" id="layuiadmin-query-form-rank"style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP地址</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" readonly value="{{ d.params.ftp_host || '' }}"   autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP账号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.ftp_access || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP密码</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.ftp_password || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP端口</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.ftp_port || '21' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台地址</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.admin_host || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台账号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.admin_access || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台密码</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.admin_password || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">熊掌号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="xiongzhang" value="{{ d.params.xiongzhang || '' }}"  autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    
+</div>

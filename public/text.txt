@@ -1,0 +1,1 @@
+{"errcode":"0","errmsg":"","data":{"taskid":2084373,"keywordmonitor":[{"keyword":"安全","search_engine":"baidupc","collect_count":100000000,"ip":"49.85.197.54","area":null,"network":null,"ranks":[{"site_url":"www.safehoo.com","rank":6,"page_title":"安全管理网 - 安全生产及应急管理专业网站","page_url":"http://www.safehoo.com/","top100":13316,"site_weight":"5"}]}]}}

@@ -1,0 +1,339 @@
+<title>幻灯片</title>
+<style type="text/css">
+    .layui-form-item .layui-form-label {
+        width: 250px!important;
+    }
+    .layui-form-item .layui-input-inline {
+        max-width: 80%;
+        width: auto;
+        min-width: 260px;
+    }
+    .layui-form-mid {
+        padding: 0!important;
+    }
+    .layui-form-mid {
+        font-size: 12px!important;
+    }
+    .layui-upload-img {
+        height: 80px;
+        margin: 0 10px 10px 0;
+    }
+    .slider .layui-upload-img {
+        height: 240px;
+        margin: 0 10px 10px 0;
+    }
+    .text-center{text-align: center;}
+    .text-right{text-align: right;}
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>幻灯片设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+
+            <div class="layui-card  layui-form">
+                <div class="layui-card-header">首页模板设置</div>
+                
+                <div class="layui-card-body pad15">
+                    <div class="layui-fluid">
+                    
+                        <div class="layui-row layui-col-space15">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">顶部菜单设置</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  <script type="text/html"  template lay-url="/platform/system/topmenu">
+                                    <div class="layui-tab-item layui-show">
+                                        <div class="layui-form-pane"  wid100 lay-filter="layuiadmin-set-system-list" id="layuiadmin-set-system-list" >
+                                            <div class="layui-form-item">
+                                            {{#  layui.each(d.data, function(index, item){ }}
+
+                                            {{#  if(item.type === 'input'){ }}
+                                            <div class="layui-form-item">
+                                                <label class="layui-input-inline" style="margin-right: 0;">
+                                                  <input type="text" name="topmenuname[]" value="{{item.title}}" class="layui-input text-center" placeholder="菜单名称"> 
+                                                </label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="topmenuvalue[]" value="{{item.value}}" class="layui-input" placeholder="跳转url">
+
+                                                    <input type="hidden" name="topmenuid[]" value="{{item.id}}">
+                                                </div>
+                                                <div class="layui-form-mid layui-word-aux" style="line-height: 38px;">{{item.tips}}</div>
+                                            </div>
+                                            {{#  } }}
+                                            
+
+                                            {{# }) }}
+                                      
+                                        </div>
+                                    </div>
+
+                                </script>
+                                  
+                                </div> 
+                                
+                              </div>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="layui-card-body pad15">
+                    <div class="layui-fluid">
+                    
+                        <div class="layui-row layui-col-space15">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">底部菜单设置</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  <script type="text/html"  template lay-url="/platform/system/bottommenu">
+                                    <div class="layui-tab-item layui-show">
+                                        <div class="layui-form-pane"  wid100 lay-filter="layuiadmin-set-system-list" id="layuiadmin-set-system-list" >
+                                            <div class="layui-form-item">
+                                            {{#  layui.each(d.data, function(index, item){ }}
+
+                                            {{#  if(item.type === 'input'){ }}
+                                            <div class="layui-form-item">
+                                                <label class="layui-input-inline" style="margin-right: 0;" >
+                                                  <input type="text" name="bottommenuname[]" value="{{item.title}}" class="layui-input text-center" placeholder="菜单名称"> 
+                                                </label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="bottommenuvalue[]" value="{{item.value}}" class="layui-input" placeholder="跳转url">
+
+                                                    <input type="hidden" name="bottommenuid[]" value="{{item.id}}">
+                                                </div>
+                                                <div class="layui-form-mid layui-word-aux" style="line-height: 38px;">{{item.tips}}</div>
+                                            </div>
+                                            {{#  } }}
+
+
+
+
+                                            {{# }) }}
+                                      
+                                        </div>
+                                    </div>
+
+                                </script>
+                                  
+                                </div> 
+                                
+                              </div>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="layui-card-body pad15">
+                    <div class="layui-fluid">
+                    
+                        <div class="layui-row layui-col-space15">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">版权信息</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  <script type="text/html"  template lay-url="/platform/system/copyright">
+                                    <div class="layui-tab-item layui-show">
+                                        <div class="layui-form-pane"  wid100 lay-filter="layuiadmin-set-system-list" id="layuiadmin-set-system-list" >
+                                            <div class="layui-form-item">
+                                            {{#  layui.each(d.data, function(index, item){ }}
+
+                                            {{#  if(item.type === 'input'){ }}
+                                            <div class="layui-form-item">
+                                              <label class="layui-form-label">{{item.title}}</label>
+                                              <div class="layui-input-inline">
+                                                  <input type="text" name="id[{{item.id}}]" value="{{item.value}}" class="layui-input" placeholder="{{item.title}}内容">
+                                              </div>
+                                              <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                          </div>
+                                            {{#  } }}
+
+
+
+
+                                            {{# }) }}
+                                      
+                                        </div>
+                                    </div>
+
+                                </script>
+                                  
+                                </div> 
+                                
+                              </div>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="layui-card-body pad15">
+                    <div class="layui-fluid">
+                    
+                        <div class="layui-row layui-col-space15">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">logo图片</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  
+                                  <script type="text/html"  template lay-url="/platform/system/logo">
+                                    <div class="layui-upload-list">
+                                      <img class="layui-upload-img" id="test-upload-normal-img-logo" src="{{d.data.value.image}}" style="background-color: #ccc;">
+                                      <button type="button" class="layui-btn upload-img-btn" id="test-upload-normal-logo" data-type="logo" lay-data="{url: '/platform/system/upload?type=logo'}" style="margin-top: 20px;">上传logo</button>
+                                      <p >&nbsp;</p>
+                                    </div>
+                                    <input type="hidden" name="image_logo" value="{{d.data.value.image}}">
+                                  
+                                  </script>
+                                  
+                                </div> 
+                              </div>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="layui-card-body pad15" style="overflow: hidden;">
+                    <div class="layui-fluid">
+                      <script type="text/html"  template lay-url="/platform/system/slider">
+                        {{#  layui.each(d.data, function(index, item){ }}
+                        <div class="slider layui-row layui-col-space15 layui-col-md6">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">幻灯片文字</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  
+                                  
+                                    <div class="layui-upload-list">
+                                      <div style="background-color: #ccc;">
+                                        <img class="layui-upload-img" id="test-upload-normal-img-slider{{index}}" src="{{item.value.image}}">
+                                      </div>
+                                      
+                                      <button type="button" class="layui-btn upload-img-btn" id="test-upload-normal-slider{{index}}" data-type="slider{{index}}" lay-data="{url: '/platform/system/upload?type=slider'}" style="margin-top: 50px;">上传图片</button>
+                                      <p >&nbsp;</p>
+                                    </div>
+                                    <input type="hidden" name="image_slider{{index}}" value="{{item.value.image}}">
+                                    <input type="hidden" name="image_slider_id{{index}}" value="{{item.id}}">
+                                  
+                                  
+                                </div> 
+                              </div>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                        {{# }) }}
+                      </script>
+                      
+                    </div>
+
+                  
+                </div>
+                <div class="layui-form-item text-center">
+                    <div class="layui-input-block">
+                        <!--<input type="hidden" class="field-id" name="id">-->
+                        <button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+                    </div>
+                </div> 
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  layui.use(['admin', 'upload','setter','form'], function(){
+    var $ = layui.jquery
+    ,admin = layui.admin
+    ,setter = layui.setter
+    ,form = layui.form
+    ,request = setter.request
+    ,upload = layui.upload;
+  
+    //普通图片上传
+    
+    
+    form.on('submit(formSubmit)', function (data) {
+        
+        admin.req({
+            url: '/platform/system/edittemplate'
+            ,type:"post"
+            ,data:data.field
+            ,done: function( res ){
+                layer.msg(res.msg, {
+                    offset: '15px'
+                    ,icon: 1
+                    ,time: 1000
+                },function(){
+                  window.location.reload();
+                });
+            }
+        });
+        
+    });
+   
+    setTimeout( function(){ 
+      form.render('select');
+      var uploadInst = upload.render({
+        elem: '.upload-img-btn'
+        ,headers:{
+              'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+          }
+        ,size: 1200 //限制文件大小，单位 KB
+        ,before: function(obj){
+          var item = this.item;
+          type = item.data('type');
+          obj.preview(function(index, file, result){
+            $('#test-upload-normal-img-'+type).attr('src', result); //图片链接（base64）
+          });
+        }
+        ,done: function(res){
+
+          if(res.url){
+            var item = this.item;
+            type = item.data('type');
+            $('input[name="image_'+type+'"]').val(res.url);
+          }
+          else
+          {
+              return layer.msg('上传失败');
+          }
+        }
+        ,error: function(){
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">上传失败</span> ');
+          
+        }
+      });
+    }, 2000)  //解决select渲染问题
+  
+  });
+  </script>

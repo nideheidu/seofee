@@ -1,0 +1,97 @@
+<title>资金明细</title>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>我的明细</cite></a>
+        <a><cite>资金明细</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">会员余额</li>
+                </ul>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">客户账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入客户账号" autocomplete="off" class="layui-input username">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-app-free-list" lay-filter="LAY-app-free-list"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.define(['table','form','util','setter'],function (exports) {
+        var $ = layui.$
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,form = layui.form;
+
+        //资金明细
+        table.render({
+            elem: '#LAY-app-free-list'
+            ,url: '/platform/mingxi/balancelist' //模拟接口
+            ,headers:{
+                'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+            ,where: {order:'day asc'}
+            ,autoSort:false
+            ,sort:true
+            ,cols: [[
+                {field: 'index', title: '序号',align:'center'},
+                {field: 'username', title: '客户账号',align:'center'},
+                {field: 'contacts', title: '联系人',align:'center'},
+                {field: 'recharge', title: '总充值',align:'center'},
+                {field: 'total_sum', title: '当前余额(元)',align:'center'},
+                {field: 'dayfree', title: '昨日消费(元)',align:'center'},
+                {field: 'day', title: '预计可消费天数',align:'center',sort:true,templet:function(d){return d.day == '99999999.00' ? '无穷大' : d.day+'天';}},
+            ]]
+            ,parseData:function ( res ) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total,  //解析数据长度
+                    "data": res.data.data.length>0? res.data.data:null //解析数据列表
+                };
+            }
+            ,page: true
+            ,limit: 30
+            ,limits: [30, 50, 100, 200, 500]
+            ,text: {none: '一条数据也没有^_^'}
+        });
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            //$.ajax({});
+            table.reload('LAY-app-free-list', {
+                where: {name:$('.username').val()}
+            });
+        });
+
+        //监听排序
+        table.on('sort(LAY-app-free-list)', function (data) {
+            table.reload('LAY-app-free-list', {
+                initSort: data,
+                where: {order:data.field+' '+data.type}
+            });
+        });
+    })
+</script>

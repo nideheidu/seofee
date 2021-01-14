@@ -1,0 +1,174 @@
+<title>OEM域名管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>域名管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">域名管理</div>
+                <div class="layui-card-body" pad15>
+
+                    <table id="LAY-domain" lay-filter="LAY-domain"></table>
+
+                    <script type="text/html" id="table-notice-option">
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auz" title="审核"><i class="layui-icon layui-icon-auz"></i></a>
+                        <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="noticeinfo" title="编辑"><i class="layui-icon layui-icon-edit"></i></a> -->
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="statusTpl">
+    {{#  if(d.status == 1){ }}
+    <button class="layui-btn layui-btn-xs">正常</button>
+    {{#  } else { }}
+    <button class="layui-btn layui-btn-primary layui-btn-xs">待审</button>
+    {{#  } }}
+</script>
+<script>
+    layui.use('admintask_check', layui.factory('admintask_check')).use(['admin', 'admintask_check', 'table','setter','element','layedit'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,laytpl = layui.laytpl
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+        
+        var layedit = layui.layedit;
+        var editindex;
+
+        table.render({
+            elem: '#LAY-domain'
+            ,url: '/platform/system/oemdomain'
+            ,headers:{
+                'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+            ,cols: [[
+                {field: 'id', width: 80, title: 'ID',align: 'center'}
+                ,{field: 'username', title: '用户',align: 'center',width:120}
+                ,{field: 'value', title: '域名'}
+                ,{field: 'status', title: '状态',align: 'center',width:100,templet: '#statusTpl',}
+                ,{field: 'ctime', title: '添加时间', sort: true,align: 'center',width:240}
+                ,{title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-notice-option'}
+            ]]
+            ,parseData:function ( res ) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total,  //解析数据长度
+                    "data": res.data.data.length>0? res.data.data:null //解析数据列表
+                };
+            }
+            ,page: true
+            ,limit: 30
+            ,limits: [30, 50, 100, 200, 500]
+            ,text: {none: '一条数据也没有^_^'}
+        });
+        
+
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        table.on('tool(LAY-domain)', function(obj){
+            
+            var data = obj.data;
+            if(obj.event === 'noticeinfo'){
+                admin.popup({
+                    title: '编辑'
+                    ,area: ['800px', '620px']
+                    ,id: 'LAY-popup-content-add'
+                    ,btn:['提交','关闭']
+                    ,success: function(layero, index){
+                        view(this.id).render('set/system/noticeform',data).done(function(){
+                            var layedit = layui.layedit;
+                            
+                            var index = layer.load(1, {
+                              shade: [0.1,'#fff'] //0.1透明度的白色背景
+                            });
+
+                            setTimeout(function(){
+                                form.render(); 
+                                editindex = layedit.build('content'); 
+                                layer.close(index); //执行关闭
+                            },100)
+
+                        });
+                    }
+                    ,yes:function (index, layero) {
+                        
+                        var id = $("input[name='id']").val();
+                    
+                        var group_id = $("select[name='group_id']").val();
+                        var title = $("input[name='title']").val();
+                        var is_display = $('input[name=is_display]:checked').length ;  //$("input[name='is_display']").val();
+                        var content = layedit.getContent(editindex);
+                        
+                        admin.req({
+                            url: '/platform/addnotice'
+                            ,type:"post"
+                            ,data:{id:id,group:group_id,title:title,content:content,is_display:is_display}
+                            ,done: function( res ){
+                                layer.msg(res.msg, {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                },function () {
+                                    layui.table.reload('LAY-domain'); //重载表格
+                                    layer.close(index); //执行关闭
+                                });
+                            }
+                        });
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close(index); //执行关闭
+                    }
+                });
+            }
+            else if(obj.event === 'auz')
+            {
+              // if(data.status == 1)
+              // {
+              //     layer.msg('域名已审核', {
+              //           offset: '15px'
+              //           ,icon: 1
+              //           ,time: 1000
+              //       })
+              //     return false;
+              // }
+              layer.confirm('确定要审核这个域名吗？', function(index){
+                admin.req({
+                    url:'/platform/system/auzdomain'
+                    ,type:'get'
+                    ,data:{id:data.id}
+                    ,done:function (res) {
+                        layer.msg(res.msg, {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        },function () {
+                            layer.close(index);
+                        });
+                      layui.table.reload('LAY-domain');
+                    }
+                });
+                layer.close(index);
+              });
+            }
+        });
+    });
+</script>
+

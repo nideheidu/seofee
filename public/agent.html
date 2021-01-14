@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-size: 100px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>速达SEO计费系统 - SEO按天计费系统,SEO按天计费系统源码</title>
+<link href="css/global.css" rel="stylesheet" type="text/css">
+<link href="css/themes.css" rel="stylesheet" type="text/css">
+<link href="css/user.css" rel="stylesheet" type="text/css">
+<link href="css/global(1).css" rel="stylesheet" type="text/css">
+<script charset="utf-8" src="js/v.js"></script>
+<script src="js/hm.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/cn.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/themes.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+	<link href="css/agent.css" rel="stylesheet" type="text/css">
+</head>
+<body class="w_1200">
+<div id="header" class="shadow">
+	<div class="marinner">
+		<div class="logo img fl"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+		<div class="menu">
+			<a href="index.html">首页</a>
+			<a href="pro.html">产品</a>
+			<a href="price.html">定价</a>
+			<a href="agent.html">代理</a>
+			<a href="brief.html">简介</a>
+		</div>
+		<div class="member fr">
+			<a class="sign btn bs" href="/customer/#/user/login" target="_blank" rel="nofollow">普通会员</a>
+			<a class="sign btn bs" href="/system/#/user/login" target="_blank" rel="nofollow">代理商</a>
+			<a class="sign btn bs" href="/platform/" target="_blank" rel="nofollow">管理员</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="header_blank">
+    <div id="mobile_header">
+        <div class="container">
+            <div class="fl">
+                <div class="logo img"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+            </div>
+            <div class="fr">
+                <div class="menu"></div>
+            </div>
+            <div class="menu_list">
+                <ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="pro.html">产品</a></li>
+					<li><a href="price.html">定价</a></li>
+					<li><a href="agent.html">代理</a></li>
+					<li><a href="brief.html">简介</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+        	$('.menu_list ul li .item_btn').click(function(){
+				$(this).parents('li').find('.sec_menu').slideToggle();
+				$(this).toggleClass('up');
+			});
+			$('#mobile_header .menu i').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask();
+				$('#mobile_header .menu .menu_list').addClass('menu_cur');
+			});
+			$('#mobile_header .menu .menu_list .btn').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#mobile_header .menu .menu_list').removeClass('menu_cur');
+			});
+			var interval = 0;
+			var number_add = 0;
+			var number_end = $('#int #customer').data('num');
+			var set_num = function(){
+				number_add += 211;
+				$('#int #customer').text(number_add+'+');
+				if(number_add>number_end){
+					clearInterval(interval);
+					$('#int #customer').text(number_end+'+');
+				}
+			}
+			interval = setInterval(set_num,60);
+			$('#mobile_header .menu').on('touchstart',function(){
+				if($(this).hasClass('menu_cur')){
+					global_obj.div_mask(1);
+					$('#div_mask').remove();
+				}else{
+					global_obj.div_mask();	
+				}
+				$(this).toggleClass('menu_cur');
+				$('#mobile_header .menu_list').slideToggle('fast');
+			});
+        </script>
+    </div>
+</div>	<div class="agent_banner img">
+		<div><img src="img/e5a84e8d21.png" alt=""></div><span></span>
+	</div>
+		<div class="banner_word open_change" data-move-y="200px" data-move-x="500px">
+		<div class="banner_title">全国城市代理商招募进行中</div>
+		<div class="banner_desc">欢迎网络公司，营销公司等服务商加盟，共同为企业的精准营销事业而努力，我们将提供产品及运营支持，<br>
+成为您的技术合作伙伴。我们将持续升级产品，提升营销效果。如您对产品感兴趣，可以联系我们渠道经理进行深入了解。</div>
+	</div>
+	<div class="middle open_change" data-move-y="200px" data-move-x="-500px">
+		<div class="marinner">
+			<div class="img"><img src="img/agent_middle.png" alt=""><span></span></div>
+			<div class="open_change" data-move-y="200px">
+				<div class="title">小投入大回报，为企业带来高质量询盘</div>
+				<div class="desc">使用SEO优化就如企业聘用了负责网站SEO及客户开发的营销专员，它在每天自动运作，为企业带来高质量的询盘，<br>
+同时每周向您汇报工作数据，关键词排名报告，流量报告，询盘报告，工作进度等。</div>
+			</div>
+		</div>
+	</div>
+	<div class="marinner">
+		<div class="bottom">
+			<div class="support fl">
+				<div class="title">渠道支持</div>
+				<div class="copy open_change" data-rotate-x="90deg" data-rotate-y="90deg" data-move-z="-500px">
+					<div class="img"><img src="img/agent_support_1.png" alt=""><span></span></div>
+					<div class="name">培训支持</div>
+				</div>
+				<div class="copy open_change" data-rotate-x="90deg" data-rotate-y="90deg" data-move-z="-500px">
+					<div class="img"><img src="img/agent_support_2.png" alt=""><span></span></div>
+					<div class="name">物料支持</div>
+				</div>
+				<div class="copy open_change" data-rotate-x="90deg" data-rotate-y="90deg" data-move-z="-500px">
+					<div class="img"><img src="img/agent_support_3.png" alt=""><span></span></div>
+					<div class="name">运营支持</div>
+				</div>
+				<div class="copy open_change" data-rotate-x="90deg" data-rotate-y="90deg" data-move-z="-500px">
+					<div class="img"><img src="img/agent_support_4.png" alt=""><span></span></div>
+					<div class="name">客服支持</div>
+				</div>
+				<div class="over_bg"></div>
+			</div>
+			<div class="user fr">
+				<div class="title">渠道代理洽谈</div>
+								<div class="copy open_change" data-move-y="200px">
+					<div class="word">
+						<div class="name">某某</div>
+						<div class="tab_name">全国招商经理</div>
+						<div class="w_bottom">
+							<div class="img"><img src="img/agent_support_5.png" alt=""><span></span></div>
+							<div class="right">
+								<div class="r_name">联系电话</div>
+								<div class="r_phone">13547444474 （微信同号）</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div id="footer">
+	<div class="marinner">
+		<div class="top">
+			<div class="logo img"><img src="img/l_logo.png" alt="营销"><span></span></div>
+			<div class="copy first">
+								<div class="title">友情链接 </div>
+									<a class="li" href="http://www.17s.cn" target="_blank" rel="nofollow">速达网络</a>
+									<a class="li" href="http://www.1peibao.cn" target="_blank" rel="nofollow">亿配宝</a>
+							</div>
+			<div class="copy last">
+				<div class="title">联系方式</div>
+				<div class="li phone mobile">电话：13547444474</div>
+				<a class="li email" href="mailto:lsy@lanshiseo.com">邮箱：330121832@qq.com</a>
+				<div class="li address">地址：四川南充高坪区金融广场5-2023</div>
+				<div class="li phone">电话：19982820062</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="copyer">
+			
+	</div>
+</div>
+<div id="footer_blank"></div>
+<div id="global_bottom_box">
+	<a class="global_53" href="javascript:;">联系客服</a>
+	<a class="global_53" href="javascript:;">免费体验</a>
+</div>
+	            <div id="qq_service" class="chattrans">
+            <div class="img top_img"><img src="img/df3eed8073.png"></div>
+            <ul style="border-color:#02CCBA;">
+                                    <li>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Winters"><img src="img/a3aea41c75.jpg" alt="Winters"></a><br>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Winters">Winters</a>
+                    </li>
+                                    <li>
+                       
+                            </ul>
+        </div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-size: 100px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>速达SEO计费系统 - SEO按天计费系统,SEO按天计费系统源码</title>
+<link href="css/global.css" rel="stylesheet" type="text/css">
+<link href="css/themes.css" rel="stylesheet" type="text/css">
+<link href="css/user.css" rel="stylesheet" type="text/css">
+<link href="css/global(1).css" rel="stylesheet" type="text/css">
+<script charset="utf-8" src="js/v.js"></script>
+<script src="js/hm.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/cn.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/themes.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+<link href="css/article.css" rel="stylesheet" type="text/css">
+<link href="css/lightbox.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/lightbox.js"></script>
+</head>
+<body class="w_1200">
+<div id="header" class="shadow">
+	<div class="marinner">
+		<div class="logo img fl"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+		<div class="menu">
+			<a href="index.html">首页</a>
+			<a href="pro.html">产品</a>
+			<a href="price.html">定价</a>
+			<a href="agent.html">代理</a>
+			<a href="brief.html">简介</a>
+		</div>
+		<div class="member fr">
+			<a class="sign btn bs" href="/customer/#/user/login" target="_blank" rel="nofollow">普通会员</a>
+			<a class="sign btn bs" href="/system/#/user/login" target="_blank" rel="nofollow">代理商</a>
+			<a class="sign btn bs" href="/platform/" target="_blank" rel="nofollow">管理员</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="header_blank">
+    <div id="mobile_header">
+        <div class="container">
+            <div class="fl">
+                <div class="logo img"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+            </div>
+            <div class="fr">
+                <div class="menu"></div>
+            </div>
+            <div class="menu_list">
+                <ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="pro.html">产品</a></li>
+					<li><a href="price.html">定价</a></li>
+					<li><a href="agent.html">代理</a></li>
+					<li><a href="brief.html">简介</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+        	$('.menu_list ul li .item_btn').click(function(){
+				$(this).parents('li').find('.sec_menu').slideToggle();
+				$(this).toggleClass('up');
+			});
+			$('#mobile_header .menu i').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask();
+				$('#mobile_header .menu .menu_list').addClass('menu_cur');
+			});
+			$('#mobile_header .menu .menu_list .btn').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#mobile_header .menu .menu_list').removeClass('menu_cur');
+			});
+			var interval = 0;
+			var number_add = 0;
+			var number_end = $('#int #customer').data('num');
+			var set_num = function(){
+				number_add += 211;
+				$('#int #customer').text(number_add+'+');
+				if(number_add>number_end){
+					clearInterval(interval);
+					$('#int #customer').text(number_end+'+');
+				}
+			}
+			interval = setInterval(set_num,60);
+			$('#mobile_header .menu').on('touchstart',function(){
+				if($(this).hasClass('menu_cur')){
+					global_obj.div_mask(1);
+					$('#div_mask').remove();
+				}else{
+					global_obj.div_mask();
+				}
+				$(this).toggleClass('menu_cur');
+				$('#mobile_header .menu_list').slideToggle('fast');
+			});
+        </script>
+    </div>
+</div>	<div class="video">
+				<div class="title">深耕出海领域7年，坚持研发与创新之路</div>
+		<div id="video" class="out img">
+			<img src="img/article_video.png" alt=""><span></span>
+			<!-- <a href="javascript:;" class="btn img" name="video_demo" data-url="https://v.51kuihua.com/072f9011f04b4ad5aad92472671e5ca1/0455d79589de4bbdb1047eb2cc842bc0-df8fdc265d5c38a89a93ec0b3f1937c3-hd.mp4"><img src="img/article_video_tag.png" alt=""><span></span></a> -->
+			<div id="video_demo" class="icons" style="display: none;"><embed width="100%" height="100%;" allowfullscreen="true"><i></i></div>
+			<script>
+				$(function(){
+					$('a[name=video_demo]').click(function(){
+						global_obj.div_mask();
+						if($.browser.msie){	//IE
+							$('#video_demo').find('embed').remove();
+							$('<embed width="100%" height="100%;" src="'+$(this).data('url')+'">').prependTo($('#video_demo'));
+						}else{
+							$('#video_demo').find('embed').attr('src',$(this).data('url'));
+						}
+						$('#video_demo').show();
+					});
+					$('#video_demo').delegate('i','click',function(){
+						global_obj.div_mask(1);
+						$('#div_mask').remove();
+						$('#video_demo').hide().html('<embed width="100%" height="100%;" allowfullscreen="true"></embed><i></i>');
+					});
+				})
+			</script>
+		</div>
+		<div class="desc">南充速达网络有限公司，拥有多项自主研发知识产权，专注营销工具的研发，深耕网络营销多年，拥有经验丰富的营销团队及研发工程师。为企业提供可依靠的营销方式。</div>
+	</div>
+	<div class="contact">
+		<div class="title">联系方式</div>
+		<div class="contact_list marinner">
+			<div class="copy open_change" data-move-y="200px" data-move-x="-200px" data-rotate="45deg">
+				<div class="img"><img src="img/article_address.png" alt=""><span></span></div>
+				<div class="word">
+					<div class="name">地址</div>
+					<div class="desc">四川南充高坪区金融广场5-2023<br></div>
+				</div>
+			</div>
+			<div class="copy open_change" data-move-y="200px" data-move-x="200px" data-rotate="-45deg">
+				<div class="img"><img src="img/article_phone.png" alt=""><span></span></div>
+				<div class="word">
+					<div class="name">电话</div>
+					<div class="desc">13547444474<br>7*24客服电话</div>
+				</div>
+			</div>
+			<div class="copy open_change" data-move-y="200px" data-move-x="-200px" data-rotate="45deg">
+				<div class="img"><img src="img/article_email.png" alt=""><span></span></div>
+				<div class="word">
+					<div class="name">邮箱</div>
+					<div class="desc">330121832@qq.com</div>
+				</div>
+			</div>
+						<div class="copy last open_change" data-move-y="200px" data-move-x="200px" data-rotate="-45deg">
+				<div class="img"><img src="img/article_wechat.png" alt=""><span></span></div>
+				<div class="word">
+					<div class="name">微信</div>
+					<div class="desc">了解我们团队日常 &gt;&gt;</div>
+				</div>
+				<div class="wechat img"><img src="http://www.17s.cn/template/default/index/img/brode.png" alt="Sammy"><span></span></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!-- <div class="middle"> -->
+		<!-- <div class="marinner">
+			<div class="title">国家高新技术企业</div>
+			<div class="desc">曾获多个跨境电商奖项</div>
+			<div class="list" start="1">
+				<div class="copy">
+					<div class="inner">
+						<div class="num timer" data-to="50" data-speed="1500">50</div>
+						<div class="tag">+</div>
+					</div>
+					<div class="name">技术团队</div>
+				</div>
+				<div class="copy">
+					<div class="inner">
+						<div class="num timer" data-to="25" data-speed="1500">25</div>
+						<div class="tag">+</div>
+					</div>
+					<div class="name">客户服务团队</div>
+				</div>
+				<div class="copy">
+					<div class="inner">
+						<div class="num timer" data-to="15" data-speed="1500">15</div>
+						<div class="tag">+</div>
+					</div>
+					<div class="name">商务团队</div>
+				</div>
+				<div class="copy">
+					<div class="inner">
+						<div class="num timer" data-to="8" data-speed="1500">8</div>
+						<div class="tag">+</div>
+					</div>
+					<div class="name">研发创新团队</div>
+				</div>
+				<div class="copy">
+					<div class="inner">
+						<div class="num timer" data-to="22" data-speed="1500">22</div>
+						<div class="tag">+</div>
+					</div>
+					<div class="name">软件著作权</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div class="img_list marinner">
+					<div class="copy img"><a class="example-image-link" href="img/7713a67a63.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/7713a67a63.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/4aae2a80f0.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/4aae2a80f0.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/c17ce1d776.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/c17ce1d776.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/f51fe85cce.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/f51fe85cce.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/1c26964b9b.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/1c26964b9b.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/085c10c85c.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/085c10c85c.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/c988fe36cc.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/c988fe36cc.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/cd869250e6.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/cd869250e6.jpg" alt=""></a><span></span></div>
+					<div class="copy img"><a class="example-image-link" href="img/ce5a125d79.jpg" data-lightbox="example-set" data-title=""><img class="example-image" src="img/ce5a125d79.jpg" alt=""></a><span></span></div>
+				<div class="clear"></div>
+	</div> -->
+	<div class="clear"></div>
+	<div class="bottom_desc">
+	<div class="marinner">
+		<div class="desc1">立即体验新一代机器人营销</div>
+		<a class="btn1">免费试用</a>
+	</div>
+</div>
+<div id="footer">
+	<div class="marinner">
+		<div class="top">
+			<div class="logo img"><img src="img/l_logo.png" alt="营销"><span></span></div>
+			<div class="copy first">
+							<div class="title">友情链接 </div>
+									<a class="li" href="http://www.17s.cn" target="_blank" rel="nofollow">速达网络</a>
+									<a class="li" href="http://www.1peibao.cn" target="_blank" rel="nofollow">亿配宝</a>
+							</div>
+			<div class="copy last">
+				<div class="title">联系方式</div>
+				<div class="li phone mobile">电话：13547444474</div>
+				<a class="li email" href="mailto:lsy@lanshiseo.com">邮箱：330121832@qq.com</a>
+				<div class="li address">地址：四川南充高坪区金融广场5-2023</div>
+				<div class="li phone">电话：19982820062</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="copyer">
+		
+	</div>
+</div>
+<div id="footer_blank"></div>
+<div id="global_bottom_box">
+	<a class="global_53" href="javascript:;">联系客服</a>
+	<a class="global_53" href="javascript:;">免费体验</a>
+</div>
+	            <div id="qq_service" class="chattrans">
+            <div class="img top_img"><img src="img/df3eed8073.png"></div>
+            <ul style="border-color:#02CCBA;">
+                                    <li>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin"><img src="img/b09bb1678b.jpg" alt="Kevin"></a><br>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin">Kevin</a>
+                    </li>
+                     
+                            </ul>
+        </div>
+        
+        </body>
+        </html>

@@ -1,0 +1,114 @@
+
+
+<title>模拟点击</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>模拟点击</cite></a>
+        <a><cite>操作设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+           
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list" style="display: none;">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">动作</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" placeholder="请输入命令名称" autocomplete="off" class="layui-input username">
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="addCommand">添加动作</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <table id="LAY-app-command-list" lay-filter="LAY-app-command-list"></table>
+
+        <script type="text/html" id="commandEditTpl">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="orderinfo" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
+
+        </script>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    layui.use('command', layui.factory('command')).use(['admin', 'command', 'table','setter','element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+
+        var active = {
+            //添加
+            addCommand: function (othis) {
+                admin.popup({
+                    title: '添加动作'
+                    , area: ['700px', '600px']
+                    , id: 'LAY-popup-command-add'
+                    ,btn:['保存','关闭']
+                    ,success: function (layero, index) {
+                        view(this.id).render('simulation/command/add').done(function () {
+                            //form.render(null, 'layuiadmin-app-form-add');
+                        });
+                    }
+                    ,yes:function (index, layero) {
+                        
+                        vm.commands.sort(function(a,b){
+                            return a.sort - b.sort
+                        })    //按顺序排序
+                        // //监听提交
+                            admin.req({
+                                url: '/platform/command/add'
+                                ,type:"post"
+                                ,data:{"data":JSON.stringify(vm.commands),'title':vm.title,'sort':vm.sort}
+                                ,done: function( res ){
+                                    layer.msg(res.msg, {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    },function () {
+                                        layui.table.reload('LAY-app-command-list'); //重载表格
+                                        layer.close(index); //执行关闭
+                                    });
+                                }
+                            });
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close(index); //执行关闭
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+      
+
+    });
+</script>

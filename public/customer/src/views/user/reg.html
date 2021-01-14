@@ -1,0 +1,130 @@
+
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <h2>SEO优化系统</h2>
+      <p>新用户注册</p>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-cellphone"></label>
+        <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="账号" class="layui-input">
+      </div>
+      
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+        <input type="password" name="password" id="LAY-user-login-password" lay-verify="pass" placeholder="密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-repass"></label>
+        <input type="password" name="repass" id="LAY-user-login-repass" lay-verify="required" placeholder="确认密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-nickname"></label>
+        <input type="text" name="phone" id="LAY-user-login-phone" lay-verify="phone" placeholder="电话" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-group" for="LAY-user-login-group"></label>
+        <input type="text" name="company" id="LAY-user-login-company"  lay-verify="required" placeholder="公司名称" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-fonts-code" for="LAY-user-login-code"></label>
+        <input type="text" name="code" id="LAY-user-login-code"  placeholder="推荐码" class="layui-input">
+      </div>
+      <div class="layui-form-item" >
+        <div class="layui-row">
+          <div class="layui-col-xs7">
+            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+            <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input" value="1234">
+          </div>
+          <div class="layui-col-xs5">
+            <div style="margin-left: 10px;">
+              <img src="/v1/verify.html" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
+      </div>
+      <div class="layui-form-item">
+        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="layui-trans layadmin-user-login-footer">
+    
+  </div>
+
+</div>
+
+<script>
+layui.use(['admin', 'form', 'user'], function(){
+  var $ = layui.$
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,form = layui.form
+  ,router = layui.router();
+
+  form.render();
+  var code = router.search.code;
+  if(code)
+  {
+    $("#LAY-user-login-code").val(code).hide();
+  }
+
+  //提交
+  form.on('submit(LAY-user-reg-submit)', function(obj){
+    var field = obj.field;
+    
+    //确认密码
+    if(field.password !== field.repass){
+      return layer.msg('两次密码输入不一致');
+    }
+    
+    //是否同意用户协议
+    if(!field.agreement){
+      return layer.msg('你必须同意用户协议才能注册');
+    }
+    
+    //请求接口
+    admin.req({
+      url: '/v1/user/reg.html' 
+      ,type:'post'
+      ,data: field
+      ,done: function(res){
+ 
+        layer.msg(res.msg, {
+          offset: '15px'
+          ,icon: 1
+          ,time: 1000
+        });
+        if(res.succsee==1)
+        {
+          layer.msg('注册成功！', {
+            offset: '15px'
+            ,icon: 1
+            ,time: 2000
+          }, function(){
+            location.hash = '/user/login'; //跳转到登入页
+          });
+        }
+        else
+        {
+          $("#LAY-user-get-vercode").click();
+        }
+        
+      }
+    });
+    
+    return false;
+  });
+});
+</script>

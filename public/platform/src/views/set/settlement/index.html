@@ -1,0 +1,205 @@
+<title>手动更新排名</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>手动更新排名</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>-->
+                <button class="layui-btn layuiadmin-btn-list" data-type="update">手动更新排名(全部)</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="updateRepeatedly">手动更新排名(今日)</button>
+                <div class="layui-inline">
+                    <label class="layui-form-label">补扣费用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="settlement_username" autocomplete="off" class="layui-input" placeholder="补扣全部客户无需输入" value="">
+                    </div>
+                </div>
+                <button class="layui-btn layuiadmin-btn-list" data-type="settlement">手动结算</button>
+                <div class="layui-inline">
+                    <label class="layui-form-label">补扣费日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="settlement_date" autocomplete="off" class="layui-input" value="">
+                    </div>
+                </div>
+                <button class="layui-btn layuiadmin-btn-list" data-type="settlementbak">补扣费</button>
+            </div>
+            <div class="layui-word-aux">补扣费操作顺序：1.先更新完排名-》2.点击手动结算-》3.等待结算完毕后输入补扣费日期然后点击补扣费（补扣费操作建议在下午或晚上进行）</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('customerlist', layui.factory('customerlist')).use(['admin', 'customerlist', 'table'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , table = layui.table
+            , form = layui.form;
+
+        form.render(null, 'app-content-list');
+        var layer_index;
+        var page = 1;
+        var pages;
+        var active = {
+            //更新
+            update: function (othis) {
+                // layer_index = layer.load(1, {
+                //   shade: [0.1,'#fff'] //0.1透明度的白色背景
+                // });
+                update_ranking();
+            }
+            ,updateRepeatedly: function(othis){
+                // layer_index = layer.load(1, {
+                //   shade: [0.1,'#fff'] //0.1透明度的白色背景
+                // });
+                update_ranking('repeatedly');
+            }
+            //结算
+            ,settlement: function (othis) {
+                var username = $("input[name='settlement_username']").val();
+
+                var url = '/api/Cron1/settlementtask';
+                admin.req({
+                    url: url
+                    ,type:"post"
+                    ,data: {username:username}
+                    ,done: function( res ){
+                        layer.alert(res.msg);
+                    }
+                });
+                /*
+                var index = layer.load(1, {
+                  shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                var settlement_date = $("input[name='settlement_date']").val();
+                admin.req({
+                    url: '/api/Cron/getAllTask'
+                    ,type:"post"
+                    ,data: {where:'current_ranking >= 1 and current_ranking <= 20 and rank_time >= '+new Date(settlement_date.replace(/-/,'/')+' 00:00:01').getTime()/1000+' and rank_time <= '+new Date(settlement_date.replace(/-/,'/')+' 23:59:59').getTime()/1000}
+                    ,dataType: 'json'
+                    ,done: function( res ){
+                        var ids = '';
+                        for (var i=0; i<res.data.length; i++)
+                        {
+                            ids += ids ? ','+res.data[i]['id'] : res.data[i]['id'];
+                            if (i%9 == 0 && i>0)
+                            {
+                                admin.req({
+                                    url: '/api/Cron/settlementtask'
+                                    ,type:"post"
+                                    ,data: {date:settlement_date,tid:ids}
+                                    ,async:false
+                                    ,done: function( res ){}
+                                });
+                                ids = '';
+                            }
+                        }
+                        layer.alert("结算完毕", {title:'提示', icon: 1}, function (){
+                            window.location.reload();
+                        });
+                    }
+                });
+                */
+            }
+            //结算
+            ,settlementbak: function (othis) {
+                var url = '/api/Cron1/settlementtaskbak';
+                var date = $("input[name='settlement_date']").val();
+                var username = $("input[name='settlement_username']").val();
+                admin.req({
+                    url: url
+                    ,type:"post"
+                    ,data: {date:date,username:username}
+                    ,done: function( res ){
+                        layer.alert(res.msg);
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        function update_ranking(type=''){
+            var url = '/api/Cron1/updatetask';
+            if(type == 'repeatedly')
+            {
+                url = '/api/Cron1/updatetaskrepeat';
+            }
+            admin.req({
+                url: url
+                ,type:"post"
+                ,data: {}
+                ,done: function( res ){
+                    layer.alert(res.msg);
+                }
+            });
+
+            /*
+            手动更新旧方法
+            var url = '/api/Cron/updatetask?page=';
+            var pageNumber = 10;
+            if(type == 'repeatedly')
+            {
+                url = '/api/Cron/updatetaskrepeat?page=';
+                pageNumber = 5
+            }
+            layer.msg('正在更新第'+page+'页，请不要关闭浏览器', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 30000
+            });
+             admin.req({
+                url: url+page
+                ,type:"post"
+                ,data: {}
+                ,done: function( res ){
+                    pages = Math.ceil(res.total/pageNumber);
+                    
+                    
+                    if(page < pages)
+                    {
+                        page ++ ;
+                        setTimeout(update_ranking(type),2000);
+                    }
+                    else
+                    {   
+                        page = 1;
+                        layer.alert('更新完毕')
+                        layer.close(layer_index);
+                    }
+                }
+            });
+            */
+        }
+
+        //默认结算日期
+        var myDate = new Date();
+        var dateTime = myDate.setDate(myDate.getDate()-1);
+        myDate = new Date(dateTime);
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth();
+        var day = myDate.getDate();
+        month = month+1;
+        if (month < 10)
+        {
+            month = '0'+month;
+        }
+        if (day < 10)
+        {
+            day = '0'+day;
+        }
+        $("input[name='settlement_date']").val(year+'-'+month+'-'+day);
+    });
+</script>

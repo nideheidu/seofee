@@ -1,0 +1,169 @@
+<style>
+    .bordernone{border: none;}
+    .option-btn{text-align: right;padding-top: 10px !important;}
+    .option-btn .layui-btn {
+        margin: 0;
+        padding: 0 15px;
+        background-color: #5FB878;
+        border-color: #5FB878;
+        color: #fff;
+    }
+    .commands-content li span.option{display: none;}
+    .commands-content li:hover span.option{display: initial;padding-left: 10px;}
+    .layui-transfer-data li{height: auto !important;}
+    .layui-form-checked span{color: #5FB878;    background-color: initial !important;;}
+    .layui-transfer-data li{cursor: pointer;}
+
+</style>
+<!-- layui-form-checked layui-checkbox-disbaled -->
+<div class="layui-form" lay-filter="layuiadmin-app-form-add" id="layuiadmin-app-form-add"style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">模板名称</label>
+        <div class="layui-input-block">
+            <input type="text" v-model="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+        </div>
+    </div>
+    <div id="test2" class="demo-transfer">
+        <div class="layui-transfer layui-form layui-border-box" lay-filter="LAY-transfer-2">
+            <div class="layui-transfer-box" data-index="0" style="width: 200px; height: 420px;">
+                <div class="layui-transfer-header">
+                    <div class="layui-unselect" lay-skin="primary"><span>动作列表</span></div>
+                </div>
+                <ul class="layui-transfer-data" style="height: 380px;">
+                    <li v-for="(item,i) in allcommand" v-bind:class="{ 'layui-form-checked': i===selectid }" v-on:click="selectitem(i)" >
+                        <div class="layui-unselect" lay-skin="primary"><span>${item.name}</span></div>
+                    </li>
+                    <p v-if="0===allcommand.length" class="layui-none">无数据</p>
+                </ul>
+            </div>
+            <div class="layui-transfer-active">
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-index="0"><i class="layui-icon layui-icon-next"></i></button>
+               
+            </div>
+            <div class="layui-transfer-box" data-index="1" style="width: 200px; height: 420px;">
+                <div class="layui-transfer-header">
+                    <div class="layui-unselect" lay-skin="primary"><span>参数设置</span></div>
+                </div>
+                <ul class="layui-transfer-data" style="height: 380px;">
+                    <!-- <p class="layui-none">无数据</p> -->
+                    <li v-for="(item,i) in selectdata.data" style="height: 74px;">
+                        <div class="layui-unselect"><span>${item.key}:</span></div>
+                        <div class="layui-unselect">
+                            <input type="text" v-model="item.value" autocomplete="off" class="layui-input" :placeholder="'请输入'+item.key+'内容'">
+                        </div>
+                    </li>
+                    
+                    <li v-if="selectdata.data && action=='add'" class="option-btn">
+                        <button v-on:click="close()" type="button" class="layui-btn layui-btn-sm">
+                            <i class="layui-icon layui-icon-close"></i>
+                        </button>
+                        <button v-on:click="confirm()" type="button" class="layui-btn layui-btn-sm">
+                            <i class="layui-icon layui-icon-ok"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-transfer-active">
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" data-index="0"><i class="layui-icon layui-icon-next"></i></button>
+                
+            </div>
+            <div class="layui-transfer-box" data-index="1" style="width: 560px; height: 420px;">
+                <div class="layui-transfer-header">
+                    <div class="layui-unselect" lay-skin="primary"><span>命令内容</span></div>
+                </div>
+                <ul class="layui-transfer-data commands-content" style="height: 380px;">
+                    <li v-for="(item,i) in commands" v-on:click="edititem(i)"> 
+                        <span class="command">
+                            {<a v-for="(itemx,ix) in item">"${itemx.key}":"${itemx.value}"<i v-if=" ix!=item.length-1 ">,</i> </a>}
+
+                        </span>
+                        <span class="option">
+                            <a href="javascript:void(0);" title="删除" v-on:click="deleteselect(i)"><i class="layui-icon layui-icon-close"></i></a>
+                            <!-- <a href="javascript:void(0);" title="编辑"><i class="layui-icon layui-icon-ok"></i></a> -->
+                        </span>
+                    </li>
+                    
+                    <p v-if="0===commands.length" class="layui-none">无数据</p>
+                </ul>
+            </div>
+        </div>
+    </div>    
+    <div class="layui-form-item" style="padding-top: 10px;">
+        <label class="layui-form-label">说明</label>
+        <div class="layui-input-block">
+            <div class="layui-tab-item layui-show">
+              1. 设置每个动作对应的值。
+              <br>2. 模板变量：关键词:{$keywords}，熊掌号:{$xiongzhang},网址：{$url}。仅填英文变量即可
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+<script type="text/javascript">
+    layui.define(['table', 'form'], function(exports){
+      var $ = layui.$
+      ,setter = layui.setter
+      ,request = setter.request
+      ,form = layui.form;
+        form.render('checkbox');
+        // form.verify({
+        //     title: function(value, item){ //value：表单的值、item：表单的DOM对象
+        //         if(value ==''){
+        //             return '请填写模板名称。';
+        //         }
+        //     }
+            
+        // });
+    })
+</script>
+
+<script>
+    var vm = new Vue({
+      el: '#layuiadmin-app-form-add',
+      data: {
+        id:0,
+        title:'',
+        allcommand: [],
+        commands: [],
+        selectdata:{},
+        selectid:-1,
+        action:'add',
+      },
+      computed: {
+        
+      },
+      methods: {
+       selectitem:function(index){
+            this.selectid = index;
+            this.action = 'add';
+            this.selectdata = this.allcommand[index];
+            this.selectdata.data = JSON.parse(this.allcommand[index].content);
+       },
+       edititem:function(index){
+            this.selectid = index;
+            this.action = 'edit';
+            this.selectdata.data = this.commands[index];
+            
+       },
+       close:function(){
+            this.selectdata = {};
+            this.selectid = -1;
+       },
+       deleteselect:function(index){
+            this.commands.splice(index,1);
+       },
+       confirm:function(){
+            if(this.action == 'add')
+            {
+                this.commands.push(this.selectdata.data);
+            }
+            
+            this.close();
+       }
+
+      },
+      delimiters:['${', '}'] 
+    })
+</script>

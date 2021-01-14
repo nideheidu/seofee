@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-size: 100px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>速达SEO计费系统 - SEO按天计费系统,SEO按天计费系统源码</title>
+<meta name="keywords" content="SEO按天计费系统,SEO按天计费系统源码">
+<meta name="description" content="速达SEO计费系统目前行业专业的SEO计费系统，采用tp高性能框架负载极低可大批量管理SEO按天计费。">
+<link href="css/global.css" rel="stylesheet" type="text/css">
+<link href="css/themes.css" rel="stylesheet" type="text/css">
+<link href="css/user.css" rel="stylesheet" type="text/css">
+<link href="css/global(1).css" rel="stylesheet" type="text/css">
+<script charset="utf-8" src="js/v.js"></script>
+<script src="js/hm.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/cn.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/themes.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/TouchSlide.1.1.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
+<link href="css/index.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.bxslider.js"></script>
+
+</head>
+<body class="w_1200">
+<div id="header" class="shadow">
+	<div class="marinner">
+		<div class="logo img fl"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+		<div class="menu">
+			<a href="index.html">首页</a>
+			<a href="pro.html">产品</a>
+			<a href="price.html">定价</a>
+			<a href="agent.html">代理</a>
+			<a href="brief.html">简介</a>
+		</div>
+		<div class="member fr">
+			<a class="sign btn bs" href="/customer/#/user/login" target="_blank" rel="nofollow">普通会员</a>
+			<a class="sign btn bs" href="/system/#/user/login" target="_blank" rel="nofollow">代理商</a>
+			<a class="sign btn bs" href="/platform/" target="_blank" rel="nofollow">管理员</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="header_blank">
+    <div id="mobile_header">
+        <div class="container">
+            <div class="fl">
+                <div class="logo img"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+            </div>
+            <div class="fr">
+                <div class="menu"></div>
+            </div>
+            <div class="menu_list">
+                <ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="pro.html">产品</a></li>
+					<li><a href="price.html">定价</a></li>
+					<li><a href="agent.html">代理</a></li>
+					<li><a href="brief.html">简介</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+        	$('.menu_list ul li .item_btn').click(function(){
+				$(this).parents('li').find('.sec_menu').slideToggle();
+				$(this).toggleClass('up');
+			});
+			$('#mobile_header .menu i').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask();
+				$('#mobile_header .menu .menu_list').addClass('menu_cur');
+			});
+			$('#mobile_header .menu .menu_list .btn').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#mobile_header .menu .menu_list').removeClass('menu_cur');
+			});
+			var interval = 0;
+			var number_add = 0;
+			var number_end = $('#int #customer').data('num');
+			var set_num = function(){
+				number_add += 211;
+				$('#int #customer').text(number_add+'+');
+				if(number_add>number_end){
+					clearInterval(interval);
+					$('#int #customer').text(number_end+'+');
+				}
+			}
+			interval = setInterval(set_num,60);
+			$('#mobile_header .menu').on('touchstart',function(){
+				if($(this).hasClass('menu_cur')){
+					global_obj.div_mask(1);
+					$('#div_mask').remove();
+				}else{
+					global_obj.div_mask();
+				}
+				$(this).toggleClass('menu_cur');
+				$('#mobile_header .menu_list').slideToggle('fast');
+			});
+        </script>
+    </div>
+</div>			<div class="index_banner">
+		<div class="marinner">
+			<div class="center">
+				<div class="title">速达SEO计费系统</div>
+				<div class="desc">资深SEO优化团队，纯人工技术优化您的网站！</div>
+				<a class="btn bs" href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank">免费体验</a>
+			</div>
+		</div>
+	</div>
+	<div class="global_category" style="height:0;">
+		<div class="global_category_abs three">  
+			<a href="pro.html" title="产品">产品</a>
+			<a class="cur" href="price.html" title="定价">定价</a>
+		</div>
+	</div>
+	<div class="index_key">
+		<div class="key_in">
+			<div class="title">为什么选择速达网络SEO Why？</div>
+			<div class="fl">
+				<div class="content">
+					<div class="key_title">指定关键词优化</div>
+					<div class="key_desc">坚持通过对搜索引擎研究，以专业、价格透明、低成本的一站式SEO业务服务，努力为大中小企业提供按天付费，按结果付费的模式；促使企业通过互联网营销，快速实现盈利状态。</div>
+				</div>
+			</div>
+			<div class="fr">
+				<div class="content">
+					<div class="key_title">整站优化</div>
+					<div class="key_desc">支持排名查询，指数查询、收录查询、备案查询、索引查询、排名挖掘等功能。合理兼容国内8大主流搜索引擎，PC端，移动端等数据的实时查询与监控,网站流量数据进行监测分析策略调整。
+</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<a class="btn bs" href="href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank">免费体验</a>
+		</div>
+	</div>
+	<div class="index-top">
+		<div class="top">
+			<div class="title" start="1">100%契合搜索引擎的SEO策略，排名恒久稳定！</div>
+			<div class="content" start="0">
+				<div class="left">
+					<div class="key fl"><span class="num timer" data-to="76" data-speed="3000">86</span><span>%</span><p>长尾词达标率</p></div>
+					<div class="key fl" style="border: none;"><span class="num timer" data-to="230" data-speed="3000">100</span><span>%</span><p>达标后扣费</p></div>
+					<div class="clear"></div>
+				</div>
+				<div class="line fl"></div>
+				<div class="line fr"></div>
+				<div class="clear"></div>
+				<div class="right">
+					<div class="key fl"><span class="num timer" data-to="100" data-speed="3000">100</span><span>%</span><p>适用各大搜索引擎</p></div>
+					<div class="key fl" style="border: none;"><span class="num timer" data-to="20" data-speed="3000">5</span><span>W </span>  +<p>约降低企业推广成本<br/></p></div>
+					<div class="clear"></div>
+				</div>
+				<a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" class="btn" name="video_demo" data-url="#">了解优化原理</a>
+			</div>
+			<div id="video_demo" class="icons" style="display: none;"><embed width="100%" height="100%;" allowfullscreen="true"><i></i></div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$('a[name=video_demo]').click(function(){
+				global_obj.div_mask();
+				if($.browser.msie){	//IE
+					$('#video_demo').find('embed').remove();
+					$('<embed width="100%" height="100%;" src="'+$(this).data('url')+'">').prependTo($('#video_demo'));
+				}else{
+					$('#video_demo').find('embed').attr('src',$(this).data('url'));
+				}
+				$('#video_demo').show();
+			});
+			$('#video_demo').delegate('i','click',function(){
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#video_demo').hide().html('<embed width="100%" height="100%;" allowfullscreen="true"></embed><i></i>');
+			});
+		})
+	</script>
+	<div class="index-seo">
+		<div class="title">速达SEO的营销流程</div>
+	</div>
+	<div class="index-important">
+		<div class="in fl">
+			<div class="title">速达SEO的承诺</div>
+			<div class="list">
+				<div class="fl one ">
+					<div class="item cur" data="1">按天果付费</div>
+					<div class="item" data="2">签订合同付款</div>
+					<div class="item" data="3">合作保密</div>
+				</div>
+				<div class="fl two">
+					<div class="item" data="4">报表清晰</div>
+					<div class="item" data="5">专属客户</div>
+					<div class="item" data="6">可退款</div>
+				</div>
+				<div class="clear"></div>
+				<a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" class="btn fr free_btn">免费试用</a>
+			</div>
+		</div>
+		<div class="pc fr">
+			<div class="pic_list fr">
+				<div class="width trans" style="width: 4938px;">
+					<div class="picpath trans">
+						<img src="img/index-1.jpg" class="fl" data="1">
+						<img src="img/index-2.jpg" class="fl" data="2">
+						<img src="img/index-3.jpg" class="fl" data="3">
+						<img src="img/index-4.jpg" class="fl" data="4">
+						<img src="img/index-5.jpg" class="fl" data="5">
+						<img src="img/index-6.jpg" class="fl" data="6">
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+        <a href="javascript:;" class="btn fr free_btn mobile_btn">免费试用</a>
+	</div>
+	<div class="index-new">
+		<div class="content">
+			<div class="title">每家企业都应该有一个SEO营销专员</div>
+			<div class="price">少投入，大回报，按效果付费 <span></span></div>
+			<div class="desc">我们不会以次充好，我们只会全力以赴。我们只会精益求精，我们本身并不伟岸。但是我们所做的事情却伟大至极。因为我们正在让所有企业不再为推广而烦恼。</div>
+		</div>
+	</div>
+	<div class="bottom_desc">
+		<div class="marinner">
+			<div class="desc1">立即体验新一代营销方式</div>
+			<a class="btn1">免费试用</a>
+		</div>
+	</div>
+	<div id="footer">
+	<div class="marinner">
+		<div class="top">
+			<div class="logo img"><img src="img/l_logo.png" alt="营销"><span></span></div>
+			<div class="copy first">
+								<div class="title">友情链接 </div>
+									<a class="li" href="http://www.17s.cn" target="_blank" rel="nofollow">速达网络</a>
+									<a class="li" href="http://www.1peibao.cn" target="_blank" rel="nofollow">亿配宝</a>
+							</div>
+			<div class="copy last">
+				<div class="title">联系方式</div>
+				<div class="li phone mobile">电话：13547444474</div>
+				<a class="li email" href="mailto:lsy@lanshiseo.com">邮箱：330121832@qq.com</a>
+				<div class="li address">地址：四川南充高坪区金融广场5-2023</div>
+				<div class="li phone">电话：19982820062</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="copyer">
+<!-- 			<a>南充速达网络版权所有</a>
+ -->		</div>
+	</div>
+</div>
+<div id="footer_blank"></div>
+<div id="global_bottom_box">
+	<a class="global_53" href="javascript:;">联系客服</a>
+	<a class="global_53" href="javascript:;">免费体验</a>
+</div>
+	            <div id="qq_service" class="chattrans">
+            <div class="img top_img"><img src="img/df3eed8073.png"></div>
+            <ul style="border-color:#02CCBA;">
+                                    <li>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin"><img src="img/b09bb1678b.jpg" alt="Kevin"></a><br>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin">Kevin</a>
+                    </li>
+                
+        </div>
+
+<style>
+	.middle .list .copy .num,.middle .list .copy .tag,.middle .list .copy .name{
+		line-height:24px;
+	}
+</style>
+</body>
+</html>

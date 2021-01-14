@@ -1,0 +1,84 @@
+
+
+<title>账号每日消费</title>
+
+<style>
+    .custom-card-body{padding-top: 0;}
+    .layui-fluid{padding-top: 0;}
+    .layui-tab-title{margin: 20px 0 0 15px;}
+    .layui-tab-content{padding: 0;}
+    .layui-card-body{padding: 0;}
+    .layui-table thead tr{background: #e2e2e2;}
+</style>
+
+<!--<div class="layui-card layadmin-header">-->
+<!--    <div class="layui-breadcrumb" lay-filter="breadcrumb">-->
+<!--        <a lay-href="">主页</a>-->
+<!--        <a><cite>我的明细</cite></a>-->
+<!--        <a><cite>账号每日消费</cite></a>-->
+<!--    </div>-->
+<!--</div>-->
+<ul class="layui-tab-title">
+    <li class="layui-this">账号每日消费</li>
+</ul>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+            <div class="layui-tab">
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-app-free-list" lay-filter="LAY-app-free-list"></table>
+                    </div>
+
+                </div>
+            </div>
+            <script type="text/html" id="buttonTpl">
+                {{d.remarks}}
+            </script>
+            <script type="text/html" id="table-content-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.define(['table','form','util','setter'],function (exports) {
+        var $ = layui.$
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request;
+
+        //资金明细
+        table.render({
+            elem: '#LAY-app-free-list'
+            ,url: '/v1/order/list' //模拟接口
+            ,headers:{
+                'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+            ,where:{
+                status:1,group:'day'
+            }
+            ,cols: [[
+                // {type: 'checkbox', fixed: 'left'},
+                {field: 'date', title: '消费日期',align:'center'},
+                {field: 'sumfree', title: '当日消费金额(元)',align:'center'},
+                {field: 'balance', title: '当日账号余额(元)',align:'center'}
+            ]]
+            ,parseData:function ( res ) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total,  //解析数据长度
+                    "data": res.data.data.length>0? res.data.data:null //解析数据列表
+                };
+            }
+            ,page: true
+            ,limit: 30
+            ,limits: [30, 50, 100, 200, 500]
+            ,text: {none: '一条数据也没有^_^'}
+        });
+    })
+</script>

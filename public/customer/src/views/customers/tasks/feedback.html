@@ -1,0 +1,209 @@
+<title>非首页反馈记录</title>
+
+<style>
+    .custom-card-body .layui-table-cell{padding: 0;}
+    .custom-card-body{padding-top: 0;}
+    .custom-card-body th:last-child .layui-table-cell, .custom-card-body td:last-child .layui-table-cell{padding: 0 10px;}
+    .layui-fluid{padding-top: 0;}
+    .layui-tab-title{margin: 20px 0 0 15px;}
+    .layui-card-header{border-bottom: none;}
+    .layui-card-header.layuiadmin-card-header-auto{padding-top: 22px;padding-bottom: 17px;}
+    .layui-btn-feedback{display: inline-block;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 18px;
+        background-color: rgb(0,157,217);
+        color: #fff;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 14px;
+        border: 0;
+        border-radius: 2px;}
+    .pending{background-color:#c5c2c2;}
+    .processed-n{background-color:rgb(0 150 136);}
+    .processed-y{background-color:lightcoral;}
+</style>
+
+<!--<div class="layui-card layadmin-header">-->
+<!--    <div class="layui-breadcrumb" lay-filter="breadcrumb">-->
+<!--        <a lay-href="">主页</a>-->
+<!--        <a><cite>SEO管理</cite></a>-->
+<!--        <a><cite>优化中的任务</cite></a>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+<ul class="layui-tab-title">
+    <li class="layui-this" data-type="1">非首页反馈记录</li>
+</ul>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <!--<div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关键词/链接</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="keywords" placeholder="请输入关键词或链接" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        &lt;!&ndash; <div class="layui-inline">
+                            <label class="layui-form-label">网址</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="url" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                            </div>
+                        </div> &ndash;&gt;
+                        <div id="view" class="layui-inline">
+        
+                        </div>
+                        <script id="ngines_select" type="text/html">
+                            <label class="layui-form-label">{{ d.title }}</label>
+                            <div class="layui-input-inline" style="width:150px">
+                                    <select name="search_ngines" lay-verify="search_ngines">
+                                        <option value="">全部</option>
+                                        {{#  layui.each(d.list, function(index, item){ }}
+                                            <option value="{{index}}">{{item}}</option>
+                                        {{#  }); }}
+                                        
+                                    </select>
+                                
+                            </div>
+                        </script>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">达标状态</label>
+                            <div class="layui-input-inline" style="width:150px">
+                                <select name="standard_status">
+                                    <option value="">全部</option>
+                                    <option value="1">新达标</option>
+                                    <option value="2">已达标</option>
+                                    <option value="3">未达标</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                            </button>
+                        </div>
+                        <div class="layui-inline" style="margin-right:0;float:right">
+                            &lt;!&ndash; <button class="layui-btn layuiadmin-btn-list" data-type="add"><i class="layui-icon layui-icon-add-circle-fine"></i>添加常规优化</button>&ndash;&gt;
+                            <button class="layui-btn layuiadmin-btn-list" data-type="standard_status1">新达标</button>
+                            <button class="layui-btn layuiadmin-btn-list" data-type="standard_status2">已达标</button>
+                            <button class="layui-btn layuiadmin-btn-list" data-type="standard_status3">优化中</button>
+                            <button class="layui-btn layuiadmin-btn-list" data-type="export">导出数据</button>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="layui-card-body custom-card-body">
+
+                    <table id="LAY-app-seo-list" lay-filter="LAY-app-seo-list">
+
+                    </table>
+                    <script type="text/html" id="buttonTpl">
+                        {{#  if(d.status == 0) { }}
+                        <button class="layuiadmin-btn-list layui-btn-feedback" lay-event="feedback" data-taskid="{{ d.task_number }}" data-uid="{{ d.uid }}" data-old_rank="{{ d.current_ranking }}">反馈</button>
+                        {{#  } else if(d.status == 1) { }}
+                        <button class="layuiadmin-btn-list layui-btn-feedback pending">待处理</button>
+                        {{#  } else if(d.status == 2) { }}
+                        <button class="layuiadmin-btn-list layui-btn-feedback processed-n">已处理（非首页）</button>
+                        {{#  } else if(d.status == 3) { }}
+                        <button class="layuiadmin-btn-list layui-btn-feedback processed-y">已拒绝（在首页）</button>
+                        {{#  } }}
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+layui.use(['admin','table','form','setter'],function () {
+    var table = layui.table
+        ,view = layui.view
+        ,admin = layui.admin
+        ,form = layui.form
+        ,setter = layui.setter
+        ,laytpl = layui.laytpl
+        ,request = setter.request
+        ,router = layui.router()
+        ,$ = layui.$;
+    form.render(null, 'app-content-list');
+
+    var keywrodTab = table.render({
+        elem:"#LAY-app-seo-list"
+        ,url: '/v1/task/feedbacklist'
+        ,where:{order:'id'}
+        ,headers:{
+           'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+        }
+        ,cols: [[
+            {field: 'keywords', title: '关键词', minWidth: 190, padding: 0, align: 'center',templet: function(d){
+                var url;
+                switch (d.search_ngines) {
+                    case "百度PC":
+                        url = 'https://www.baidu.com/s?wd=';
+                        break;
+                    case "360PC":
+                        url = 'https://www.so.com/s?ie=utf-8&q=';
+                        break;
+                    case "搜狗PC":
+                        url = 'https://www.sogou.com/web?query=';
+                        break;
+                    case "百度移动":
+                        url = 'https://m.baidu.com/s?word=';
+                        break;
+                    case "搜狗移动":
+                        url = 'https://wap.sogou.com/web/searchList.jsp?keyword=';
+                        break;
+                    case "360移动":
+                        url = 'https://m.so.com/s?q=';
+                        break;
+                    default:
+                        url = 'https://www.baidu.com/s?wd=';
+                        break;
+                }
+                return '<div><a href="'+url+d.keywords+'" target="_blank" class="layui-table-link">'+d.keywords+'</a></div>'
+                }
+            }
+            ,{field: 'web_url', title: '关键词链接',minWidth: 236, align:'center',templet: function(d) {return '<a href="'+(d.web_url)+'" target="_blank" class="layui-table-link">'+d.web_url+'</a>';}}
+            ,{field: 'search_ngines', title: '搜索引擎', minWidth: 66, align:'center'}
+            ,{field: 'old_rank', title: '反馈时排名', minWidth: 58, align:'center',templet:'#rankTpl'}
+            ,{field: 'new_rank' ,title: '纠正后排名',align:'center',templet:'#liftingTpl'}
+            ,{field: 'create_time', title: '反馈时间', minWidth: 160, align:'center'}
+            ,{field: 'rank_time', title: '处理时间', minWidth: 160, align:'center'}
+            ,{field: 'status', title: '处理状态', templet: '#buttonTpl', minWidth: 130, align: 'center',fixed: 'right',}
+            ,{field: 'ispay', title: '扣费情况', minWidth: 58, align:'center'}
+        ]]
+        ,parseData:function ( res ) {
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data.total, //解析数据长度
+                "data": res.data.data //解析数据列表
+            };
+        }
+        ,loading:true
+        ,page: true
+        ,limit: 20
+        ,limits: [20, 50, 100, 200, 500]
+        ,text:{none: '一条数据也没有^_^'}
+    });
+
+    //监听搜索
+    form.on('submit(LAY-app-contlist-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-app-seo-list', {
+            where: field
+        });
+    });
+
+
+})
+
+</script>

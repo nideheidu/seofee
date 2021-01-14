@@ -1,0 +1,129 @@
+<style>
+    .layui-form-item .layui-inline{margin-right:0;}
+</style>
+<div class="layui-form" lay-filter="layuiadmin-ftp-form-list" id="layuiadmin-ftp-form-list"style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键词：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="keywords" value="{{ d.params.keywords || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">网址：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="url" value="{{ d.params.web_url || '' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户：</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="contacts"  value="{{ d.params.contacts || '无' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">代理余额:</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="contacts"  value="{{ d.params.total_sum || '无' }}" readonly autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">订单号：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <script type="text/html" template>
+                    <input type="text" id="orderNumber" name="order_number"  value="{{ d.params.order_number || '无' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">搜索引擎：</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <script type="text/html" template>
+                    <input type="text" name="search_ngines"  value="{{ d.params.search_ngines || '无' }}" readonly autocomplete="off" class="layui-input">
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        
+        <div class="layui-inline">
+            <label class="layui-form-label">初始排名：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="original_rank"  value="{{ d.params.original_rank || '' }}"  autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline" >
+            <label class="layui-form-label">合作周期：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="cycle"  value="{{ d.params.cycle || '90' }}"  autocomplete="off" class="layui-input">
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">当前排名：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="current_ranking"  value="{{ d.params.current_ranking || '' }}"  autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">会员扣费：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="price"  value="{{ d.params.price || '' }}"  autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" style="color: red;">
+        
+        <div class="layui-inline">
+            <label class="layui-form-label">上级代理：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" value="{{ d.params.a_username || '' }}" readonly="" autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">代理扣费：</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <script type="text/html" template>
+                    <input type="text" name="agent_price"  value="{{ d.params.agent_price || '' }}"  autocomplete="off" class="layui-input">
+
+                </script>
+                <!--<input type="password" name="" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-size: 100px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>速达SEO计费系统 - SEO按天计费系统,SEO按天计费系统源码</title>
+<link href="css/global.css" rel="stylesheet" type="text/css">
+<link href="css/themes.css" rel="stylesheet" type="text/css">
+<link href="css/user.css" rel="stylesheet" type="text/css">
+<link href="css/global(1).css" rel="stylesheet" type="text/css">
+<script charset="utf-8" src="js/v.js"></script>
+<script src="js/hm.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/cn.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/themes.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/TouchSlide.1.1.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
+<link href="css/price.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="js/count.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+
+</head>
+<body class="w_1200">
+<div id="header" class="shadow">
+	<div class="marinner">
+		<div class="logo img fl"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+		<div class="menu">
+			<a href="index.html">首页</a>
+			<a href="pro.html">产品</a>
+			<a href="price.html">定价</a>
+			<a href="agent.html">代理</a>
+			<a href="brief.html">简介</a>
+		</div>
+		<div class="member fr">
+			<a class="sign btn bs" href="/customer/#/user/login" target="_blank" rel="nofollow">普通会员</a>
+			<a class="sign btn bs" href="/system/#/user/login" target="_blank" rel="nofollow">代理商</a>
+			<a class="sign btn bs" href="/platform/" target="_blank" rel="nofollow">管理员</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="header_blank">
+    <div id="mobile_header">
+        <div class="container">
+            <div class="fl">
+                <div class="logo img"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+            </div>
+            <div class="fr">
+                <div class="menu"></div>
+            </div>
+            <div class="menu_list">
+                <ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="pro.html">产品</a></li>
+					<li><a href="price.html">定价</a></li>
+					<li><a href="agent.html">代理</a></li>
+					<li><a href="brief.html">简介</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+        	$('.menu_list ul li .item_btn').click(function(){
+				$(this).parents('li').find('.sec_menu').slideToggle();
+				$(this).toggleClass('up');
+			});
+			$('#mobile_header .menu i').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask();
+				$('#mobile_header .menu .menu_list').addClass('menu_cur');
+			});
+			$('#mobile_header .menu .menu_list .btn').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#mobile_header .menu .menu_list').removeClass('menu_cur');
+			});
+			var interval = 0;
+			var number_add = 0;
+			var number_end = $('#int #customer').data('num');
+			var set_num = function(){
+				number_add += 211;
+				$('#int #customer').text(number_add+'+');
+				if(number_add>number_end){
+					clearInterval(interval);
+					$('#int #customer').text(number_end+'+');
+				}
+			}
+			interval = setInterval(set_num,60);
+			$('#mobile_header .menu').on('touchstart',function(){
+				if($(this).hasClass('menu_cur')){
+					global_obj.div_mask(1);
+					$('#div_mask').remove();
+				}else{
+					global_obj.div_mask();
+				}
+				$(this).toggleClass('menu_cur');
+				$('#mobile_header .menu_list').slideToggle('fast');
+			});
+        </script>
+    </div>
+</div>	<div class="price_banner">
+		<div class="wide">
+			<div class="title">
+				精准营销<br>
+				<span>选速达SEO营销</span>
+			</div>
+		</div>
+	</div>
+	<div id="price">
+		<div class="show_table_box">
+			<div class="price_ab_box">
+				<div class="ab_box b1" style="display: none;"><div class="ab_display"><div class="ab_bg"><div class="title">入门版</div><div class="price"><sup>￥</sup>6800<span> /年</span></div><div class="need"></div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a></div></div></div>
+				<div class="ab_box b2"><div class="ab_display"><div class="ab_bg"><div class="title">专业版</div><div class="price"><sup>￥</sup>9500<span> /年</span></div><div class="need">效果提升150%</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a></div></div></div>
+				<div class="ab_box b1" style="display: none;"><div class="ab_display"><div class="ab_bg"><div class="title">企业版</div><div class="price"><sup>￥</sup>12500<span> /年</span></div><div class="need">性价比之王</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a></div></div></div>
+				<div class="ab_box b3" style="display: none;"><div class="ab_display"><div class="ab_bg"><i></i><div class="title">站群版</div><div class="price" style=""><sup></sup><span></span>面议</div><div class="need">外贸老兵利器</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a></div></div></div>
+			</div>
+			<table class="show_table">
+				<tbody>
+					<tr>
+						<th></th>
+						<th class="price_title">
+							<div class="title">入门版</div>
+							<div class="price"><sup>￥</sup>6800<span> /年</span></div><div class="need">只需￥556元/月</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a>
+						</th>
+						<th class="price_title">
+							<div class="title">专业版</div><div class="price"><sup>￥</sup>9500<span> /年</span></div><div class="need">效果提升150%</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a>
+						</th>
+						<th class="price_title">
+							<div class="title">企业版</div>
+							<div class="price"><sup>￥</sup>12500<span> /年</span></div><div class="need">性价比之王</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a>
+						</th>
+						<th class="price_title" width="290">
+							<div class="title">站群版</div><div class="price" style="margin-bottom: 5px;"><span></span>面议</div><div class="need">外贸老兵利器</div><a class="btn" href="javascript:;" title="免费试用" rel="nofollow">免费试用</a>
+						</th>
+					</tr>
+					<tr class="bg"><td colspan="5">产品功能模块</td></tr>
+				
+					
+					<tr><td>自动高质外链</td><td class="txt">5个</td><td class="txt">12个</td><td class="txt">20个</td><td class="txt">36+个</td></tr>
+					
+			
+					<tr class="bg"><td colspan="5">人工优化服务</td></tr>
+					<tr><td>一对一运营指导</td><td></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>关键词规划与布局</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>流量监控</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>询盘监控</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>内链建设与布局</td><td></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>网站产品及资料上传服务</td><td></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>sitemap地图提交</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>seo规范检测</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+					<tr><td>站长工具安装</td><td class="true"></td><td class="true"></td><td class="true"></td><td class="true"></td></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<style type="text/css">
+		/*#price .show_table th.price_title{ width: 227px; }*/
+		/*#price .show_table_box .price_ab_box .ab_box.b2{ width: 227px; right: 462px; }
+		#price .show_table_box .price_ab_box .ab_box{ width: 227px; }*/
+		@media screen and (max-width: 1060px){
+			#price .show_table th.price_title{ width: 195px; }
+			#price .show_table_box .price_ab_box .ab_box.b2{ width: 195px; right: 398px; }
+		}
+		@media screen and (max-width: 980px){
+			#m_price .title{ width: 49%; }
+			#m_price .func{ width: 9%; }
+			#m_price .cur{ width: 22% }
+		}
+
+	</style>
+	<div id="m_price">
+	<div class="container">
+		<div class="table">
+			<div class="title">
+				<div class="th"></div>
+				<div class="td h1">产品功能模块</div>
+				<div class="td">自动高质外链</div>
+
+			
+				<div class="td h1">人工优化服务</div>
+				<div class="td">一对一运营指导</div>
+				<div class="td">关键词规划与布局</div>
+				<div class="td">流量监控</div>
+				<div class="td">询盘监控</div>
+				<div class="td">内链建设与布局</div>
+				<div class="td">产品资料上传服务</div>
+				<div class="td">sitemap地图提交</div>
+				<div class="td">seo规范检测</div>
+				<div class="td">站长工具安装</div>
+			</div>
+			<!------------------------------------------>
+			<div class="func advanced delay cur">
+				<div class="th">入门版<br><span>￥6800</span></div>
+				<div class="mask delay"><span>入门版</span></div>
+				<div class="td true"></div>
+				<div class="td true">1个</div>
+				<div class="td">2篇/周</div>
+				<div class="td icons">5个</div>
+				<div class="td icons">1个</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true">20000封</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons"></div>
+				<div class="td icons"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons"><i></i></div>
+				<div class="td icons"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+			</div>
+			<div class="func advanced delay">
+				<div class="th">专业版<br><span>￥9500</span></div>
+				<div class="mask delay"><span>专业版</span></div>
+				<div class="td true"></div>
+				<div class="td true">1个</div>
+				<div class="td">6篇/周</div>
+				<div class="td icons">12个</div>
+				<div class="td icons">2个</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true">30000封</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons"></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+			</div>
+			<!------------------------------------------>
+			<div class="func standar delay">
+				<div class="th">企业版<br><span>￥12500</span></div>
+				<div class="mask delay"><span>企业版</span></div>
+				<div class="td true"></div>
+				<div class="td true">1个</div>
+				<div class="td">9篇/周</div>
+				<div class="td icons">20个</div>
+				<div class="td icons">4个</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true">50000封</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons"></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+			</div>
+			<!------------------------------------------>
+			<div class="func professional delay">
+				<div class="th">站群版<br><span>面议</span></div>
+				<div class="mask delay"><span>站群版</span></div>
+				<div class="td true"></div>
+				<div class="td true">3+</div>
+				<div class="td">18+篇/周</div>
+				<div class="td icons">36+个</div>
+				<div class="td icons">9+个</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true">100000封</div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons"></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+				<div class="td icons true"><i></i></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	</div>
+	<div class="flow">
+		<div class="wide">
+			<div class="main_title">如何通过技术获取流量&amp;询盘</div>
+			<div class="fl left">
+				<div class="item">
+					<div class="title">优化钱需要做些什么准备？</div>
+					<div class="desc">主要通过人工+技术进行网站的SEO优化，在站点上线前，优化师实施的人工站内优化，包括SEO检测、关键词规划、关键词布局，待网站上线后，进入自动运营状态，主要运营工作包括：内容更新和高质量外链建设。做英文站点的SEO，一般外贸企业很难解决运营和资源的问题，系统用技术解决英文SEO两个关键环节：内容与外链。一切通过白帽逻辑进行优化，避免过度优化产生的违规处罚。</div>
+				</div>
+				<div class="item top65">
+					<div class="title">能推广到那些国家地区？</div>
+					<div class="desc">自然排名不限制展示区域，任何区域都可以显示且点击无费用。</div>
+				</div>
+				<div class="item top75">
+					<div class="title">多久才能有效果？没效果怎么办？</div>
+					<div class="desc">网站从被收录开始到优化提升排名，一般需要90天左右，期间你会看到数据发生变化，包括排名情况、自然流量这些数据会在逐渐增长。帮助用户运营从0到1建好基础，发挥最好的状态只能让你每周通过自然流量能获取一些询盘。让你的网站真正发挥营销的作用。</div>
+				</div>
+			</div>
+			<div class="fr right">
+				<div class="item">
+					<div class="title">如何发展自己的代理商？</div>
+					<div class="desc">我们系统支持OEM，可拓展自己的代理商渠道，更多详情请咨询速达网络www.17s.cn。</div>
+					<div class="item top65">
+						<div class="title">如何监控营销效果？</div>
+						<div class="desc">效果包括（流量数据,排名实况,询盘数量）,均可通过系统查看到实时数据，每天登录进去查看数据。</div>
+					</div>
+				</div>
+				<div class="item top65">
+					<div class="title">产品怎么收费？</div>
+					<div class="desc">目前主要销售两个方式，按年费收取，按词按天收费。</div>
+				</div>
+				<div class="item top75">
+					<div class="title">其他人用了效果怎样，可以试用吗？</div>
+					<div class="desc">用户的长尾关键词上榜率达80%以上，97%的用户网站流量有明显的增长。已帮助客户成交多笔订单，欢迎向我们的客服同事索取。</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="bottom_list marinner">
+		<div class="title">所有版本包含</div>
+		<div class="list">
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_1.png" alt=""><span></span></div>
+				<div class="name">智能报价系统</div>
+				<div class="desc">基于强大的信息分析采集系统，科学智能计算关键价格，拒绝朦胧价%</div>
+			</div>
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_2.png" alt=""><span></span></div>
+				<div class="name">按天按词计费</div>
+				<div class="desc">系统自动对客户关键词排名任务作出每日采集更新，上线自动按天计费，不达标不计费</div>
+			</div>
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_3.png" alt=""><span></span></div>
+				<div class="name">网站分析系统</div>
+				<div class="desc">针对网站20多项指标，快速做出定位分析，可以进行快速修改站内工作，保证符合百度算法要求</div>
+			</div>
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_4.png" alt=""><span></span></div>
+				<div class="name">海量信息存储</div>
+				<div class="desc">高性能强大硬件支撑，支持海量业务计算和存储，信息安全可靠，满足大规模需求</div>
+			</div>
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_5.png" alt=""><span></span></div>
+				<div class="name">自主灵活下单</div>
+				<div class="desc">自由选择关键词及对应引擎，拒绝销售误导，防止被骗，节约优化成本</div>
+			</div>
+			<div class="copy">
+				<div class="img"><img src="img/price_bottom_6.png" alt=""><span></span></div>
+				<div class="name">支持主流引擎</div>
+				<div class="desc">全面支持百度PC、百度手机、360PC、360手机、搜狗PC、搜狗手机、神马等引擎</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="bottom_desc">
+		<div class="marinner">
+			<div class="desc1">立即体验新一代营销方式</div>
+			<a class="btn1">免费试用</a>
+		</div>
+	</div>
+	<div id="footer">
+	<div class="marinner">
+		<div class="top">
+<div class="logo img"><img src="img/l_logo.png" alt="营销"><span></span></div>
+			<div class="copy first">
+								<div class="title">友情链接 </div>
+									<a class="li" href="http://www.17s.cn" target="_blank" rel="nofollow">速达网络</a>
+									<a class="li" href="http://www.1peibao.cn" target="_blank" rel="nofollow">亿配宝</a>
+							</div>
+			<div class="copy last">
+				<div class="title">联系方式</div>
+				<div class="li phone mobile">电话：13547444474</div>
+				<a class="li email" href="mailto:lsy@lanshiseo.com">邮箱：330121832@qq.com</a>
+				<div class="li address">地址：四川南充高坪区金融广场5-2023</div>
+				<div class="li phone">电话：19982820062</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="copyer">
+
+</div>
+<div id="footer_blank"></div>
+<div id="global_bottom_box">
+	<a class="global_53" href="javascript:;">联系客服</a>
+	<a class="global_53" href="javascript:;">免费体验</a>
+</div>
+	            <div id="qq_service" class="chattrans">
+            <div class="img top_img"><img src="img/df3eed8073.png"></div>
+            <ul style="border-color:#02CCBA;">
+                                    <li>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin"><img src="img/b09bb1678b.jpg" alt="Kevin"></a><br>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Kevin">Kevin</a>
+                    </li>
+                 
+                    </li>
+                            </ul>
+        </div>
+        </div>
+	</body>
+	</html>

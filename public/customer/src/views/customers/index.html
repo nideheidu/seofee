@@ -1,0 +1,261 @@
+
+<title>控制台</title>
+<style type="text/css">
+    .row .col.s4 {
+        width: 33.3333333333%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    }
+    .server-load .server-stat span {
+        font-size: 13px;
+        margin-top: 3px;
+        font-weight: 400;
+        color: #aaa;
+    }
+    .server-load>.server-stat {
+        display: inline-block;
+        margin-bottom: 5px;
+        padding-left: 0;
+        margin-top: 10px;
+    }
+    .row .col {
+        float: left;
+        box-sizing: border-box;
+        padding: 0 0.75rem;
+        min-height: 1px;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    } 
+    .server-load{
+        text-align: center;
+    }   
+</style>
+<!--<div class="layui-card layadmin-header">-->
+<!--    <div class="layui-breadcrumb" lay-filter="breadcrumb">-->
+<!--        <a lay-href="">控制台</a>-->
+<!--        &lt;!&ndash;<a><cite>主页</cite></a>&ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md10">
+        <div id="account" class="layui-row layui-col-space15" style="    margin-bottom: 0;">
+        
+        </div>
+
+        <div class="layui-col-sm12 layui-col-md6" style="    padding-right: 7.5px;padding-top: 7.5px;">
+            <div class="layui-card">
+                <div class="layui-card-header">关键词统计</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog" >
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10" id="keywords-card">
+                                
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md6" style="    padding-left: 7.5px;padding-top: 7.5px;">
+            <div class="layui-card">
+                <div class="layui-card-header">搜索引擎</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog" >
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10 layui-this" id="searchEngine-card">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md9" style="    padding-right: 7.5px;padding-top: 7.5px;">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    任务达标走标图
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea">
+                                <div carousel-item id="LAY-index-taskline">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md3" style="    padding-left: 7.5px;padding-top: 7.5px;">
+            <div class="layui-card">
+                <div class="layui-card-header">任务概览</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog" >
+                        <div carousel-item="">
+                            <ul class="layui-row layui-col-space10" id="task-card">
+                                
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="layui-col-sm12 layui-col-md2">
+        <div class="layui-card">
+            <div class="layui-card-header">系统公告</div>
+            <div class="layui-card-body">
+              <ul class="layuiadmin-card-status layuiadmin-home2-usernote" style="padding:0;" id="notice">
+                
+              </ul>
+            </div>
+        </div>
+    </div>    
+  </div>
+</div>
+
+<script  id="layuiCardTpl" type="text/html">
+    {{#  layui.each(d, function(index, item){ }}
+    <li class="layui-col-xs4">
+        <a class="layadmin-backlog-body">
+            <h3>{{item.title}}</h3>
+            <p>
+                <cite>{{item.value}}</cite> 
+                {{#  if(item.rate){ }}
+                    <span class="layuiadmin-span-color">达标率&nbsp;{{item.rate}}% </span>
+                {{#  } }}
+                
+            </p>
+            
+        </a>
+    </li>
+    {{# }) }}
+</script>
+
+<script  id="layuiAccountdTpl" type="text/html">
+    {{#  layui.each(d, function(index, item){ }}
+    <div class="layui-col-sm6 layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          {{item.title}}
+          <!-- <span class="layui-badge layui-bg-blue layuiadmin-badge">周</span> -->
+        </div>
+        <div class="layui-card-body layuiadmin-card-list">
+          <p class="layuiadmin-big-font">￥{{item.value}}</p>
+         
+        </div>
+      </div>
+    </div>
+    {{# }) }}
+</script>
+<script  id="layuiNoticeTpl" type="text/html">
+    {{#  layui.each(d, function(index, item){ }}
+    <li>
+      <h4>
+        {{#  if(!item.lid){ }}
+            <span class="layui-badge-dot" ></span>
+        {{#  } }}
+        
+        【{{item.group_name}}】{{item.title}}
+        </h4>
+      <p>{{item.desction}}</p>
+      <span>{{item.create_time}}</span>
+      <a href="javascript:;" layadmin-event="checkNotice" data-id="{{item.id}}" class="layui-btn layui-btn-xs layuiadmin-reply">查看</a>
+    </li>
+    {{# }) }}
+</script>
+<script>
+layui.use('sample', layui.factory('sample')).use(['admin', 'sample', 'table','setter','element','laytpl'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,laytpl = layui.laytpl
+            ,request = setter.request
+            ,element = layui.element
+
+        //提交审核
+        admin.req({
+            url: '/v1/get_user_money_info' //实际使用请改成服务端真实接口
+            ,type:'post'
+            ,done: function( res ){
+                //请求成功后，写入 access_token
+                //登入成功的提示与跳转
+                var accountTpl = layuiAccountdTpl.innerHTML;
+                var accountView = document.getElementById('account');
+                laytpl(accountTpl).render(res.data.account,function (html) {
+                    accountView.innerHTML = html;
+                }); 
+
+                var noticeTpl = layuiNoticeTpl.innerHTML;
+                var noticeView = document.getElementById('notice');
+                laytpl(noticeTpl).render(res.data.notice,function (html) {
+                    noticeView.innerHTML = html;
+                }); 
+
+                var keywrodsTpl = layuiCardTpl.innerHTML;
+                var keywrodsview = document.getElementById('keywords-card');
+                laytpl(keywrodsTpl).render(res.data.keywords,function (html) {
+                    keywrodsview.innerHTML = html;
+                });
+
+                var searchEngineTpl = layuiCardTpl.innerHTML;
+                var searchEngineview = document.getElementById('searchEngine-card');
+                laytpl(searchEngineTpl).render(res.data.searchEngine,function (html) {
+                    searchEngineview.innerHTML = html;
+                });
+
+                var taskTpl = layuiCardTpl.innerHTML;
+                var taskview = document.getElementById('task-card');
+                laytpl(taskTpl).render(res.data.task,function (html) {
+                    taskview.innerHTML = html;
+                });
+
+                
+                
+            }
+        });
+
+        admin.events.checkNotice = function(e) {
+            var id = e.data("id");
+
+            admin.req({
+                url: '/v1/notice'
+                ,type:'get'
+                ,data:{id:id}
+                ,done: function( res ){
+                    layer.open({
+                      type: 1,
+                      area: ['700px', '400px'], //宽高
+                      title: res.notice.title,
+                      content: '<div class="layui-card-body">'+res.notice.content+'</div>' 
+                    });
+                }
+            });
+            
+        }
+    });
+</script>
