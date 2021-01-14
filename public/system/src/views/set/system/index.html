@@ -1,0 +1,177 @@
+<title>系统设置</title>
+<style type="text/css">
+    .layui-form-item .layui-form-label {
+        width: 250px!important;
+    }
+    .layui-form-item .layui-input-inline {
+        max-width: 80%;
+        width: auto;
+        min-width: 260px;
+    }
+    .layui-form-mid {
+        padding: 0!important;
+    }
+    .layui-form-mid {
+        font-size: 12px!important;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>系统设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">系统设置</div>
+                <div class="layui-card-body" pad15>
+                    <div class="layui-tab" lay-filter="setTab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" lay-id="base">网站设置</li>
+                        </ul>
+                        <div class="layui-tab-content" id="setContentBox">
+                            <script type="text/html"  template lay-url="/admin/system/base">
+                                <div class="layui-tab-item layui-show">
+                                    <div class="layui-form layui-form-pane"  wid100 lay-filter="layuiadmin-set-system-list" id="layuiadmin-set-system-list" >
+                                        <div class="layui-form-item">
+                                        {{#  layui.each(d.data, function(index, item){ }}
+
+                                        {{#  if(item.type === 'input'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="id[{{item.id}}]" value="{{item.value}}" class="layui-input">
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+
+                                        {{#  if(item.type === 'textarea'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                <textarea rows="10"  class="layui-textarea" name="id[{{item.id}}]" autocomplete="off" placeholder="请填写{{item.title}}">{{item.value}}</textarea>
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+
+                                        {{#  if(item.type === 'array'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                <textarea rows="6" class="layui-textarea" name="id[{{item.id}}]" autocomplete="off" placeholder="请填写{{item.title}}">{{item.value}}</textarea>
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+                                        {{#  if(item.type === 'switch'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                <input type="checkbox" name="id[{{item.id}}]" value="1" lay-skin="switch" lay-text="{{item.options[1]}}|{{item.options[0]}}" {{ item.value ==1?'checked':'' }} >
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+
+                                        {{#  if(item.type === 'select'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                <select name="id[{{item.id}}]">
+                                                    {{#  layui.each(item.options, function(index, option){ }}
+                                                    <option value="{{index}}" {{ index ==item.value?'selected':'' }}>{{option}}</option>
+                                                    {{# }) }}
+                                                </select>
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+
+                                        {{#  if(item.type === 'radio'){ }}
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{{item.title}}</label>
+                                            <div class="layui-input-inline">
+                                                {{#  layui.each(item.option, function(index, option){ }}
+                                                <input type="radio" name="id[{{item.id}}]" value="{{index}}" title="{{option}}" {{ index ===item.value?'checked':'' }} >
+                                                {{# }) }}
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">{{item.tips}}</div>
+                                        </div>
+                                        {{#  } }}
+
+                                        {{#  if(item.type === 'checkbox'){ }}
+
+                                        {{#  } }}
+
+                                            <input type="hidden" name="type[{{item.id}}]" value="{{item.type}}">
+
+                                        {{# }) }}
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <!--<input type="hidden" class="field-id" name="id">-->
+                                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </script>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('set', layui.factory('set')).use(['admin','element','laytpl','form'],function () {
+        var element = layui.element
+            ,admin = layui.admin
+            ,form = layui.form
+            ,laytpl = layui.laytpl;
+
+        element.on('tab(setTab)', function(){
+            var _url = '/admin/system/'+this.getAttribute('lay-id');
+            var getTpl = setSystemTpl.innerHTML;
+            admin.req({
+                url: _url
+                ,done: function( res ){
+                    var view = document.getElementById('setContentBox');
+                    laytpl(getTpl).render(res,function (html) {
+                        view.innerHTML = html;
+                    });
+
+                }   
+            });
+
+        });
+
+        //监听提交
+        form.on('submit(formSubmit)', function (data) {
+            admin.req({
+                url: '/admin/system/edit'
+                ,type:"post"
+                ,data:data.field
+                ,done: function( res ){
+                    layer.msg(res.msg, {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    });
+                }
+            });
+        });
+        setTimeout( function(){ form.render('select');}, 1000)  //解决select渲染问题
+        
+    });
+</script>

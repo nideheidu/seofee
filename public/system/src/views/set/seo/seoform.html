@@ -1,0 +1,96 @@
+
+
+<div class="layui-form" lay-filter="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员等级</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="group_id" lay-verify="required" id="member_level" class="member_level">
+                    <option value="">请选会员等级</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最低指数</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="minnum" value="{{ d.params.minnum || '' }}" lay-verify="required" placeholder="请输入最低指数" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最高指数</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="maxnum" value="{{ d.params.maxnum || '' }}" lay-verify="required" placeholder="请输入最高指数" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">首页扣费</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="fee" value="{{ d.params.fee || '' }}" lay-verify="required" placeholder="请输入最高指数" autocomplete="off" class="layui-input" style="width: 160px;    float: left;">
+            <div class="layui-form-mid layui-word-aux"> &nbsp;&nbsp;&nbsp;&nbsp;排名1-10</div>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">次页扣费</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="fee2" value="{{ d.params.fee2 || '' }}" lay-verify="required" placeholder="请输入最高指数" autocomplete="off" class="layui-input" style="width: 160px;    float: left;">
+            <div class="layui-form-mid layui-word-aux"> &nbsp;&nbsp;&nbsp;&nbsp;排名11-20</div>
+            </script>
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}"  >
+        <input type="hidden" id="member_level_id" value="{{ d.params.group_id || '' }}">
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-user-role-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'form'], function(){
+        var $ = layui.$
+            ,form = layui.form;
+
+
+        var setter = layui.setter
+            ,request = setter.request
+        $.ajax({
+          url: '/admin/getselect' 
+          ,type: 'get'
+          ,dataType: 'html'
+          ,headers:{
+            'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+          ,success: function(res){
+
+            res=$.parseJSON(res);
+            if (res.code) {
+                var html='<option value="">请选会员等级</option>';
+
+                for (var i = 0; i < res.data.length; i++) {
+                    if ($('#member_level_id').val() == res.data[i].id) {
+                        html+='<option value="'+res.data[i].id+'" selected>'+res.data[i].group_name+'</option>';
+                    }else{
+                        html+='<option value="'+res.data[i].id+'" >'+res.data[i].group_name+'</option>';
+                    }
+                }
+
+                $('#member_level').html(html);
+                form.render('select'); //解决第二个问题
+            }
+           }
+        })
+
+    });
+</script>

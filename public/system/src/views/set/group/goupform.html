@@ -1,0 +1,58 @@
+
+
+<div class="layui-form" lay-filter="layuiadmin-form-role" style="padding: 20px 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员组名</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" name="group_name" value="{{ d.params.group_name || '' }}" lay-verify="required" placeholder="请输入会员组名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">首页扣费</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="keyword_free" value="{{ d.params.keyword_free || '' }}" lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input" style="width: 160px;    float: left;">
+            
+            <div class="layui-form-mid layui-word-aux"> &nbsp;&nbsp;&nbsp;&nbsp;排名1-10</div>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">次页扣费</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="keyword_free2" value="{{ d.params.keyword_free2 || '' }}" lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input" style="width: 160px;    float: left;">
+            
+            <div class="layui-form-mid layui-word-aux"> &nbsp;&nbsp;&nbsp;&nbsp;排名11-20</div>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">具体描述</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <textarea type="text" name="descr" lay-verify="" autocomplete="off" class="layui-textarea">{{ d.params.descr || '' }}</textarea>
+            </script>
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}"  >
+        <input type="hidden" name="seo_free" value="{{ d.params.seo_free || '' }}"  >
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-user-role-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'form'], function(){
+        var $ = layui.$
+            ,form = layui.form;
+
+    });
+</script>

@@ -1,0 +1,105 @@
+
+
+<title>会员组设置</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>指数收费设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-role" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-user-back-role" lay-filter="LAY-user-back-role"></table>
+            <script type="text/html" id="buttonTpl">
+                {{#  if(d.check == true){ }}
+                <button class="layui-btn layui-btn-xs">已审核</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="table-useradmin-admin">
+                {{#  if(d.d_pid != -1){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+                {{#  } else { }}
+                    <a class="layui-btn layui-btn-xs" lay-event="add"><i class="layui-icon layui-icon-edit"></i>添加</a>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['seo'], layui.factory('seo')).use(['admin', 'seo', 'table','treetable'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,form = layui.form;
+
+        form.render(null, 'layadmin-useradminrole-formlist');
+
+        //搜索角色
+        form.on('select(LAY-user-adminrole-type)', function(data){
+            //执行重载
+            table.reload('LAY-user-back-role', {
+                where: {
+                    role: data.value
+                }
+            });
+        });
+
+        //事件
+        var active = {
+            add: function(){
+                admin.popup({
+                    title: '添加指数收费标准'
+                    ,area: ['500px', '480px']
+                    ,id: 'LAY-popup-user-add'
+                    ,success: function(layero, index){
+                        view(this.id).render('set/seo/seoform').done(function(){
+                            form.render(null, 'layuiadmin-form-role');
+
+                            //监听提交
+                            form.on('submit(LAY-user-role-submit)', function(data){
+                                var field = data.field; //获取提交的字段
+
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                admin.req({
+                                    url:'/admin/feeadd'
+                                    ,type:'post'
+                                    ,data:field
+                                    ,done:function (res) {
+                                        layer.msg(res.msg, {
+                                            offset: '15px'
+                                            ,icon: 1
+                                            ,time: 1000
+                                        },function () {
+                                            //layui.treetable.reload('LAY-user-back-role'); //重载表格
+                                            location.reload();
+                                            layer.close(index); //执行关闭
+                                        });
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+            }
+        }
+        $('.layui-btn.layuiadmin-btn-role').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>

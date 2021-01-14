@@ -1,0 +1,164 @@
+<title>支付设置</title>
+<style type="text/css">
+    .layui-form-item .layui-form-label {
+        width: 250px!important;
+    }
+    .layui-form-item .layui-input-inline {
+        max-width: 80%;
+        width: auto;
+        min-width: 260px;
+    }
+    .layui-form-mid {
+        padding: 0!important;
+    }
+    .layui-form-mid {
+        font-size: 12px!important;
+    }
+    .layui-upload-img {
+        height: 120px;
+        margin: 0 10px 10px 0;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>支付设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">充值设置</div>
+                <div class="layui-card-body" pad15>
+                    <div class="layui-fluid">
+                    
+                        <div class="layui-row layui-col-space15">
+                          <div class="layui-col-md12">
+                            <div class="layui-card">
+                              <div class="layui-card-header">显示图片</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  <button type="button" class="layui-btn" id="test-upload-normal">上传图片</button>
+                                  <script type="text/html"  template lay-url="/admin/system/recharge">
+                                  <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="test-upload-normal-img" src="{{d.data.value.image}}">
+                                    <p id="test-upload-demoText"></p>
+                                  </div>
+                                  
+                            </script>
+                                </div> 
+                                <!-- <blockquote class="layui-elem-quote">
+                                为节省服务器开销，以下示例均未配置真实上传接口，所以每次上传都会报提示：请求上传接口出现异常，这属于正常现象。 
+                                </blockquote>   --> 
+                              </div>
+                            </div>
+                            <script type="text/html"  template lay-url="/admin/system/recharge">
+                            <div class="layui-card">
+                              <div class="layui-card-header">提示文字</div>
+                              <div class="layui-card-body">
+                                <div class="layui-upload">
+                                  
+                                  <div class="layui-upload-list">
+                                    <input type="text" name="text" value="{{d.data.value.text}}" placeholder="请输入提示文字信息" class="layui-input">
+                                    <input type="hidden" name="image" value="{{d.data.value.image}}">
+                                  </div>
+                                </div> 
+                                <!-- <blockquote class="layui-elem-quote">
+                                为节省服务器开销，以下示例均未配置真实上传接口，所以每次上传都会报提示：请求上传接口出现异常，这属于正常现象。 
+                                </blockquote>    -->
+                              </div>
+                            </div>
+
+                            </script>
+                          </div>
+                          
+                          <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <!--<input type="hidden" class="field-id" name="id">-->
+                                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+                                </div>
+                            </div>
+                          
+                        </div>
+                  </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  layui.use(['admin', 'upload','setter','form'], function(){
+    var $ = layui.jquery
+    ,admin = layui.admin
+    ,setter = layui.setter
+    ,form = layui.form
+    ,request = setter.request
+    ,upload = layui.upload;
+  
+    //普通图片上传
+    var uploadInst = upload.render({
+      elem: '#test-upload-normal'
+      ,url: '/admin/system/upload'
+      ,headers:{
+            'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+        }
+      ,size: 800 //限制文件大小，单位 KB
+      ,before: function(obj){
+        //预读本地文件示例，不支持ie8
+        obj.preview(function(index, file, result){
+          $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+        });
+      }
+      ,done: function(res){
+        if(res.url){
+          $('input[name="image"]').val(res.url);
+        }
+        else
+        {
+            return layer.msg('上传失败');
+        }
+      }
+      ,error: function(){
+        var demoText = $('#test-upload-demoText');
+        demoText.html('<span style="color: #FF5722;">上传失败</span> ');
+        
+      }
+    });
+    
+    form.on('submit(formSubmit)', function (data) {
+        var image = $('input[name="image"]').val();
+        var text = $('input[name="text"]').val();
+        if(image && text)
+        {
+            admin.req({
+                url: '/admin/system/editrecharge'
+                ,type:"post"
+                ,data:{image:image,text:text}
+                ,done: function( res ){
+                    layer.msg(res.msg, {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    });
+                }
+            });
+        }else {
+            layer.msg("请完善资料再提交", {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+            });
+        }
+        
+    });
+   
+
+  
+  });
+  </script>
