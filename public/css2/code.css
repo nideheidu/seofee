@@ -1,0 +1,51 @@
+#code_div{
+	/*
+	top: 50% !important;
+	left: 50% !important;
+	*/
+	left: 50%;
+	margin-left: -150px;
+	top: 50%;
+	margin-top: -112.5px;
+	border-radius: 10px;
+	background-color: white;
+	border: 2px solid #ccc;
+	width:400px;
+	height:300px;
+	position:relative;
+}
+
+
+#code_refresh{
+	cursor:pointer;
+	left: 50%;
+	display: block;
+	width: 47px;
+	height: 49px;
+	position:absolute;
+	margin-left: -22.5px;
+	bottom:-3px;
+	border-radius:10px;
+}
+
+
+.code_refresh_1{
+	background: url(../img/btn_1.png) no-repeat;
+}
+.code_refresh_2{
+	background: url(../img/btn_2.png) no-repeat;
+}
+.code_refresh_3{
+	background: url(../img/btn_3.png) no-repeat;
+}
+
+
+::selection {
+	background:#FC4B4B; 
+}
+::-moz-selection {
+	background:#FC4B4B; 
+}
+::-webkit-selection {
+	background:#FC4B4B; 
+}

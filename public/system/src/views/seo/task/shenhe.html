@@ -1,0 +1,325 @@
+
+
+<title>优化任务审核管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化任务审核管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keywords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!-- <div class="layui-inline">
+                    <label class="layui-form-label">网址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                    </div>
+                </div> -->
+                 <div id="view" class="layui-inline">
+        
+                </div>
+                <script id="ngines_select" type="text/html">
+                    <label class="layui-form-label">{{ d.title }}</label>
+                    <div class="layui-input-inline">
+                            <select name="search_ngines" lay-verify="search_ngines">
+                                <option value="">全部</option>
+                                {{#  layui.each(d.list, function(index, item){ }}
+                                    <option value="{{index}}">{{item}}</option>
+                                {{#  }); }}
+                                
+                            </select>
+                        
+                    </div>
+                </script>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchExamine">批量审核</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchRefuse">批量拒绝</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="addtask">添加关键词</button>
+            </div>
+            <div class="layui-tab" lay-filter="shenheStatus">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" data-type="1">待审核</li>
+                     <li data-type="5">未通过</li>
+                </ul>
+                <div class="layui-tab-content">
+
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-admin-task-shenhe" lay-filter="LAY-admin-task-shenhe"></table>
+                    </div>
+
+                </div>
+            </div>
+
+            <script type="text/html" id="buttonTpl">
+                {{#  if(d.status ==1){ }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" >待审核</button>
+                {{#  } else if(d.status ==2) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" style="color: green">审核通过</button>
+                {{#  } else if(d.status ==5) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" style="color: red">审核未通过</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">待审核</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="agetnbuttonTpl">
+                {{#  if(d.agent_status ==1){ }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" >待审核</button>
+                {{#  } else if(d.agent_status ==2) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" style="color: green">通过</button>
+                {{#  } else if(d.agent_status ==5) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs" style="color: red">审核未通过</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">待审核</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="userTpl">
+                {{#  d.company_name }}
+               
+            </script>
+
+            <script type="text/html" id="table-content-list">
+                {{#  if(d.agent_status ==1){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="orderinfo"><i class="layui-icon layui-icon-radio"></i>审核</a>
+                {{#  } else { }}
+                    {{#  if(d.status ==1){ }}
+                        等待平台审核                        
+                    {{#  } }}
+                {{#  } }}
+            </script>
+
+
+            <script type="text/html" id="ftpHostTpl">
+                {{#  if(!d.web_id){ }}
+                --
+                {{#  } else { }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="ftpInfo">查看</a>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('admintask_check', layui.factory('admintask_check')).use(['admin', 'admintask_check', 'table','setter','element','laytpl'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,form = layui.form;
+            
+        form.render(null, 'app-content-list');
+        //监听选项卡
+        element.on('tab(shenheStatus)', function(data){
+             //当前Tab标题所在的原始DOM元素
+            var _status = $(this).data('type');
+            table.reload('LAY-admin-task-shenhe', {
+                where: {status:_status}
+            });
+        });
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-admin-task-shenhe', {
+                where: field
+            });
+        });
+
+
+        var active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+
+                    //执行 Ajax 后重载
+                    /*
+                    admin.req({
+                      url: 'xxx'
+                      //,……
+                    });
+                    */
+                    table.reload('LAY-app-content-list');
+                    layer.msg('已删除');
+                });
+            }
+
+            //添加
+            ,add: function(othis){
+                admin.popup({
+                    title: '添加文章'
+                    ,area: ['550px', '550px']
+                    ,id: 'LAY-popup-content-add'
+                    ,success: function(layero, index){
+                        view(this.id).render('app/content/listform').done(function(){
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function(data){
+                                var field = data.field; //获取提交的字段
+
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                //$.ajax({});
+                                layui.table.reload('LAY-app-content-list'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        });
+                    }
+                });
+            }
+            ,batchExamine: function(othis){
+                var checkStatus = table.checkStatus('LAY-admin-task-shenhe')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定批量审核吗？', function(index) {
+
+                    admin.req({
+                      url: '/admin/task/examine'
+                        ,type:"post"
+                        ,data: {tid:_ids}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('审核成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-admin-task-shenhe');
+                            });
+                        }
+                    });
+
+                    
+                });
+            }
+            ,batchRefuse: function(othis){
+                var checkStatus = table.checkStatus('LAY-admin-task-shenhe')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定批量拒绝这些词吗？', function(index) {
+
+                    admin.req({
+                      url: '/admin/task/examine'
+                        ,type:"post"
+                        ,data: {tid:_ids,action:'refuse'}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-admin-task-shenhe');
+                            });
+                        }
+                    });
+
+                    
+                });
+            }
+            ,addtask:function(){
+                admin.popup({
+                title: '添加关键词'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('seo/task/add-form').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                           // console.log(field);return;
+                            //提交 Ajax 成功后，关闭当前弹层并重载表格
+
+                            var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                            admin.req({
+                                url: '/admin/task/add' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                },
+                                success:function(){
+                                    layer.close(index);
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        var data = { //数据
+          "title":"搜索引擎"
+          ,"list":setter.search_ngines
+        }
+        var getTpl = ngines_select.innerHTML
+        ,viewSearch = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+          viewSearch.innerHTML = html;
+        });
+        form.render(null, 'app-content-list');
+
+    });
+</script>

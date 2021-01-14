@@ -1,0 +1,105 @@
+
+
+<title>模拟点击</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>模拟点击</cite></a>
+        <a><cite>操作设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+           
+        <div class="layui-card">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">动作</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" placeholder="请输入命令名称" autocomplete="off" class="layui-input username">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                        </button>
+                    </div>
+                </div>
+            </div>
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="addCommand">添加动作</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('command', layui.factory('command')).use(['admin', 'command', 'table','setter','element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+
+        var active = {
+            //添加
+            addCommand: function (othis) {
+                admin.popup({
+                    title: '添加动作'
+                    , area: ['700px', '600px']
+                    , id: 'LAY-popup-command-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('simulation/command/add').done(function () {
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                if(field.status === "on"){
+                                    field.status = 1;
+                                }else {
+                                    field.status = 0;
+                                }
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                admin.req({
+                                    url: '/platform/customer/add'
+                                    ,type:"post"
+                                    ,data:field
+                                    ,done: function( res ){
+                                        //登入成功的提示与跳转
+                                        layer.msg(res.msg, {
+                                            offset: '15px'
+                                            ,icon: 1
+                                            ,time: 1000
+                                        },function () {
+                                            layui.table.reload('LAY-app-agent-list'); //重载表格
+                                            layer.close(index); //执行关闭
+                                        });
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        
+      
+
+    });
+</script>

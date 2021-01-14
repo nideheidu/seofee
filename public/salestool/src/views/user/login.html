@@ -1,0 +1,177 @@
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/css/common.css?v={{ layui.admin.v }}-1" media="all">
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/css/module/login.css?v={{ layui.admin.v }}-1" media="all">
+
+
+</script>
+<style>
+    /*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+    html {height: 100%}
+    body {background: url(/images/user/fee_login_bg.png) no-repeat;background-size: 1920px 1080px;background-position: 50% 0;background-color: #41A2F4;min-height: 100%;position: relative;font-family: "Microsoft Yahei", Tahoma, Arial;}
+    .layadmin-tabspage-none{overflow: hidden;}
+    .login-box{width: 1314px;margin: 200px auto 0;border-radius: 6px;position: absolute;-webkit-box-sizing: border-box;box-sizing: border-box;padding-left: 731px;background: url(/images/user/login_cover_1.png) no-repeat;background-size: 598px 376px;background-position: 70px 50%;background-color: #FFFFFF;overflow: hidden;left: 50%;top: 50%;margin-top: -342px;margin-left: -657px;}
+    .login-box:before{content: " ";display: block;width: 201px;height: 318px;background: url(/images/user/login_cover_2.png) no-repeat;background-size: 100% 100%;position: absolute;top: 0;right: 0;z-index: 1;}
+    .login-title{font-size: 32px;line-height: 40px;color: #128BF1;text-align: center;padding: 127px 0 22px;position: relative;z-index: 2;}
+    .login-form-box{padding: 0 34px;position: relative;z-index: 2;}
+    .login-item{width: autol;height: auto;line-height: unset;margin-top: 24px;border-bottom: 1px solid #CCCCCC;position: relative;}
+    .login-input{display: block;width: 100%;font-size: 22px;height: 66px;line-height: 66px;border: none;padding: 0;color: #333333;-webkit-appearance: none;background: none;padding-left: 58px;position: relative;z-index: 1;}
+    .login-submit{display: block;width: 327px;height: 46px;line-height: 46px;font-size: 22px;color: #FFFFFF;text-align: center;-webkit-appearance: none;;background: #128BF1;border-radius: 2px;margin: 87px auto 179px;}
+    .login-submit:hover{background: #0374d4;}
+    .account-item:before{content: " ";display: block;width: 24px;height: 28px;position: absolute;left: 8px;top: 50%;margin-top: -14px;background: url(/images/user/login_account_icon.png) no-repeat;background-size: 100% 100%;z-index: 2;}
+    .password-item:before{content: " ";display: block;width: 20px;height: 27px;position: absolute;left: 11px;top: 50%;margin-top: -14px;background: url(/images/user/login_password_icon.png) no-repeat;background-size: 100% 100%;}
+</style>
+<!-- header -->
+<div class="header-container">
+    <!--
+    <div class="banner-box">
+        <div class="top-nav header-main">
+            <div class="header default-transition-fast">
+                <div class="auto">
+                    <div class="header-logo" id="headerlogo">
+
+                    </div>
+                    <div class="header-nav" id="topMenuBox">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+</div>
+<!-- header end-->
+<div class="login-box pie-for-element layui-form" id="LAY-user-login">
+    <div class="login-title">用户登录</div>
+    <div class="login-form-box">
+        <div class="login-item account-item">
+            <input class="login-input" type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名"/>
+            <!-- <div id="emailAutoComplete" class="email-complete-list"></div> -->
+        </div>
+        <div class="login-item password-item">
+            <input class="login-input" type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" />
+        </div>
+    </div>
+
+    <button class="login-submit default-transition default-font" lay-submit lay-filter="LAY-user-login-submit">登 录</button>
+</div>
+
+<!-- buyFooter -->
+<!--
+<div class="buyfooter">
+    <div class="auto clearfix">
+        <div class="buyfooter-nav" id="bottomMenuBox">
+
+        </div>
+        <div class="footer-buyfooter" id="footerBox">
+
+        </div>
+    </div>
+</div>
+-->
+<script id="logo" type="text/html">
+    <a href="#/user/loginNew" class="logo hide-text" style="background-image: url({{ d.value.image }});"></a>
+
+</script>
+
+<script id="topMenu" type="text/html">
+    <ul class="">
+        {{#  layui.each(d, function(index, item){ }}
+        <li class="nav-2 header-nav-li">
+            <a href="{{item.value}}" target="_blank">{{item.title}}</a>
+        </li>
+        {{# }) }}
+    </ul>
+
+</script>
+<script id="carouselTpl" type="text/html">
+    {{#  layui.each(d, function(index, item){ }}
+
+    <div class="login-pattern pattern-1" style="background-image: url({{ item.value.image }});"></div>
+    {{# }) }}
+
+
+
+</script>
+
+<script id="bottomMenu" type="text/html">
+
+    {{#  layui.each(d, function(index, item){ }}
+    {{#  if(index === 0){ }}
+    <a class="first" href="{{item.value}}">{{item.title}}</a>
+    {{#  } else{ }}
+    <a href="{{item.value}}">{{item.title}}</a>
+    {{#  } }}
+
+    {{# }) }}
+
+</script>
+
+<script id="footerTpl" type="text/html">
+    <p>{{d.copyrightinfo.value}}</p>
+    <p>{{d.companyinfo.value}}</p>
+    <p>ICP备案：{{d.ipcinfo.value}}</p>
+
+</script>
+
+<script type="text/javascript">
+    layui.use(['admin', 'form', 'user','carousel','laytpl'], function(){
+        var $ = layui.$
+            ,setter = layui.setter
+            ,admin = layui.admin
+            ,form = layui.form
+            ,laytpl = layui.laytpl
+            ,carousel = layui.carousel //轮播
+            ,router = layui.router()
+            ,search = router.search;
+
+        form.render();
+
+        //提交
+        form.on('submit(LAY-user-login-submit)', function(obj){
+
+            //请求登入接口
+            admin.req({
+                url: '/salestool/user/login' //实际使用请改成服务端真实接口
+                ,type:'post'
+                ,data: obj.field
+                ,done: function( res ){
+                    //请求成功后，写入 access_token
+                    layui.data(setter.tableName, {
+                        key: setter.request.tokenName
+                        ,value: res.data.access_token
+                    });
+                    layui.data(setter.tableName, {
+                        key: 'user_role'
+                        ,value: res.data.role
+                    });
+                    layui.data(setter.tableName, {
+                        key: 'user_name'
+                        ,value: res.data.username
+                    });
+                    search.redirect = res.url;
+
+                    //登入成功的提示与跳转
+                    layer.msg('登入成功', {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    }, function(){
+                        location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                    });
+                }
+            });
+
+        });
+        function changeimg() {
+            var myimg = document.getElementById("LAY-user-get-vercode");
+            myimg.src = '/v1/verify.html?t='+ new Date().getTime()
+        }
+
+
+    });
+</script>

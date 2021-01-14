@@ -1,0 +1,31 @@
+<style> button, input, select, textarea {font-family: inherit; font-size: inherit; line-height: inherit; color: inherit; } span{margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline;} .zent-number-input-arrow, .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-countreduce {left: 1px; border-right: 1px solid #bbb; } .zent-input-wrapper {display: -webkit-box; display: -ms-flexbox; display: flex; position: relative; height: 38px; max-height: 38px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper .zent-input {padding: 0 35px; text-align: center; } .zent-input[type=text]{display: inline-block; -webkit-box-flex: 1; -ms-flex: 1; flex: 1; min-width: 80px; height: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; padding: 0 10px; margin: 0; border: 1px solid #bbb; color: #333; font-size: 12px; border-radius: 2px; -webkit-box-shadow: none; box-shadow: none; -webkit-transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; -webkit-appearance: none; -moz-appearance: none; appearance: none; } .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-countadd {right: 1px; border-left: 1px solid #bbb; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper {width: 108px; } .layui-form input[type=checkbox], .layui-form input[type=radio], .layui-form select{display: block;height: 38px;line-height: 1.3; line-height: 38px;border-width: 1px;border-style: solid;background-color: #fff;border-radius: 2px;}</style>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-app-task-edit" id="layuiadmin-app-task-edit"style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">纠正后排名:</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="new_rank"  value="{{ d.params.new_rank }}"  autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">处理状态</label>
+
+        <div class="layui-input-inline">
+
+            <select name="status" lay-verify="status" lay-filter="status" id="status">
+                <option value="" selected="">请选择</option>
+                <option value="1">待处理</option>
+                <option value="2">已处理（非首页）</option>
+                <option value="3">已拒绝（在首页）</option>
+            </select>
+
+        </div>
+    </div>
+
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id ||0 }}">
+    </script>
+</div>

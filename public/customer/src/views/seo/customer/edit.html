@@ -1,0 +1,73 @@
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+               {{ d.params.username || '' }}
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">重置密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password"   placeholder="请输入新密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span style="color: red;"></span>如果密码为空，表示不修改密码;
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="confirm_password"  placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系人</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+             {{ d.params.contacts || '' }}
+            </script>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">公司名称</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                {{ d.params.company_name || '' }}
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">余额</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template id="balanceTpl">
+               {{ d.params.balance || 0.00 }}
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+            <input type="checkbox" lay-verify="required" lay-filter="status" {{ d.params.status === 1 ? 'checked' : '' }}  name="status" lay-skin="switch" lay-text="正常|禁用">
+            </script>
+            </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="uid" value="{{ d.params.uid || '' }}">
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="layuiadmin-seo-customer-edit-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+

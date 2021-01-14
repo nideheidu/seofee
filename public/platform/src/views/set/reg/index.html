@@ -1,0 +1,177 @@
+
+<title>会员组设置</title>
+<style type="text/css">
+    .layui-form-item .layui-form-label {
+        width: 250px!important;
+    }
+    .layui-form-item .layui-input-inline {
+        max-width: 80%;
+        width: auto;
+        min-width: 260px;
+    }
+    .layui-form-mid {
+        padding: 0!important;
+    }
+    .layui-form-mid {
+        font-size: 12px!important;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>平台注册设置</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            
+            <div class="layui-form layui-form-pane"  wid100 lay-filter="layuiadmin-set-default-group" id="layuiadmin-set-default-group" >
+                <div class="layui-form-item"> 
+                    <label class="layui-form-label">默认会员组</label> 
+                    <div class="layui-input-inline"> 
+                        <div class="layui-input-inline">
+            
+                                <select name="agent_id" lay-verify="agent_id" lay-filter="agent_id" id="agent_id">
+                                    <option value=""></option>
+                                </select>
+                            
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="group_id" lay-verify="group_id" id="group_id">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="layui-form-mid layui-word-aux">新用户注册未填推荐号，默认分配到的会员组</div> 
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <!--<input type="hidden" class="field-id" name="id">-->
+                        <button type="submit" class="layui-btn" lay-submit="" lay-filter="formSubmit">提交</button>
+                    </div>
+                </div>
+            </div>
+           
+           
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['seo'], layui.factory('seo')).use(['admin', 'seo', 'table'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,form = layui.form;
+        var layer_index;    
+        form.on('select(agent_id)', function(data){
+
+            getGroupList(data.value);
+ 
+        });
+        admin.req({
+            url: '/platform/agent/list' 
+            ,type:'get'
+            ,data: {'page':1,'limit':100,'action':'agent'}
+            ,done: function( res ){
+                data = res.data.data;
+                if(data.length > 0)
+                {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#agent_id").append("<option value="+data[i].id+">"+data[i].username+"</option>");  
+                        form.render('select');//表单重新渲染，要不然添加完显示不出来新的option
+                    }
+                }
+            }
+
+
+        });
+        layer_index = layer.load(1, {
+          shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        setTimeout(function(){
+            admin.req({
+                url: '/platform/group/getDefultGroup' 
+                ,type:'get'
+                ,data: {'page':1,'limit':100,'action':'agent'}
+                ,done: function( res ){
+                    if(res.data)
+                    {
+                        var agent_id = res.data.agent_id;
+                        var group_id = res.data.id;
+
+                        $("#agent_id").val(agent_id);
+                       
+                        getGroupList(agent_id,group_id);
+                    }
+                    else
+                    {
+                        layer.close(layer_index);
+                    }
+
+                    
+
+                    
+                }
+
+
+            });
+        },1000)
+        
+
+        //监听提交
+        form.on('submit(formSubmit)', function (data) {
+            admin.req({
+                url: '/platform/reg/edit'
+                ,type:"post"
+                ,data:data.field
+                ,done: function( res ){
+                    layer.msg(res.msg, {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    });
+                }
+            });
+        });
+
+        function getGroupList(agent_id,group_id=0)
+        {
+            admin.req({
+                url: '/platform/group/list' 
+                ,type:'get'
+                ,data: {'page':1,'limit':100,'agentid':agent_id}
+                ,done: function( res ){
+
+                    data = res.data.data;
+                    $("#group_id").find("option").remove();
+                    if(data.length > 0)
+                    {
+                        
+                        for (var i = 0; i < data.length; i++) {
+                            if(data[i].id == group_id)
+                            {
+                                $("#group_id").append("<option value="+data[i].id+" selected>"+data[i].group_name+"</option>");  
+                            }
+                            else
+                            {
+                                $("#group_id").append("<option value="+data[i].id+">"+data[i].group_name+"</option>");  
+                            }
+                            
+                        }
+                    }
+                    form.render('select');
+                    layer.close(layer_index);
+                }
+            });
+        }
+
+    });
+</script>

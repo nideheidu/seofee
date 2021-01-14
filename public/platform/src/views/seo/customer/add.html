@@ -1,0 +1,107 @@
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">代理商分组</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <select name="member_level" lay-verify="required" id="member_level" class="member_level">
+                    <option value="">请选会员等级</option>
+                    <option value="1" {{ d.params.member_level === '1' ? 'selected' : '' }}>普通会员</option>
+                    <option value="2" {{ d.params.member_level === '2' ? 'selected' : '' }}>高级会员</option>
+                </select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="username" value="{{ d.params.username || '' }}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span style="color: red;">*</span>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password"   placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span style="color: red;"></span>如果密码为空，默认密码为123456;
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-inline">
+                <input type="password" name="confirm_password"  placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系人</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="contacts" value="{{ d.params.contacts || '' }}" lay-verify="required" placeholder="请输入联系人" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <span style="color: red;">*</span>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">公司名称</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="company_name" value="{{ d.params.company_name || '' }}"   placeholder="请输入名客名称" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" lay-verify="required" lay-filter="status" name="status" lay-skin="switch" lay-text="正常|禁用">
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}">
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.define(['table', 'form'], function(exports){
+      var $ = layui.$
+      ,setter = layui.setter
+      ,request = setter.request
+      ,form = layui.form;
+        $.ajax({
+          url: '/platform/getselect' 
+          ,type: 'get'
+          ,dataType: 'html'
+          ,headers:{
+            'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+            }
+          ,success: function(res){
+
+            res=$.parseJSON(res);
+            if (res.code) {
+                var html='<option value="">请选会员等级</option>';
+                for (var i = 0; i < res.data.length; i++) {
+                    html+='<option value="'+res.data[i].id+'" >'+res.data[i].group_name+'</option>';
+                }
+                $('#member_level').html(html);
+                form.render('select'); //解决第二个问题
+            }
+           }
+        })
+    })
+</script>

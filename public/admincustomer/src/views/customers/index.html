@@ -1,0 +1,204 @@
+
+<title>控制台</title>
+<style type="text/css">
+    .row .col.s4 {
+        width: 33.3333333333%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    }
+    .server-load .server-stat span {
+        font-size: 13px;
+        margin-top: 3px;
+        font-weight: 400;
+        color: #aaa;
+    }
+    .server-load>.server-stat {
+        display: inline-block;
+        margin-bottom: 5px;
+        padding-left: 0;
+        margin-top: 10px;
+    }
+    .row .col {
+        float: left;
+        box-sizing: border-box;
+        padding: 0 0.75rem;
+        min-height: 1px;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    } 
+    .server-load{
+        text-align: center;
+    }   
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">控制台</a>
+        <!--<a><cite>主页</cite></a>-->
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    用户余额
+                    <span class="layui-badge layui-bg-blue layuiadmin-badge">总金额</span>
+                </div>
+                <div class="layui-card-body layuiadmin-card-list">
+                    <p class="layuiadmin-big-font sum"></p>
+                    <!--<p>-->
+                        <!--总金额-->
+                        <!--&lt;!&ndash;<span class="layuiadmin-span-color">88万 <i class="layui-icon">&#xe66c;</i></span>&ndash;&gt;-->
+                    <!--</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    今日消费
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">今日</span>
+                </div>
+                <div class="layui-card-body layuiadmin-card-list">
+                    <p class="layuiadmin-big-font todaysum"></p>
+                    <!--<p>-->
+                        <!--新下载-->
+                        <!--<span class="layuiadmin-span-color">10% <i class="layui-icon">&#xe650;</i></span>-->
+                    <!--</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    本月消费
+                    <span class="layui-badge layui-bg-green layuiadmin-badge">本月</span>
+                </div>
+                <div class="layui-card-body layuiadmin-card-list">
+
+                    <p class="layuiadmin-big-font monthsum"></p>
+                    <!--<p>-->
+                        <!--总收入-->
+                        <!--<span class="layuiadmin-span-color">*** <i class="layui-icon">&#xe659;</i></span>-->
+                    <!--</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    总消费
+                    <span class="layui-badge layui-bg-orange layuiadmin-badge">总消费</span>
+                </div>
+                <div class="layui-card-body layuiadmin-card-list">
+
+                    <p class="layuiadmin-big-font total_consumption"></p>
+                    <!--<p>-->
+                        <!--最近一个月-->
+                        <!--<span class="layuiadmin-span-color">15% <i class="layui-icon">&#xe770;</i></span>-->
+                    <!--</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    统计
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <div class="layui-col-md8">
+                            <div class="layui-card">
+                                <div class="layui-card-header">任务达标走标图</div>
+                                <div class="layui-card-body">
+
+                                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea">
+                                        <div carousel-item id="LAY-index-taskline">
+                                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-sm4">
+                            <div class="card-content">
+                            <span class="card-title">任务概览</span>
+                            <div class="server-load row" id="renwuBox" style="">
+                                <div class="server-stat col s4" id="clients">
+                                    <p class="allcount"></p>
+                                    <span>累计任务数</span>
+                                </div>
+                                <div class="server-stat col s4" id="agents">
+                                    <p class="recivecount">0</p>
+                                    <span>总达标数</span>
+                                </div>
+                                <div class="server-stat col s4" id="tasks">
+                                    <p class="stopcount">0</p>
+                                    <span>已停任务数</span>
+                                </div>
+                                <div class="server-stat col s4" id="currentTask">
+                                    <p class="scurrentcount">0</p>
+                                    <span>当前任务数</span>
+                                </div>
+                                <div class="server-stat col s4" id="todayReach">
+                                    <p>0</p>
+                                    <span>今日达标数</span>
+                                </div>
+                                <div class="server-stat col s4" id="todayNewReach">
+                                    <p class="scurrentrecivecount">0</p>
+                                    <span>今日新达标数</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+layui.use('sample', layui.factory('sample')).use(['admin', 'sample', 'table','setter','element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+
+
+        //提交审核
+        admin.req({
+            url: '/v1/get_user_money_info' //实际使用请改成服务端真实接口
+            ,type:'post'
+            ,done: function( res ){
+                //请求成功后，写入 access_token
+                //登入成功的提示与跳转
+                $('.sum').html("￥"+res.data.sum);
+                $('.todaysum').html("￥"+res.data.todaysum);
+                $('.monthsum').html("￥"+res.data.monthsum);
+                $('.total_consumption').html("￥"+res.data.total_consumption);
+                $('.allcount').html(res.data.allcount);
+                $('.recivecount').html(res.data.recivecount);
+                $('.stopcount').html(res.data.stopcount);
+                $('.scurrentcount').html(res.data.scurrentcount);
+                $('.scurrentrecivecount').html(res.data.scurrentrecivecount);
+                
+            }
+        });
+    });
+</script>

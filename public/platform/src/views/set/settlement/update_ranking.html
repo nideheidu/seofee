@@ -1,0 +1,53 @@
+
+
+<div class="layui-form" lay-filter="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员组名</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" name="group_name" value="{{ d.params.group_name || '' }}" lay-verify="required" placeholder="请输入会员组名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">达标金额</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="seo_free" value="{{ d.params.seo_free || '' }}" lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键字达标扣费</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+            <input type="text" name="keyword_free" value="{{ d.params.keyword_free || '' }}" lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">具体描述</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <textarea type="text" name="descr" lay-verify="" autocomplete="off" class="layui-textarea">{{ d.params.descr || '' }}</textarea>
+            </script>
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id || '' }}"  >
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="LAY-user-role-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['admin', 'form'], function(){
+        var $ = layui.$
+            ,form = layui.form;
+
+    });
+</script>

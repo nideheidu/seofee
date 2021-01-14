@@ -1,0 +1,175 @@
+<title>控制台</title>
+<style type="text/css">
+    .row .col.s4 {
+        width: 33.3333333333%;
+        margin-left: auto;
+        left: auto;
+        right: auto;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    }
+    .server-load .server-stat span {
+        font-size: 13px;
+        margin-top: 3px;
+        font-weight: 400;
+        color: #aaa;
+    }
+    .server-load>.server-stat {
+        display: inline-block;
+        margin-bottom: 5px;
+        padding-left: 0;
+        margin-top: 10px;
+    }
+    .row .col {
+        float: left;
+        box-sizing: border-box;
+        padding: 0 0.75rem;
+        min-height: 1px;
+    }
+    .server-load .server-stat p {
+        font-weight: 600;
+        font-size: 16px;
+        color: rgba(0,0,0,.6);
+    } 
+    .server-load{
+        text-align: center;
+    }   
+</style>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>关键词排名</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+       
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">任务历史排名走势图</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea">
+                        <div carousel-item id="LAY-index-taskline">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+ /**
+
+ @Name：layuiAdmin 主页示例
+ @Author：star1029
+ @Site：http://www.layui.com/admin/
+ @License：GPL-2
+    
+ */
+
+
+layui.define(['setter'], function(exports){
+  var admin = layui.admin
+  ,setter = layui.setter
+  ,router = layui.router()
+  ,request = setter.request;
+  var id = router.search.id;
+  layui.use(['admin', 'carousel'], function(){
+        var $ = layui.$
+        ,admin = layui.admin
+        ,carousel = layui.carousel
+        ,element = layui.element
+        ,device = layui.device();
+        var id = router.search.id;
+        $('.layadmin-carousel').each(function(){
+            var othis = $(this);
+            carousel.render({
+            elem: this
+                ,width: '100%'
+                ,arrow: 'none'
+                ,interval: othis.data('interval')
+                ,autoplay: othis.data('autoplay') === true
+                ,trigger: (device.ios || device.android) ? 'click' : 'hover'
+                ,anim: othis.data('anim')
+            });
+        });
+  });
+
+
+
+ 
+  layui.use(['carousel', 'echarts'], function(){
+    var $ = layui.$
+    ,carousel = layui.carousel
+    ,echarts = layui.echarts;
+
+    if(id)
+    {
+        admin.req({
+            url: '/admin/getrank' 
+            ,type:'post'
+            ,data:{'id':id}
+            ,success: function(res){
+                //堆积折线图
+                var echheapline = [], heapline = [
+                 {
+                      tooltip : {
+                          trigger: 'axis'
+                      },
+                      legend: {data:['排名']},
+                      calculable : true,
+                      xAxis : [
+                          {
+                              type : 'category',
+                              boundaryGap : false,
+                              data : res.data.date
+                          }
+                      ],
+                      yAxis: [
+                        {
+                            name: '排名',
+                            type: 'value',
+                            max: 100
+                        }
+                    ],
+                      series : [
+                          {
+                              name:'排名',
+                              type:'line',
+                              stack: '总量',
+                              smooth: true, seriesLayoutBy: 'row',
+                              data:res.data.data
+                          }
+                      ]
+                  }
+                ]
+                  ,elemheapline = $('#LAY-index-taskline').children('div')
+                  ,renderheapline = function(index){
+                  echheapline[index] = echarts.init(elemheapline[index], layui.echartsTheme);
+                  echheapline[index].setOption(heapline[index]);
+                  window.onresize = echheapline[index].resize;
+                };
+                if(!elemheapline[0]) return;
+                renderheapline(0);
+            }
+            ,error: function(e){
+            }
+        });
+    }
+  });
+
+
+});
+</script>

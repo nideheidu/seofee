@@ -1,0 +1,463 @@
+<title>优化任务</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化任务</cite></a>
+    </div>
+</div>
+
+
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="add"><i class="layui-icon layui-icon-add-circle-fine"></i>添加常规优化</button>
+                        <button class="layui-btn layuiadmin-btn-list" data-type="del"><i class="layui-icon layui-icon-delete"></i>删除</button>
+                        <!-- <button class="layui-btn layuiadmin-btn-list" data-type="delAll"><i class="layui-icon layui-icon-fonts-del"></i>清空</button> -->
+                        <!-- <button class="layui-btn layuiadmin-btn-list" data-type="addquick"><i class="layui-icon layui-icon-fonts-del"></i>快速添加</button> -->
+                    </div>
+
+                    <blockquote class="layui-elem-quote">
+                        <p>常规优化：正常优化方式，站内、站外都会优化，支持新站，请务必添加 后台及FTP，
+                            否则因此不能及时调整站内导致的无法优化、优化进度不能正常进行的一切后果自行承担。</p>
+                        <p>站外优化：优化方式为纯站外优化，可以7-30天快速上首页，要求网站关键词已经在搜索引擎前十页，否则优化会有很大几率失败。</p>
+                    </blockquote>
+                    <!--<div class="layui-tab layui-tab-card">-->
+                        <!--<ul class="layui-tab-title">-->
+                            <!--<li class="layui-this">待审核</li>-->
+                            <!--<li>被拒绝</li>-->
+                            <!--<li>权限分配</li>-->
+                            <!--<li>商品管理</li>-->
+                            <!--<li>订单管理</li>-->
+                        <!--</ul>-->
+
+                    <!--</div>-->
+                    <table id="LAY-app-seo-list" lay-filter="LAY-app-seo-list">
+
+                    </table>
+                    <script type="text/html" id="rankTpl">
+                         {{#  if(d.current_ranking < 10 && d.current_ranking >0){ }}
+                            <span style="color: red;">{{d.current_ranking}}</span>
+                        {{#  } else if(d.current_ranking ==101){ }}
+                            >100
+
+                        {{#  } else { }}
+                            {{d.current_ranking}}
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="buttonTpl">
+                        {{#  if(d.status == 0) { }}
+                                <span style="color: red;">未提交</span>
+                        {{#  } else if(d.status == 1) { }}
+                                <span style="color:#0da919;">审核中</span>
+                        {{#  } else if(d.status == 2) { }}
+                                <span style="color:#0da919;">任务进行中</span>
+                        {{#  } else if(d.status == 3) { }}
+                                <span style="color:#0da919;">已完成</span>
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="button-content">
+                        {{#  if(d.status == 0 ){ }}
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submits">提交</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+                            class="layui-icon layui-icon-edit"></i>编辑</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="editBalance"><i
+                            class="layui-icon layui-icon-edit"></i>删除</a>
+                        {{#  } else { }}
+                            {{#  if(d.over){ }}
+                                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stop">停止优化</a>
+                            {{#  } else { }}
+                                <a class="layui-btn layui-btn-normal layui-btn-xs" style="background-color: #b9c4cc;">未完成合作周期</a>
+                            {{#  } }}
+                        {{#  } }}
+                        
+                    </script>
+                    <script type="text/html" id="originalrankTpl">
+                        {{#  if(d.original_rank ==101){ }}
+                           >100
+                        {{#  } else { }}
+                            {{d.original_rank}}
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="feeTpl">
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="changgefee">{{ d.fee }}</a>
+                        
+                                
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md4">-->
+            <!--<div class="layui-card">-->
+                <!--<div class="layui-card-header">-->
+                    <!--已选择的关键词配置-->
+                <!--</div>-->
+                <!--<div class="layui-card-body">-->
+                    <!--<div id="checkbox"></div>-->
+                    <!--<div style="clear: both;"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+<script type="text/javascript">
+layui.use(['admin','table','form','setter'],function () {
+
+    var table = layui.table
+        ,view = layui.view
+        ,admin = layui.admin
+        ,form = layui.form
+        ,setter = layui.setter
+        ,request = setter.request
+        ,$ = layui.$;
+    
+    var keywrodTab = table.render({
+        elem:"#LAY-app-seo-list"
+        ,url: '/v1/task/list?status=2&shenhe_status=0' //模拟接口
+        ,headers:{
+           'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+        }
+        ,cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            ,{field: 'keywords', title: '关键词'}
+            ,{field: 'web_url', title: '网址',width:150,align:'center'}
+            ,{field: 'price', title: '单价'}
+            ,{field: 'search_ngines', title: '搜索引擎'}
+            ,{field: 'create_time', title: '提交时间',sort:true}
+            ,{field: 'original_rank', title: '初始排名',templet:'#originalrankTpl'}
+            ,{field: 'current_ranking', title: '当前排名',templet:'#rankTpl'}
+            ,{field: 'standard', title: '达标天数'}
+            ,{field: 'status', title: '状态', templet: '#buttonTpl', Width: 60, align: 'center',fixed: 'right',}
+            ,{field: 'cycle', title: '合作周期',templet:function (d ) {
+                    return  d.cycle + "天";
+                }}
+            // ,{field: 'status', title: '审核状态'}
+            ,{title: '操作', minWidth: 150, align: 'center', fixed: 'right', templet: '#button-content'}
+        ]]
+        ,parseData:function ( res ) {
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data.total, //解析数据长度
+                "data": res.data.data //解析数据列表
+            };
+        }
+        ,loading:true
+        ,page: true
+        ,limit: 20
+        ,limits: [30, 50, 100, 200, 500]
+        ,text:{none: '一条数据也没有^_^'}
+    });
+    //    $.ajax({
+    //     url: '/api/Cron/addtask',
+    //     type:'get',
+    //     success:function(data){
+    //         //keywrodTab.reload('LAY-app-seo-list');
+    //     }
+    // }); 
+    //提交审核
+    table.on('tool(LAY-app-seo-list)',function (obj) {
+        var data = obj.data;
+        if(obj.event == "add"){
+            layer.confirm('确定提交吗？', function(index) {
+                admin.req({
+                    url: '/v1/order/add' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {tid:data.id}
+                    ,done: function( res ){
+                        //请求成功后，写入 access_token
+                        //登入成功的提示与跳转
+                        layer.msg('操作成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-seo-list');
+                        });
+                    }
+                });
+
+            });
+        }else if(obj.event == "submits"){
+            layer.confirm('确定提交吗？', function(index) {
+                admin.req({
+                    url: '/v1/keyword/submit' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {tid:data.id}
+                    ,done: function( res ){
+                        //请求成功后，写入 access_token
+                        //登入成功的提示与跳转
+                        if (!res.id) {
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-app-seo-list');
+                            });
+                        }
+                        
+                    }
+                });
+
+            });
+        }else if(obj.event == "stop"){
+            layer.confirm('确定停止优化吗？', function(index) {
+                //执行 Ajax 后重载
+                admin.req({
+                    url: '/v1/keyword/stop'
+                    ,type:'post'
+                    ,data:{tid:data.id}
+                    ,done: function( res ){
+                        layer.msg(res.msg, {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        },function () {
+                            layui.table.reload('LAY-app-seo-list');
+                            layer.close(index); //执行关闭
+
+                        });
+                    }
+                });
+            });
+        }else if(obj.event == "changgefee"){
+            layer.prompt({
+                title: '修改指数扣费金额'
+            }, function(value, index){
+                if (isNaN(value)) {
+                    alert("请输入数字");
+                    return;
+                } else {
+                    admin.req({
+                        url: '/v1/keyword/changeFees'
+                        ,type:'post'
+                        ,data:{fee:value,id:data.id}
+                        ,done: function( res ){
+                            layer.msg("修改成功", {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-app-seo-list');
+                                layer.close(index); //执行关闭
+
+                            });
+                        }
+                    });  
+                }
+        });
+           /* layer.confirm('确定停止优化吗？', function(index) {
+                //执行 Ajax 后重载
+                admin.req({
+                    url: '/v1/keyword/stop'
+                    ,type:'post'
+                    ,data:{tid:data.id}
+                    ,done: function( res ){
+                        layer.msg(res.msg, {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        },function () {
+                            layui.table.reload('LAY-app-seo-list');
+                            layer.close(index); //执行关闭
+
+                        });
+                    }
+                });
+            });*/
+        }
+    })
+    var active = {
+        del: function () {
+            var checkStatus = table.checkStatus('LAY-app-seo-list')
+                , checkData = checkStatus.data; //得到选中的数据
+
+            if (checkData.length === 0) {
+                return layer.msg('请选择数据');
+            }
+
+            var _ids=[];
+            for (var i=0;i<checkData.length;i++){
+                _ids.push(checkData[i].id);
+            }
+            layer.confirm('确定删除吗？', function(index) {
+
+                //执行 Ajax 后重载
+
+                admin.req({
+                    url: '/v1/keyword/del.html'
+                    ,type:"post"
+                    ,data: {ids:_ids}
+                    ,done: function( res ){
+                        //登入成功的提示与跳转
+                        layer.msg('删除成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-query-ranking-list');
+                            //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        });
+                    }
+                });
+
+
+               // layer.msg('已删除');
+            });
+        }
+        //停止
+        ,stop: function(othis){
+                var checkStatus = table.checkStatus('LAY-admin-task-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要停止的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idsStr = ids.join(',',ids);
+                layer.confirm('确定停止吗？', function(index) {
+                    //执行 Ajax 后重载
+                    admin.req({
+                        url: '/admin/order/status'
+                        ,type:'post'
+                        ,data:{ids:idsStr,type:'stop'}
+                        ,done: function( res ){
+                            layer.msg(res.msg, {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-admin-task-list'); //重载表格
+                                layer.close(index); //执行关闭
+
+                            });
+                        }
+                    });
+                });
+
+            }
+        ,delAll:function () {
+            layer.confirm('确定删除所有吗？', function(index) {
+
+                //执行 Ajax 后重载
+
+                admin.req({
+                    url: '/v1/keyword/del.html'
+                    ,type:"post"
+                    ,data: {isdel:1}
+                    ,done: function( res ){
+                        //登入成功的提示与跳转
+                        layer.msg('删除成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-query-ranking-list');
+                            //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        });
+                    }
+                });
+
+
+                // layer.msg('已删除');
+            });
+        }
+        //快速添加
+        , addquick: function (othis) {
+            admin.popup({
+                title: '快速添加'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('customers/tasks/add-form-quick').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                           // console.log(field);return;
+                            //提交 Ajax 成功后，关闭当前弹层并重载表格
+                            admin.req({
+                                url: '/v1/keyword/addquick.html' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        }, add: function (othis) {
+            admin.popup({
+                title: '添加常规优化'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('customers/tasks/add-form').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                           // console.log(field);return;
+                            //提交 Ajax 成功后，关闭当前弹层并重载表格
+                            admin.req({
+                                url: '/v1/keyword/add.html' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        }
+    };
+
+    $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+})
+
+</script>

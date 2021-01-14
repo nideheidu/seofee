@@ -1,0 +1,89 @@
+<title>手动更新排名</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>手动更新排名</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>-->
+                <button class="layui-btn layuiadmin-btn-list" data-type="update">手动更新排名</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="settlement">手动结算</button>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('customerlist', layui.factory('customerlist')).use(['admin', 'customerlist', 'table'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , table = layui.table
+            , form = layui.form;
+
+        form.render(null, 'app-content-list');
+
+        
+
+        var active = {
+            //更新
+
+            update: function (othis) {
+                var index = layer.load(1, {
+                  shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                admin.req({
+                    url: '/api/Cron/updatetask'
+                    ,type:"post"
+                    ,data: {}
+                    ,done: function( res ){
+                        layer.msg(res.msg, {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    });
+                        layer.close(index);
+                    }
+                });
+                
+            }
+            //结算
+            ,settlement: function (othis) {
+                var index = layer.load(1, {
+                  shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                admin.req({
+                    url: '/api/Cron/settlementtask'
+                    ,type:"post"
+                    ,data: {}
+                    ,done: function( res ){
+                        layer.msg(res.msg, {
+                        offset: '15px'
+                        ,icon: 1
+                        ,time: 1000
+                    });
+                        layer.close(index);
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>

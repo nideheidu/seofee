@@ -1,0 +1,213 @@
+
+
+<title>优化任务审核管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化中任务管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keywords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!-- <div class="layui-inline">
+                    <label class="layui-form-label">网址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="weburl" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                    </div>
+                </div> -->
+                <div class="layui-inline">
+                    <label class="layui-form-label">搜索引擎</label>
+                    <div class="layui-input-inline">
+                        <select name="search_ngines">
+                            <option value="">全部</option>
+                            <option value="1">百度PC</option>
+                            <option value="2">百度移动</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-tab" lay-filter="orderStatus">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" data-type="1">优化中</li>
+                    <!-- <li data-type="2">停止优化</li>
+                    <li data-type="-1">全部</li> -->
+                </ul>
+                <div class="layui-tab-content">
+
+                    <div class="layui-tab-item layui-show">
+                        <div style="padding-bottom: 10px;" id="topBtnBox" >
+                            <!-- <button class="layui-btn layuiadmin-btn-list" data-type="stop"><i class="layui-icon layui-icon-pause"></i>停止优化</button> -->
+                           
+                        </div>
+                        <table id="LAY-admin-task-alllist" lay-filter="LAY-admin-task-alllist"></table>
+                    </div>
+
+                </div>
+            </div>
+            
+
+            <script type="text/html" id="buttonTpl">
+                {{#  if(d.status ==2){ }}
+                <button class="layui-btn layui-btn-xs">优化中</button>
+                {{#  } else if(d.status ==2) { }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">优化停止</button>
+                {{#  } else { }}
+                <button class="layui-btn  layui-btn-xs">未优化</button>
+                {{#  } }}
+            </script>
+
+
+            <script type="text/html" id="table-content-list">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="saveRank"><i class="layui-icon layui-icon-radio"></i>更新排名</a>
+                <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="saveRank"><i class="layui-icon layui-icon-radio"></i>停止优化</a> -->
+            </script>
+            <script type="text/html" id="ftpHostTpl">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="orderinfo">编辑</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update"><i class="layui-icon layui-icon-refresh"></i>更新</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="settlement"><i class="layui-icon layui-icon-rmb"></i>结算</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="stop" ><i class="layui-icon layui-icon-stop"></i>停止</a>
+            </script>
+    
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('admintask', layui.factory('admintask')).use(['admin', 'admintask', 'table','setter','element','laytpl'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,request = setter.request
+            ,element = layui.element
+            ,laytpl = layui.laytpl
+            ,form = layui.form;
+        	
+        form.render(null, 'app-content-list');
+        //监听选项卡
+        element.on('tab(orderStatus)', function(data){
+            //当前Tab标题所在的原始DOM元素
+            var _status = $(this).data('type');
+            table.reload('LAY-admin-task-alllist', {
+                where: {status:_status}
+            });
+            var getTpl = topBtnTpl.innerHTML
+                ,view = document.getElementById('topBtnBox');
+            laytpl(getTpl).render(_status, function(html){
+                view.innerHTML = html;
+            });
+            $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+        });
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-admin-task-alllist', {
+                where: field
+            });
+        });
+        table.on('checkbox(LAY-admin-task-alllist)', function(obj){
+              console.log(obj.checked); //当前是否选中状态
+              console.log(obj.data); //选中行的相关数据
+              console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        });
+
+        var active = {
+            //停止
+            stop: function(othis){
+                var checkStatus = table.checkStatus('LAY-admin-task-alllist')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要停止的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idsStr = ids.join(',',ids);
+                layer.confirm('确定停止吗？', function(index) {
+                    //执行 Ajax 后重载
+                    admin.req({
+                        url: '/admin/order/status'
+                        ,type:'post'
+                        ,data:{ids:idsStr,type:'stop'}
+                        ,done: function( res ){
+                            layer.msg(res.msg, {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-admin-task-alllist'); //重载表格
+                                layer.close(index); //执行关闭
+
+                            });
+                        }
+                    });
+                });
+
+            }
+            ,start: function(othis){
+                var checkStatus = table.checkStatus('LAY-admin-task-alllist')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择要启动的任务');
+                }
+                var ids=[];
+                for (var i=0;i<checkData.length; i++ ){
+                    ids.push(checkData[i].id);
+                }
+                var idsStr = ids.join(',',ids);
+                layer.confirm('确定启动吗？', function(index) {
+                    //执行 Ajax 后重载
+                    admin.req({
+                        url: '/admin/order/status'
+                        ,type:'post'
+                        ,data:{ids:idsStr,type:'start'}
+                        ,done: function( res ){
+                            layer.msg(res.msg, {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function () {
+                                layui.table.reload('LAY-admin-task-alllist'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        }
+                    });
+                });
+
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>

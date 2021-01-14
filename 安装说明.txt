@@ -1,0 +1,6 @@
+一、数据库：pm.sql
+二、nginx配置文件：default.conf
+三、虚拟域名：http://pm.cf.com.cn/  账号：yuxunSEO  密码：BFlb15e
+四、框架说明：
+1.php用的是thinkphp框架
+2.前端用的是layui

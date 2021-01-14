@@ -1,0 +1,319 @@
+
+
+<title>我的优化任务</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化任务</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+            </div>
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="query-rank-list">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">关键字</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="keywords" placeholder="可搜索关键字、网址、客户" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                   <!--  <div class="layui-inline">
+                        <label class="layui-form-label">网址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="weburl" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                        </div>
+                    </div> -->
+                    <div id="view" class="layui-inline">
+        
+                    </div>
+                    <script id="ngines_select" type="text/html">
+                        <label class="layui-form-label">{{ d.title }}</label>
+                        <div class="layui-input-inline">
+                                <select name="search_ngines" lay-verify="search_ngines">
+                                    <option value="">全部</option>
+                                    {{#  layui.each(d.list, function(index, item){ }}
+                                        <option value="{{index}}">{{item}}</option>
+                                    {{#  }); }}
+                                    
+                                </select>
+                            
+                        </div>
+                    </script>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab" lay-filter="status">
+                <ul class="layui-tab-title" >
+                    <li data-type="" class="layui-this">全部</li>
+                   <!--  <li data-type="0">查询中</li>
+                    <li data-type="1">已完成</li> -->
+                </ul>
+                <div class="layui-tab-content">
+
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-app-query-ranking-list" lay-filter="LAY-app-query-ranking-list"></table>
+                    </div>
+
+                </div>
+            </div>
+            <script type="text/html" id="rankTpl">
+                {{#  if(d.status==2){ }}
+                        {{# if(d.current_ranking==0){ }}
+                            >100
+                        {{#  } else { }}
+                            {{d.current_ranking}}
+                        {{#  } }}
+                {{#  } else { }}
+                        --
+                {{#  } }}
+            </script>
+            <script type="text/html" id="buttonTpl">
+                {{#  if(d.status == 0) { }}
+                        <span style="color: red;">未提交</span>
+                {{#  } else if(d.status == 1) { }}
+                        <span style="color:#0da919;">审核中</span>
+                {{#  } else if(d.status == 2) { }}
+                        <span style="color:#0da919;">任务进行中</span>
+                {{#  } else if(d.status == 3) { }}
+                        <span style="color:#0da919;">申请停止</span>
+                {{#  } else if(d.status == 4) { }}
+                        <span style="color:#0da919;">已停止</span>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="button-content">
+                {{#  if(d.status == 1 ){ }}
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submits">通过审核</a>
+                {{#  } else if(d.status == 3) { }}
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submitstop">同意停止</a>
+                {{#  } }}
+                <a class="layui-btn layuiadmin-btn-list layui-btn-xs" lay-event="batchdel" >删除</a>
+            </script>
+            <script type="text/html" id="ftpHostTpl">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="ftpInfo">查看</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('querystoplist', layui.factory('querystoplist')).use(['admin', 'querystoplist', 'table','setter','element'], function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,view = layui.view
+            ,table = layui.table
+            ,setter = layui.setter
+            ,laytpl = layui.laytpl
+            ,request = setter.request
+            ,element = layui.element
+            ,form = layui.form;
+        form.render(null,'query-rank-list');
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+                var field = data.field;
+                    //执行重载
+                 table.reload('LAY-app-query-ranking-list', {
+                        where: field
+                });
+        });
+        //监听选项卡
+        element.on('tab(status)', function(data){
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            var _status = $(this).data('type');
+            table.reload('LAY-app-query-ranking-list', {
+                where: {status:_status}
+            });
+        });
+        //提交审核
+        table.on('tool(LAY-app-query-ranking-list)',function (obj) {
+            var data = obj.data;
+            console.log(obj);
+            if(obj.event == "submits"){
+                layer.confirm('确定提交吗？', function(index) {
+                    admin.req({
+                        url: '/admin/keywords/submit' //实际使用请改成服务端真实接口
+                        ,type:'post'
+                        ,data: {tid:data.id}
+                        ,done: function( res ){
+                            //请求成功后，写入 access_token
+                            //登入成功的提示与跳转
+                            if (!res.id) {
+                                layer.msg('操作成功', {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                }, function(){
+                                    table.reload('LAY-app-query-ranking-list');
+                                });
+                            }
+                            
+                        }
+                    });
+                });
+            }else if(obj.event === 'ftpInfo'){
+                admin.popup({
+                    title: 'FTP后台详情'
+                    ,area: ['550px', '550px']
+                    ,id: 'LAY-popup-content-edit'
+                    ,success: function(layero, index){
+                        view(this.id).render('seo/task/ftpinfo', data.web_id).done(function(){
+                            form.render(null, 'layuiadmin-app-form-list');
+                        });
+                    }
+                });
+            }else if(obj.event === 'submitstop'){
+                layer.confirm('确定提交吗？', function(index) {
+                    admin.req({
+                        url: '/admin/keywords/submitstop' //实际使用请改成服务端真实接口
+                        ,type:'post'
+                        ,data: {tid:data.id}
+                        ,done: function( res ){
+                            //请求成功后，写入 access_token
+                            //登入成功的提示与跳转
+                            if (!res.id) {
+                                layer.msg('操作成功', {
+                                    offset: '15px'
+                                    ,icon: 1
+                                    ,time: 1000
+                                }, function(){
+                                    table.reload('LAY-app-query-ranking-list');
+                                });
+                            }
+                            
+                        }
+                    });
+                });
+            }else if(obj.event === 'batchdel'){
+                layer.confirm('确定删除吗？', function(index) {
+
+                    //执行 Ajax 后重载
+
+                    admin.req({
+                      url: '/platform/Keywords/del'
+                        ,type:"post"
+                        ,data: {ids:data.id}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('删除成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                            });
+                        }
+                    });
+
+                    table.reload('LAY-app-query-ranking-list');
+                    layer.msg('已删除');
+                });
+            }
+        })
+        var active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-query-ranking-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+                var _ids=[];
+                for (var i=0;i<checkData.length;i++){
+                    _ids.push(checkData[i].id);
+                }
+                layer.confirm('确定删除吗？', function(index) {
+
+                    //执行 Ajax 后重载
+
+                    admin.req({
+                      url: '/platform/Keywords/del'
+                        ,type:"post"
+                        ,data: {ids:_ids}
+                        ,done: function( res ){
+                            //登入成功的提示与跳转
+                            layer.msg('删除成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                            });
+                        }
+                    });
+
+                    table.reload('LAY-app-query-ranking-list');
+                    layer.msg('已删除');
+                });
+            }
+
+            //添加
+            ,add: function(othis){
+                admin.popup({
+                    title: '添加关键字'
+                    ,area: ['550px', '550px']
+                    ,id: 'LAY-popup-content-add'
+                    ,success: function(layero, index){
+                        view(this.id).render('query/rankadd').done(function(){
+                            form.render(null, 'layuiadmin-query-form-rank');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function(data){
+                                var field = data.field; //获取提交的字段
+
+                                var confirmIndex = layer.confirm('添加一个任务，或扣5积分，确定要添加吗？', {
+                                    btn: ['取消 ', '确定'] //可以无限个按钮
+                                }, function(index, layero){
+                                    layer.close(confirmIndex);
+                                }, function(index){
+                                    admin.req({
+                                        url: '/v1/keywordrank/add' //实际使用请改成服务端真实接口
+                                        ,type:'post'
+                                        ,data: field
+                                        ,done: function( res ){
+                                            console.log(res);
+                                            layer.msg('添加成功', {
+                                                offset: '15px'
+                                                ,icon: 1
+                                                ,time: 1000
+                                            });
+                                        }
+                                    });
+                                    layer.close(index); //执行关闭
+                                    layui.table.reload('LAY-app-query-ranking-list'); //重载表格
+                                });
+
+
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        var data = { //数据
+          "title":"搜索引擎"
+          ,"list":setter.search_ngines
+        }
+        var getTpl = ngines_select.innerHTML
+        ,viewxx = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+          viewxx.innerHTML = html;
+        });
+        form.render(null, 'query-rank-list');
+    });
+</script>

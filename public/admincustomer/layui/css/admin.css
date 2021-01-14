@@ -1,0 +1,10 @@
+#form-icon-preview {
+    float: left;
+    width: 34px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 30px!important;
+    border: 1px solid #e6e6e6;
+    text-align: center;
+    border-radius: 3px;
+}

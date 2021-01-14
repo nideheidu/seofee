@@ -1,0 +1,536 @@
+<title>优化任务</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>优化任务</cite></a>
+    </div>
+</div>
+
+
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-list" data-type="add"><i class="layui-icon layui-icon-add-circle-fine"></i>添加常规优化</button>
+                        <button class="layui-btn layuiadmin-btn-list" data-type="addquick"><i class="layui-icon layui-icon-add-circle-fine"></i>快速站外优化</button>
+						<button class="layui-btn layuiadmin-btn-list" data-type="del"><i class="layui-icon layui-icon-delete"></i>批量删除</button>
+                        <button class="layui-btn layuiadmin-btn-list" data-type="batchsubmit"><i class="layui-icon layui-icon-submit"></i>批量提交</button>
+<!--                         <button class="layui-btn layuiadmin-btn-list" data-type="delAll"><i class="layui-icon layui-icon-fonts-del"></i>清空</button>
+ -->                        
+                    </div>
+
+                    <blockquote class="layui-elem-quote">
+                        <p>常规优化：正常优化方式，站内、站外都会优化，支持新站，请务必添加 后台及FTP，
+                            否则因此不能及时调整站内导致的无法优化、优化进度不能正常进行的一切后果自行承担。</p>
+                        <p>站外优化：优化方式为纯站外优化，可以7-30天快速上首页，要求网站关键词已经在搜索引擎前十页，否则优化会有很大几率失败。</p>
+                    </blockquote>
+                    <!--<div class="layui-tab layui-tab-card">-->
+                        <!--<ul class="layui-tab-title">-->
+                            <!--<li class="layui-this">待审核</li>-->
+                            <!--<li>被拒绝</li>-->
+                            <!--<li>权限分配</li>-->
+                            <!--<li>商品管理</li>-->
+                            <!--<li>订单管理</li>-->
+                        <!--</ul>-->
+
+                    <!--</div>-->
+                    <table id="LAY-app-seo-list" lay-filter="LAY-app-seo-list">
+
+                    </table>
+                    <script type="text/html" id="rankTpl">
+                        {{#  if(d.status==2 || d.status==3){ }}
+                                {{# if(d.current_ranking==0){ }}
+                                    >100
+                                {{#  } else { }}
+                                    {{d.current_ranking}}
+                                {{#  } }}
+                        {{#  } else { }}
+                                --
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="originalrankTpl">
+                        {{#  if(d.original_rank == 0){ }}
+                                (更新中)
+                        {{#  } else { }}
+                                {{ d.original_rank }}
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="buttonTpl">
+                        {{#  if(d.status == 0) { }}
+                                <span style="color: red;">未提交</span>
+                        {{#  } else if(d.status == 1) { }}
+                                <span style="color:#0da919;">审核中</span>
+                        {{#  } else if(d.status == 2) { }}
+                                <span style="color:#0da919;">任务进行中</span>
+                        {{#  } else if(d.status == 3) { }}
+                                <span style="color:#0da919;">已完成</span>
+                        {{#  } else if(d.status == 5) { }}
+                                <span style="color:#0da919;">审核未通过</span>
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="button-content">
+                        {{#  if(d.status == 0 ){ }}
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submits">提交</a>
+                            <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+                            class="layui-icon layui-icon-edit"></i>编辑</a> -->
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="update"><i
+                            class="layui-icon layui-icon-refresh"></i>更新</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i
+                            class="layui-icon layui-icon-delete"></i>删除</a>
+                        {{#  } else if(d.status == 5) { }}
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submits">重新提交</a>
+                            
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i
+                            class="layui-icon layui-icon-delete"></i>删除</a>
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="originalrankTpl">
+                        {{#  if(d.original_rank == 0){ }}
+                                (更新中)
+                        {{#  } else { }}
+                                {{ d.original_rank }}
+                        {{#  } }}
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md4">-->
+            <!--<div class="layui-card">-->
+                <!--<div class="layui-card-header">-->
+                    <!--已选择的关键词配置-->
+                <!--</div>-->
+                <!--<div class="layui-card-body">-->
+                    <!--<div id="checkbox"></div>-->
+                    <!--<div style="clear: both;"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <input type="hidden" name="selectid" value="">
+</div>
+<script type="text/javascript">
+layui.use(['admin','table','form','setter'],function () {
+
+    var table = layui.table
+        ,view = layui.view
+        ,admin = layui.admin
+        ,form = layui.form
+        ,setter = layui.setter
+        ,request = setter.request
+        ,$ = layui.$;
+    
+    var keywrodTab = table.render({
+        elem:"#LAY-app-seo-list"
+        ,url: '/v1/task/list?status=0&shenhe_status=0' //模拟接口
+        ,headers:{
+           'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+        }
+        ,cols: [[
+            {type: 'checkbox', fixed: 'left',field: 'id'}
+            ,{field: 'id', title: 'id'}
+            ,{field: 'keywords', title: '关键词'}
+            ,{field: 'fee', title: '指数扣费'}
+            ,{field: 'web_url', title: '网址',width:150,align:'center'}
+            ,{field: 'search_ngines', title: '搜索引擎'}
+            ,{field: 'create_time', title: '提交时间',sort:true}
+            ,{field: 'original_rank', title: '初始排名',templet:'#originalrankTpl'}
+            ,{field: 'current_ranking', title: '当前排名',templet:'#rankTpl'}
+            ,{field: 'status', title: '状态', templet: '#buttonTpl', Width: 60, align: 'center',fixed: 'right',}
+            ,{field: 'cycle', title: '合作周期',templet:function (d ) {
+                    return  d.cycle + "天";
+                }}
+            // ,{field: 'status', title: '审核状态'}
+            ,{title: '操作', minWidth: 190, align: 'center', fixed: 'right', templet: '#button-content'}
+        ]]
+        ,parseData:function ( res ) {
+            return {
+                "code": res.code, //解析接口状态
+                "msg": res.msg, //解析提示文本
+                "count": res.data.total, //解析数据长度
+                "data": res.data.data //解析数据列表
+            };
+        }
+        ,loading:true
+        ,page: true
+        ,limit: 20
+        ,limits: [30, 50, 100, 200, 500]
+        ,text:{none: '一条数据也没有^_^'}
+    });
+    //    $.ajax({
+    //     url: '/api/Cron/addtask',
+    //     type:'get',
+    //     success:function(data){
+    //         //todo
+    //         keywrodTab.reload('LAY-app-seo-list');
+    //         $("input[name='selectid']").val("");
+    //     }
+    // }); 
+    table.on('checkbox(LAY-app-seo-list)', function(obj){
+        //选择情况下
+        if (obj.checked == true){
+            // var html =$(this).parent().parent().parent().parent().html();
+            // console.log($(this).parent().parent().parent().attr("data-index"));
+            if ((obj.type == "one" && JSON.stringify(obj.data) == "{}") || (obj.type == "all")) {//全选
+                    //获取table所有的表单
+                    $("input[name='selectid']").val("");
+                    var rows = $(".layui-table")[1].rows;                           // 获取表格所有行
+                    for(var i = 0; i<rows.length; i++ ){
+                        var tempval=$("input[name='selectid']").val();
+                        if (tempval) {
+                            $("input[name='selectid']").val(tempval+","+rows[i].cells[1].innerText.replace(/[\r\n]/g, ""));
+                        }else{
+                            $("input[name='selectid']").val(rows[i].cells[1].innerText.replace(/[\r\n]/g, ""));
+                        }
+                    }
+            }else if(obj.type == "one"){
+                var val=$("input[name='selectid']").val();
+                if (val) {
+                    var arr=val.split(",",val);
+                    if ($.inArray(obj.data.id,arr) == -1) {
+                        $("input[name='selectid']").val(val+","+obj.data.id);
+                    }
+                }else{
+                    $("input[name='selectid']").val(obj.data.id);
+                }
+                
+                //console.log(obj.data.id);
+            }
+        }else{
+            if (JSON.stringify(obj.data) == "{}" && (obj.type == "all")) {//反选
+                $("input[name='selectid']").val("");
+            }else if(obj.type == "one"){
+                var val=$("input[name='selectid']").val();
+                if (val) {
+                    var arr=val.split(",");
+                    var valint="";
+                    if ($.inArray(obj.data.id.toString(),arr) != -1) {
+                        arr.splice($.inArray(obj.data.id.toString(),arr),1);
+                        for (var i = arr.length - 1; i >= 0; i--) {
+                            if (i==0) {
+                                valint+=arr[i];
+                            }else{
+                                valint+=arr[i]+",";
+                            }
+                        }
+                        console.log(valint);
+                        $("input[name='selectid']").val(valint);
+                    }
+                }
+                //console.log(obj.data.id);
+            }
+        }
+    });
+    //提交审核
+    table.on('tool(LAY-app-seo-list)',function (obj) {
+        var data = obj.data;
+
+        if(obj.event == "add"){
+            layer.confirm('确定提交吗？', function(index) {
+                admin.req({
+                    url: '/v1/order/add' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {tid:data.id}
+                    ,done: function( res ){
+                        //请求成功后，写入 access_token
+                        //登入成功的提示与跳转
+                        layer.msg('操作成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-seo-list');
+                        });
+                    }
+                });
+
+            });
+        }else if(obj.event == "submits"){
+            layer.confirm('确定提交吗？', function(index) {
+                admin.req({
+                    url: '/v1/keyword/submit' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {tid:data.id}
+                    ,done: function( res ){
+                        //请求成功后，写入 access_token
+                        //登入成功的提示与跳转
+                        if (!res.id) {
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-app-seo-list');
+                            });
+                        }
+                        
+                    }
+                });
+
+            });
+        }else if(obj.event == "delete"){
+            layer.confirm('确定要删除吗？', function(index) {
+                admin.req({
+                    url: '/v1/keyword/delete' 
+                    ,type:'post'
+                    ,data: {id:data.id}
+                    ,done: function( res ){
+                        //请求成功后，写入 access_token
+                        //登入成功的提示与跳转
+                        if (!res.id) {
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                table.reload('LAY-app-seo-list');
+                            });
+                        }
+                        
+                    }
+                });
+
+            });
+        }
+    })
+
+    var active = {
+        del: function () {
+            var checkStatus = table.checkStatus('LAY-app-seo-list')
+                , checkData = checkStatus.data; //得到选中的数据
+
+            if (checkData.length === 0) {
+                return layer.msg('请选择数据');
+            }
+
+            var _ids=[];
+            for (var i=0;i<checkData.length;i++){
+                _ids.push(checkData[i].id);
+            }
+            layer.confirm('确定删除吗？', function(index) {
+
+                //执行 Ajax 后重载
+
+                admin.req({
+                    url: '/v1/keyword/del.html'
+                    ,type:"post"
+                    ,data: {ids:_ids}
+                    ,done: function( res ){
+                        //登入成功的提示与跳转
+                        layer.msg('删除成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-query-ranking-list');
+                            //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        });
+                    }
+                });
+
+
+               // layer.msg('已删除');
+            });
+        },
+        batchsubmit: function () {
+            var checkStatus = table.checkStatus('LAY-app-seo-list')
+                , checkData = checkStatus.data; //得到选中的数据
+
+            if (checkData.length === 0) {
+                return layer.msg('请选择数据');
+            }
+
+            var _ids=[];
+            for (var i=0;i<checkData.length;i++){
+                _ids.push(checkData[i].id);
+            }
+            layer.confirm('确定提交所选数据吗？', function(index) {
+
+                //执行 Ajax 后重载
+
+                admin.req({
+                    url: '/v1/keyword/batchsubmit'
+                    ,type:"post"
+                    ,data: {ids:_ids}
+                    ,done: function( res ){
+                        //登入成功的提示与跳转
+                        layer.msg('提交成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-query-ranking-list');
+                            //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        });
+                    }
+                });
+
+
+               // layer.msg('已删除');
+            });
+        }
+        
+        ,delAll:function () {
+            layer.confirm('确定删除所有吗？', function(index) {
+
+                //执行 Ajax 后重载
+
+                admin.req({
+                    url: '/v1/keyword/del.html'
+                    ,type:"post"
+                    ,data: {isdel:1}
+                    ,done: function( res ){
+                        //登入成功的提示与跳转
+                        layer.msg('删除成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            keywrodTab.reload('LAY-app-query-ranking-list');
+                            //  location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+                        });
+                    }
+                });
+
+
+                // layer.msg('已删除');
+            });
+        }
+        //快速添加
+        , addquick: function (othis) {
+            admin.popup({
+                title: '快速添加'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('customers/tasks/add-form-quick').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                            var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                            admin.req({
+                                url: '/v1/keyword/addquick.html' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                },
+                                success:function(){
+                                    layer.close(index);
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        },add: function (othis) {
+            admin.popup({
+                title: '添加常规优化'
+                , area: ['800px', '600px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('customers/tasks/add-form').done(function () {
+                        form.render(null, 'layuiadmin-app-task-add');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-app-task-submit)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                 field.keywords = field.keywords.replace(/\n/g,"|");
+                            var index = layer.msg('处理中...',{shade:[0.8, '#393D49'],time:60*60*1000});
+                            admin.req({
+                                url: '/v1/keyword/add.html' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                },
+                                success:function(){
+                                    layer.close(index);
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        }
+        , addfee: function (othis) {
+            admin.popup({
+                title: '更改价格'
+                , area: ['400px', '400px']
+                , id: 'LAY-popup-content-add'
+                , success: function (layero, index) {
+                    view(this.id).render('customers/tasks/addfeeform').done(function () {
+                        form.render(null, 'layuiadmin-app-task-addfee');
+
+                        //监听提交
+                        form.on('submit(layuiadmin-form-addfee)', function (data) {
+                            var field = data.field; //获取提交的字段
+                                field.id = $("input[name='selectid']").val();
+                           // console.log(field);return;
+                            //提交 Ajax 成功后，关闭当前弹层并重载表格
+                            admin.req({
+                                url: '/v1/keyword/changeFee.html' //实际使用请改成服务端真实接口
+                                ,type:'post'
+                                ,data: field
+                                ,done: function( res ){
+                                    //请求成功后，写入 access_token
+
+                                    //登入成功的提示与跳转
+                                    layer.msg('添加成功', {
+                                        offset: '15px'
+                                        ,icon: 1
+                                        ,time: 1000
+                                    }, function(){
+                                        window.location.reload();
+                                        //keywrodTab.reload('LAY-app-seo-list');
+                                        //layer.close(index); //执行关闭;
+                                    });
+                                }
+                            });
+
+                        });
+                    });
+                }
+            });
+        }
+    };
+     
+    $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+})
+
+</script>

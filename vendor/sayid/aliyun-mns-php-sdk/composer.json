@@ -1,0 +1,31 @@
+{
+    "name": "sayid/aliyun-mns-php-sdk",
+    "description": "gouuse core files",
+    "type": "library",
+    "version": "1.0.1",
+    "require": {
+         "php": ">=5.5",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "require-dev": {
+        
+    },
+    "autoload": {
+        "psr-4": {
+            "AliyunMNS\\": "AliyunMNS/"
+        }
+    },
+    "authors": [
+        {
+            "name": "zyb",
+            "email": "449063862@qq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.org"
+    }
+  }
+}

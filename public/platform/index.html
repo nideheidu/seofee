@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SEO优化-后台管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="layui/css/layui.css?v=202010120928" media="all">
+  <link rel="stylesheet" href="layui/css/admin.css" media="all">
+  <!--&lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;扩展图标-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+  <link rel="stylesheet" href="layui/css/modules/layui-icon-extend/iconfont.css" media="all">
+  <link rel="stylesheet" href="layui/css/modules/font-awesome/min.css" media="all">
+  <link rel="stylesheet" href="layui/css/modules/typicons/min.css" media="all">
+
+  <script>
+  /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+  </script>
+</head>
+<body>
+  <div id="LAY_app"></div>
+  <script src="layui/layui.js"></script>
+  <script>
+
+
+  layui.config({
+    base: 'src/' //指定 layuiAdmin 项目路径，本地开发用 src，线上用 dist
+    ,version: true
+  }).use('index');
+  </script>
+</body>
+</html>
+
+

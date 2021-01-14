@@ -1,0 +1,499 @@
+<title>价格查询</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>价格查询</cite></a>
+    </div>
+</div>
+
+
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">关键字</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="keywords" placeholder="可搜索关键字、网址" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <!-- <div class="layui-inline">
+                            <label class="layui-form-label">网址</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="url" placeholder="请输入网址" autocomplete="off" class="layui-input">
+                            </div>
+                        </div> -->
+                        
+                        <div id="view" class="layui-inline">
+        
+                        </div>
+                        <script id="ngines_select" type="text/html">
+                            <label class="layui-form-label">{{ d.title }}</label>
+                            <div class="layui-input-inline">
+                                    <select name="search_ngines" lay-verify="search_ngines">
+                                        <option value="">全部</option>
+                                        {{#  layui.each(d.list, function(index, item){ }}
+                                            <option value="{{index}}">{{item}}</option>
+                                        {{#  }); }}
+                                        
+                                    </select>
+                                
+                            </div>
+                        </script>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-body" style="overflow: hidden;">
+                   
+                    <div style="padding-bottom: 10px;">
+                       
+                        <button class="layui-btn layuiadmin-btn-list" data-type="inquiry"><i class="layui-icon layui-icon-search"></i>添加查询</button>
+                        <button class="layui-btn layuiadmin-btn-list" data-type="batDel">批量删除</button>
+
+                    </div>
+                    <blockquote class="layui-elem-quote">
+                        <p>常规优化：正常优化方式，站内、站外都会优化，支持新站，请务必添加 后台及FTP，
+                            否则因此不能及时调整站内导致的无法优化、优化进度不能正常进行的一切后果自行承担。合作周期至少三个月，否则可能不通过审核。</p>
+                        <p>站外优化：优化方式为纯站外优化，可以7-30天快速上首页，要求网站关键词已经在搜索引擎前十页，否则优化会有很大几率失败。</p>
+                        <p style="color: red;">关键词更新：请提交关键词后点击刷新更新排名。</p>
+                    </blockquote>
+                    <!--<div class="layui-tab layui-tab-card">-->
+                        <!--<ul class="layui-tab-title">-->
+                            <!--<li class="layui-this">待审核</li>-->
+                            <!--<li>被拒绝</li>-->
+                            <!--<li>权限分配</li>-->
+                            <!--<li>商品管理</li>-->
+                            <!--<li>订单管理</li>-->
+                        <!--</ul>-->
+
+                    <!--</div>-->
+                    <div class="layui-col-md12">
+                        <div class="layui-col-xs12">
+                            <div style="width: 100%;height: 1px;"></div>
+                            <table id="LAY-app-seo-list" class="layui-form" lay-filter="LAY-app-seo-list"></table>
+                        </div>
+                        <style>
+                            .layui-card-body{overflow: hidden;}
+                            .layui-card .layui-col-xs6{    padding: 0 0.75rem;height: 36px;line-height: 36px;}
+                            .right-align{text-align: right;font-size: 15px;font-weight: 600;}
+                            .left-align{text-align: left;}
+                            .deploy_title {
+                                padding-left: 30px;
+                                font-size: 18px;
+                                line-height: 40px;
+                                color: #fff;
+                                background-color: #26a69a;
+                            }
+                            #dbmt_money,#dj_money{    font-size: 20px; color: #f80;}
+                            .layui-col-xs6 a{    color: #26a69a;}
+                        </style>
+                        <!-- <div class="layui-col-xs3">
+                            <div class="layui-card">
+                                <div class="layui-card-header "><h4 class="deploy_title">已选择的关键词配置</h4></div>
+                                <div class="layui-card-body">
+                                    <div class="layui-col-xs6 right-align">站外优化周期：</div>
+                                    <div class="layui-col-xs6 ">约7-20天</div>
+                                    <div class="layui-col-xs6 right-align">常规优化周期：</div>
+                                    <div class="layui-col-xs6">约30-60天</div>
+                                    <div class="layui-col-xs6 right-align">系统计费方式：</div>
+                                    <div class="layui-col-xs6">按天扣费</div>
+                                    <div class="layui-col-xs6 right-align">勾选关键词数：</div>
+                                    <div class="layui-col-xs6"><span id="dbmt_number">0</span></div>
+                                    <div class="layui-col-xs6 right-align">达标每日消费：</div>
+                                    <div class="layui-col-xs6"><span id="dbmt_money">￥0.00</span></div>
+                                    <div class="layui-col-xs6 right-align">任务合计总价：</div>
+                                    <div class="layui-col-xs6"><span id="dj_money">￥0.00</span></div>
+                                    <div class="layui-col-xs6 right-align">
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" name="check" value="1" title="阅读" checked="">
+                                        </div>
+                                        我已阅读并同意：
+                                    </div>
+                                    <div class="layui-col-xs6"><a href="javascript:void(0);">《网站SEO优化协议》</a></div>
+                                    <button class="layui-btn layuiadmin-btn-list layui-btn-fluid layui-btn-warm" data-type="batSubmit">购买当前关键词</button>
+                                </div>
+
+                            </div>
+                        </div> -->
+                    </div>
+
+                    
+                    <script type="text/html" id="rankTpl">
+                        {{#  if(d.status==2 || d.status==3){ }}
+                                {{# if(d.current_ranking==0){ }}
+                                    >100
+                                {{#  } else { }}
+                                    {{d.current_ranking}}
+                                {{#  } }}
+                        {{#  } else { }}
+                                --
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="originalrankTpl">
+                        {{#  if(d.original_rank == 101){ }}
+                                {{# if(d.rank_time){ }}
+                                    >100
+                                {{#  } else { }}
+                                    <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                                {{#  } }}
+                        {{#  } else { }}
+                                {{ d.original_rank }}
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="buttonTpl">
+                        {{#  if(d.status == 0) { }}
+                                <span style="color: red;">未提交</span>
+                        {{#  } else if(d.status == 1) { }}
+                                <span style="color:#0da919;">审核中</span>
+                        {{#  } else if(d.status == 2) { }}
+                                <span style="color:#0da919;">任务进行中</span>
+                        {{#  } else if(d.status == 3) { }}
+                                <span style="color:#0da919;">已完成</span>
+                        {{#  } else if(d.status == 5) { }}
+                                <span style="color:#0da919;">审核未通过</span>
+                        {{#  } }}
+                    </script>
+                    <script type="text/html" id="button-content">
+                        
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="submits" title="购买、提交审核">
+                            <i class="layui-icon layui-icon-ok"></i>
+                        </a>
+                        
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete" title="删除">
+                            <i class="layui-icon layui-icon-delete"></i>
+                        </a>
+
+                        <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="save" title="保存到我的任务列表"><i
+                            class="layui-icon layui-icon-list"></i></a> -->
+                    </script>
+                    <script type="text/html" id="originalrankTpl">
+                        {{#  if(d.original_rank == 0){ }}
+                                (更新中)
+                        {{#  } else { }}
+                                {{ d.original_rank }}
+                        {{#  } }}
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md4">-->
+            <!--<div class="layui-card">-->
+                <!--<div class="layui-card-header">-->
+                    <!--已选择的关键词配置-->
+                <!--</div>-->
+                <!--<div class="layui-card-body">-->
+                    <!--<div id="checkbox"></div>-->
+                    <!--<div style="clear: both;"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+<script type="text/javascript">
+var keywrodsData = localStorage.getItem("keywrodsData")?JSON.parse(localStorage.getItem("keywrodsData")):[];
+
+layui.use(['admin','table','form','setter'],function () {
+
+    var table = layui.table
+        ,view = layui.view
+        ,admin = layui.admin
+        ,form = layui.form
+        ,setter = layui.setter
+        ,laytpl = layui.laytpl
+        ,request = setter.request
+        ,$ = layui.$;
+    form.render(null, 'app-content-list');
+    // var keywrodTab = table.render({
+    //     elem:"#LAY-app-seo-list"
+    //     ,url: '/v1/task/list?status=0&shenhe_status=0' //模拟接口
+    //     ,headers:{
+    //        'access-token':(layui.data(setter.tableName)[request.tokenName] || '')
+    //     }
+    //     ,cols: [[
+    //         {type: 'checkbox', fixed: 'left'}
+    //         ,{field: 'keywords', title: '关键词'}
+    //         ,{field: 'price', title: '价格/天'}
+    //         ,{field: 'web_url', title: '网址',width:150,align:'center'}
+    //         ,{field: 'search_ngines', title: '搜索引擎'}
+    //         ,{field: 'create_time', title: '提交时间',sort:true}
+    //         ,{field: 'original_rank', title: '初始排名', align:'center', templet:'#originalrankTpl',sort:true}
+    //         ,{field: 'current_ranking', title: '当前排名', align:'center', templet:'#rankTpl',sort:true}
+    //         ,{field: 'status', title: '状态', templet: '#buttonTpl', Width: 60, align: 'center',fixed: 'right',}
+    //         ,{field: 'cycle', title: '合作周期',templet:function (d ) {
+    //                 return  d.cycle + "天";
+    //             },sort:true}
+    //         // ,{field: 'status', title: '审核状态'}
+    //         ,{title: '操作', minWidth: 200, align: 'center', fixed: 'right', templet: '#button-content'}
+    //     ]]
+    //     ,parseData:function ( res ) {
+    //         return {
+    //             "code": res.code, //解析接口状态
+    //             "msg": res.msg, //解析提示文本
+    //             "count": res.data.total, //解析数据长度
+    //             "data": res.data.data //解析数据列表
+    //         };
+    //     }
+    //     ,loading:true
+    //     ,page: true
+    //     ,limit: 20
+    //     ,limits: [30, 50, 100, 200, 500]
+    //     ,text:{none: '一条数据也没有^_^'}
+    // });
+    inquiryTable = {
+      elem: '#LAY-app-seo-list' //指定原始表格元素选择器（推荐id选择器）
+      ,cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            ,{field: 'keywords', title: '关键词'}
+            ,{field: 'price', title: '价格/天',align:'center'}
+            ,{field: 'web_url', title: '网址',width:150,align:'center'}
+            ,{field: 'search_ngines', title: '搜索引擎',align:'center',templet:function (d ) {
+                    return  d.search_ngine_title;
+                }}
+            ,{field: 'status', title: '状态',  Width: 60, align: 'center',fixed: 'right',templet:function (d ) {
+                    return  '未提交';
+                }}
+            
+            ,{title: '操作', minWidth: 200, align: 'center', fixed: 'right', templet: '#button-content'}
+        ]] //设置表头
+        ,limit:999
+        ,data:keywrodsData
+        ,done: function(res, curr, count){
+            
+            localStorage.setItem("keywrodsData",JSON.stringify(res.data));
+            
+          }
+    };
+    table.render(inquiryTable);
+
+    form.on('checkbox', function(data){
+        
+        setTimeout(function(){
+            var checkStatus = table.checkStatus('LAY-app-seo-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+            var dbmt_money = 0;
+            var dj_money = 0;
+            for (var i=0;i<checkData.length;i++){
+                dbmt_money += parseFloat(checkData[i].price);
+                dj_money += parseFloat(checkData[i].price) * parseFloat(checkData[i].cycle);
+                
+            }
+            $("#dbmt_number").html(checkData.length);
+            $("#dbmt_money").html("￥"+dbmt_money.toFixed(2));
+            $("#dj_money").html("￥"+dj_money.toFixed(2));
+            
+            
+        },1)
+        
+
+
+        // console.log(data.elem); //得到checkbox原始DOM对象
+        // console.log(data.elem.checked); //是否被选中，true或者false
+        // console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+        // console.log(data.othis); //得到美化后的DOM对象
+    });
+    //监听搜索
+    form.on('submit(LAY-app-contlist-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-app-seo-list', {
+            where: field
+        });
+    });
+    
+    //popupInquiry();
+    
+    table.on('tool(LAY-app-seo-list)',function (obj) {
+        var data = obj.data;
+        _this = $(this)
+        
+        if(obj.event == "submits"){
+            layer.confirm('确定提交吗？', function(index) {
+                admin.req({
+                    url: '/v1/keyword/submitnew' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {data:data}
+                    ,done: function( res ){
+                        if (res.id) {
+                            layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            }, function(){
+                                inquiryTable.data.splice($(obj.tr.selector).data('index'),1);
+                                table.render(inquiryTable);
+                            });
+                        }
+                        layer.close(index);
+                    }
+                });
+
+            });
+        }else if(obj.event == "save"){
+            admin.req({
+                url: '/v1/keyword/submitnew' 
+                ,type:'post'
+                ,data: {data:data,action:'save'}
+                ,done: function( res ){
+                    if (res.id) {
+                        layer.msg('操作成功', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            inquiryTable.data.splice($(obj.tr.selector).data('index'),1);
+                            table.render(inquiryTable);
+                        });
+                    }
+                    layer.close(index);
+                }
+            });
+        }else if(obj.event == "delete"){
+            layer.msg('删除成功', {
+                offset: '15px'
+                ,icon: 1
+                ,time: 1000
+            }, function(){
+                ;
+
+                inquiryTable.data.splice($(obj.tr.selector).data('index'),1);
+                table.render(inquiryTable);
+                //obj.del();
+                
+                //_this.closest('tr').remove();
+            });
+            
+        }   
+    })
+    var active = {
+        inquiry: function (othis) {
+            popupInquiry();
+        }
+        ,batDel:function(){
+                var checkStatus = table.checkStatus('LAY-app-seo-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+                console.log(inquiryTable.data)
+                if(checkData.length === 0){
+                    return layer.msg('请选择关键词');
+                }
+                
+                layer.confirm('确定批量删除吗？', function(index) {
+                    layer.msg('操作成功', {
+                                offset: '15px'
+                                ,icon: 1
+                                ,time: 1000
+                            },function(){
+                                for (var i = 0; i < inquiryTable.data.length; i++) {
+                                    
+                                    for (var j = 0; j < checkData.length; j++) {
+                                        console.log(checkData[j]['keywords'])
+                                        if(checkData[j]['keywords'] == inquiryTable.data[i]['keywords'] && checkData[j]['search_ngines'] == inquiryTable.data[i]['search_ngines'] && checkData[j]['web_url'] == inquiryTable.data[i]['web_url'])
+                                        {
+                                            inquiryTable.data.splice(i,1);
+                                        }
+                                    }
+                                    
+                                }
+                                table.render(inquiryTable);
+                            })
+
+                    
+                });
+            }
+        
+        
+    };
+
+    $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+
+    var data = { //数据
+      "title":"搜索引擎"
+      ,"list":setter.search_ngines
+    }
+    var getTpl = ngines_select.innerHTML
+    ,viewxxx = document.getElementById('view');
+    laytpl(getTpl).render(data, function(html){
+      viewxxx.innerHTML = html;
+    });
+    form.render(null, 'app-content-list');
+
+    $(document).on('click','.countreduce',function(){
+        var min = 3;
+        var value = parseInt($("input[name='cycle']").val());
+        if( (value-1) >=min)
+        {
+            $("input[name='cycle']").val(value-1);
+        }else {
+            layer.msg('合作周期最少'+min+'个月');
+        }
+    });
+    $(document).on('click','.countadd',function(){
+        var value = parseInt($("input[name='cycle']").val());
+        $("input[name='cycle']").val( value+1 );
+    });
+
+    function popupInquiry(){
+        admin.popup({
+            title: '价格查询'
+            , area: ['600px', '340px']
+            , id: 'LAY-popup-content-inquiry'
+            ,btn:['查询','关闭']
+            , success: function (layero, index) {
+                view(this.id).render('customers/tasks/inquiry-form-pro').done(function () {
+                    form.render(null, 'layuiadmin-app-task-add');
+                });
+            }
+            ,yes:function (index, layero) {
+                var keywords = $("#layuiadmin-app-task-add input[name='inquiry_keywords']").val();
+                var web_url = $("#layuiadmin-app-task-add input[name='inquiry_web_url']").val();
+                var xiongzhang = $("#layuiadmin-app-task-add input[name='inquiry_xiongzhang']").val();
+                if(!keywords || !web_url)
+                {
+                    layer.msg('请完善信息', {icon: 2});
+                    return false;
+                }
+                admin.req({
+                    url: '/v1/keyword/inquiryall' //实际使用请改成服务端真实接口
+                    ,type:'post'
+                    ,data: {keywords:keywords,web_url:web_url,xiongzhang:xiongzhang}
+                    ,done: function( res ){
+
+                        //登入成功的提示与跳转
+                        layer.msg('查询成功！', {
+                            offset: '15px'
+                            ,icon: 1
+                            ,time: 1000
+                        }, function(){
+                            for (var i = 0; i < res.data.length; i++) {
+                                keywrodsData.unshift(res.data[i]);
+                                inquiryTable.data = keywrodsData;
+                                
+                            }
+                            
+                            table.render(inquiryTable);
+                            layer.close(index);
+                        });
+                    }
+                });
+            }
+            ,btn2: function(index, layero){
+                layer.close(index); //执行关闭
+            }
+        });
+    }
+})
+
+</script>

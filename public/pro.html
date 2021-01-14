@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-size: 100px;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>速达SEO计费系统 - SEO按天计费系统,SEO按天计费系统源码</title>
+<link href="css/global.css" rel="stylesheet" type="text/css">
+<link href="css/themes.css" rel="stylesheet" type="text/css">
+<link href="css/user.css" rel="stylesheet" type="text/css">
+<link href="css/global(1).css" rel="stylesheet" type="text/css">
+<script charset="utf-8" src="js/v.js"></script>
+<script src="js/hm.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/cn.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/themes.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery.smoove.js"></script>
+<link href="css/products.css" rel="stylesheet" type="text/css">
+</head>
+<body class="w_1200">
+<div id="header" class="shadow">
+	<div class="marinner">
+		<div class="logo img fl"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+		<div class="menu">
+			<a href="index.html">首页</a>
+			<a href="pro.html">产品</a>
+			<a href="price.html">定价</a>
+			<a href="agent.html">代理</a>
+			<a href="brief.html">简介</a>
+		</div>
+		<div class="member fr">
+			<a class="sign btn bs" href="/customer/#/user/login" target="_blank" rel="nofollow">普通会员</a>
+			<a class="sign btn bs" href="/system/#/user/login" target="_blank" rel="nofollow">代理商</a>
+			<a class="sign btn bs" href="/platform/" target="_blank" rel="nofollow">管理员</a>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="header_blank">
+    <div id="mobile_header">
+        <div class="container">
+            <div class="fl">
+                <div class="logo img"><a href="index.html"><img src="img/6bb04610e7.png"></a><span></span></div>
+            </div>
+            <div class="fr">
+                <div class="menu"></div>
+            </div>
+            <div class="menu_list">
+                <ul>
+					<li><a href="index.html">首页</a></li>
+					<li><a href="pro.html">产品</a></li>
+					<li><a href="price.html">定价</a></li>
+					<li><a href="agent.html">代理</a></li>
+					<li><a href="brief.html">简介</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <script>
+        	$('.menu_list ul li .item_btn').click(function(){
+				$(this).parents('li').find('.sec_menu').slideToggle();
+				$(this).toggleClass('up');
+			});
+			$('#mobile_header .menu i').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask();
+				$('#mobile_header .menu .menu_list').addClass('menu_cur');
+			});
+			$('#mobile_header .menu .menu_list .btn').on('touchstart',function(eve){
+				eve.preventDefault();
+				global_obj.div_mask(1);
+				$('#div_mask').remove();
+				$('#mobile_header .menu .menu_list').removeClass('menu_cur');
+			});
+			var interval = 0;
+			var number_add = 0;
+			var number_end = $('#int #customer').data('num');
+			var set_num = function(){
+				number_add += 211;
+				$('#int #customer').text(number_add+'+');
+				if(number_add>number_end){
+					clearInterval(interval);
+					$('#int #customer').text(number_end+'+');
+				}
+			}
+			interval = setInterval(set_num,60);
+			$('#mobile_header .menu').on('touchstart',function(){
+				if($(this).hasClass('menu_cur')){
+					global_obj.div_mask(1);
+					$('#div_mask').remove();
+				}else{
+					global_obj.div_mask();
+				}
+				$(this).toggleClass('menu_cur');
+				$('#mobile_header .menu_list').slideToggle('fast');
+			});
+        </script>
+    </div>
+</div>	<div class="banner img">
+		<div class="banner_title">速达SEO营销流程</div>
+		<div><img src="img/c97952c245.jpg" alt=""></div><span></span>
+		</div>
+	<div class="content">
+					<div class="pro_title">站内SEO基础部署</div>
+			<div class="seo_list for_list">
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/a51b71325c.png" alt="支持国内主流搜索引擎"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 151px;">
+								<div class="name">支持国内主流搜索引擎</div>
+								<div class="desc">多支优化团队，各自专攻一方，对各大引擎算法研究深度明显优于其他优化团队</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/731549ae29.png" alt="关键词智能评估系统"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 151px;">
+								<div class="name">关键词智能评估系统</div>
+								<div class="desc">基于速达SEO丰富的信息查询系统、关键词价格估算和索引挖掘功能，自动对客户提交关键词和网址进行分析，科学评估SEO任务价格，透明公正</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/8c0e46c2bd.png" alt="强大技术资源支撑"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 166px;">
+								<div class="name">强大技术资源支撑</div>
+								<div class="desc">拥有国内较好的站外资源匹配系统，各大行业站点近万个，丰富的友情链接库，从资源上碾压同行，对于高难度SEO任务具有明显优势</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+					<div class="pro_title last">营销开始运作</div>
+			<div class="sale_list for_list">
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/e539427525.png" alt="网站分析系统"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 151px;">
+								<div class="name">网站分析系统</div>
+								<div class="desc">针对网站20多项指标，快速做出定位分析，可以进行快速修改站内工作，保证符合百度算法要求</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/7ff9935c96.png" alt="外链建设与资源共享"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 166px;">
+								<div class="name">外链建设与资源共享</div>
+								<div class="desc">解决SEO的关键环节，外链问题，链接系统内所有用户资源，共享外链计划帮助用户快速提升关键词排名及站点权重</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/f75de7fd85.png" alt="自主灵活下单"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 151px;">
+								<div class="name">自主灵活下单</div>
+								<div class="desc">根据你设定的目标关键词，机器人自动匹配更多的长尾词，然后为你发掘在全球的销售该产品的相关经销商名单，并录入到潜在客户数据库</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/a208770e7b.png" alt="EDM邮件群发"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 166px;">
+								<div class="name">EDM邮件群发</div>
+								<div class="desc">自由选择关键词及对应引擎，拒绝销售误导，防止被骗，节约优化成本</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+									<div class="copy">
+						<div class="marinner">
+							<div class="img" data-move-y="200px" data-move-x="200px" data-rotate="-45deg"><img src="img/381ef53bab.png" alt="智能报价系统"><span></span></div>
+							<div class="word" data-move-y="200px" data-move-x="-200px" data-rotate="45deg" style="margin-top: 151px;">
+								<div class="name">智能报价系统</div>
+								<div class="desc">基于强大的信息分析采集系统，科学智能计算关键价格，拒绝朦胧价。</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+							</div>
+			</div>
+	<div class="bottom_desc">
+	<div class="marinner">
+		<div class="desc1">立即体验新一代营销方式</div>
+		<a class="btn1">免费试用</a>
+	</div>
+</div>
+<div id="footer">
+	<div class="marinner">
+		<div class="top">
+			<div class="logo img"><img src="img/l_logo.png" alt="营销"><span></span></div>
+			<div class="copy first">
+								<div class="title">友情链接 </div>
+									<a class="li" href="http://www.17s.cn" target="_blank" rel="nofollow">速达网络</a>
+									<a class="li" href="http://www.1peibao.cn" target="_blank" rel="nofollow">亿配宝</a>
+							</div>
+			<div class="copy last">
+				<div class="title">联系方式</div>
+				<div class="li phone mobile">电话：13547444474</div>
+				<a class="li email" href="mailto:lsy@lanshiseo.com">邮箱：330121832@qq.com</a>
+				<div class="li address">地址：四川南充高坪区金融广场5-2023</div>
+				<div class="li phone">电话：19982820062</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="copyer">
+
+</div>
+<div id="footer_blank"></div>
+<div id="global_bottom_box">
+	<a class="global_53" href="javascript:;">联系客服</a>
+	<a class="global_53" href="javascript:;">免费体验</a>
+</div>
+	            <div id="qq_service" class="chattrans">
+            <div class="img top_img"><img src="img/df3eed8073.png"></div>
+            <ul style="border-color:#02CCBA;">
+                                    <li>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Winters"><img src="img/a3aea41c75.jpg" alt="Winters"></a><br>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=2940593562&menu=yes" target="_blank" d="2940593562" title="Winters">Winters</a>
+                    </li>
+
+                            </ul>
+        </div>
+</div>
+
+</body>
+</html>

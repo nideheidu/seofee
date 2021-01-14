@@ -1,0 +1,116 @@
+<title>网站列表</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>SEO管理</cite></a>
+        <a><cite>网站管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">网站</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="url" placeholder="请输入网站名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>-->
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="add">添加客户</button>-->
+            </div>
+            <table id="LAY-app-weburl-list" lay-filter="LAY-app-weburl-list"></table>
+            <script type="text/html" id="keywordTpl">
+                数量:{{d.keywords_count}}&nbsp&nbsp&nbsp操作：<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="keywordInfo">查看</a>
+            </script>
+            <script type="text/html" id="FTPHostTpl">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="ftpInfo">编辑</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use('weburllist', layui.factory('weburllist')).use(['admin', 'weburllist', 'table'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , table = layui.table
+            , form = layui.form;
+
+        form.render(null, 'app-content-list');
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-weburl-list', {
+                where: field
+            });
+        });
+
+        var active = {
+            //添加
+            add: function (othis) {
+                admin.popup({
+                    title: '添加客户'
+                    , area: ['700px', '600px']
+                    , id: 'LAY-popup-customer-add'
+                    , success: function (layero, index) {
+                        view(this.id).render('seo/customer/add').done(function () {
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                if(field.status === "on"){
+                                    field.status = 1;
+                                }else {
+                                    field.status = 0;
+                                }
+                                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                admin.req({
+                                    url: '/admin/customer/add'
+                                    ,type:"post"
+                                    ,data:field
+                                    ,done: function( res ){
+                                        //登入成功的提示与跳转
+                                        layer.msg(res.msg, {
+                                            offset: '15px'
+                                            ,icon: 1
+                                            ,time: 1000
+                                        },function () {
+                                            layui.table.reload('LAY-app-customer-list'); //重载表格
+                                            layer.close(index); //执行关闭
+                                        });
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
