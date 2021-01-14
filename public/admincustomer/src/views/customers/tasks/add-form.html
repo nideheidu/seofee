@@ -1,0 +1,223 @@
+<style> button, input, select, textarea {font-family: inherit; font-size: inherit; line-height: inherit; color: inherit; } span{margin: 0; padding: 0; border: 0; font-size: 100%; vertical-align: baseline;} .zent-number-input-arrow, .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-countreduce {left: 1px; border-right: 1px solid #bbb; } .zent-input-wrapper {display: -webkit-box; display: -ms-flexbox; display: flex; position: relative; height: 38px; max-height: 38px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper .zent-input {padding: 0 35px; text-align: center; } .zent-input[type=text]{display: inline-block; -webkit-box-flex: 1; -ms-flex: 1; flex: 1; min-width: 80px; height: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; padding: 0 10px; margin: 0; border: 1px solid #bbb; color: #333; font-size: 12px; border-radius: 2px; -webkit-box-shadow: none; box-shadow: none; -webkit-transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out; transition: border .2s ease-in-out,box-shadow .2s ease-in-out,-webkit-box-shadow .2s ease-in-out; -webkit-appearance: none; -moz-appearance: none; appearance: none; } .zent-number-input-count {position: absolute; text-align: center; z-index: 10; cursor: pointer; -webkit-box-sizing: border-box; box-sizing: border-box; } .zent-number-input-countadd {right: 1px; border-left: 1px solid #bbb; } .zent-number-input-count {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; width: 34px; top: 1px; color: #333; line-height: 36px; } .zent-number-input-wrapper.zent-number-input-counter-wrapper {width: 108px; } </style>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-app-task-add" id="layuiadmin-app-task-add"style="padding: 20px 30px 0 0;">
+
+    <div id="view" class="layui-form-item">
+        
+    </div>
+    <script id="ngines_select" type="text/html">
+        <label class="layui-form-label">{{ d.title }}</label>
+        <div class="layui-input-inline">
+                <select name="search_ngines" lay-verify="search_ngines">
+                    <option value=""></option>
+                    {{#  layui.each(d.list, function(index, item){ }}
+                        <option value="{{index}}">{{item}}</option>
+                    {{#  }); }}
+                    
+                </select>
+            
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            *选择搜索引擎
+        </div>
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键字</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <textarea type="text" name="keywords" value="{{ d.params.keywords || '' }}" lay-verify="keywords" placeholder="请输入关键字，多个换行" autocomplete="off" class="layui-textarea"></textarea>
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            *请输入关键字,多个关键词用回车换行
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">网址</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="web_url" value="{{ d.params.web_url || '' }}" lay-verify="web_url" placeholder="请输入网址" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            *请输入有效网址
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">熊掌号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="xiongzhang" value="{{ d.params.xiongzhang || '' }}"  placeholder="熊掌号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            *如关联熊掌号请填写熊掌号，能更精确查询排名
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台网址</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="admin_web_url" value="{{ d.params.admin_web_url || '' }}" lay-verify="admin_web_url" placeholder="请输入后台网址" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            请输入后台网址
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台账号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="admin_username" value="{{ d.params.admin_web_url || '' }}" lay-verify="" placeholder="请输入后台账号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            请输入后台账号
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">后台密码</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="admin_password" value="{{ d.params.admin_web_url || '' }}" lay-verify="" placeholder="请输入后台密码" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            请输入后台密码
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP网址</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="ftp_host" value="{{ d.params.ftp_host || '' }}" lay-verify="ftp_host" placeholder="请输入FTP网址" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            FTP网址,以ftp://开头
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP端口</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="number" name="ftp_port" maxlength="5" value="{{ d.params.ftp_port || '' }}" placeholder="FTP端口" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            FTP端口
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP账号</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="ftp_username" value="{{ d.params.meun_url || '' }}" lay-verify="" placeholder="请输入FTP账号" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            FTP账号
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">FTP密码</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="ftp_password" value="{{ d.params.ftp_password || '' }}" lay-verify="" placeholder="请输入FTP密码" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            FTP密码
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">合作周期</label>
+        <div class="layui-input-inline" style="width: 108px;">
+            <div class="zent-number-input-wrapper zent-number-input-counter-wrapper">
+                <span class="zent-number-input-count zent-number-input-countreduce countreduce" data-type="countreduce">–</span>
+                <div class="zent-input-wrapper">
+                    <input type="text" name="cycle" class="zent-input" value="1"  readonly="" placeholder="请输入数字">
+                </div>
+                    <span class="zent-number-input-count zent-number-input-countadd countadd" data-type="countadd">+</span>
+
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            个月
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="type" value="{{ d.params.type ||1 }}">
+    </script>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-task-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.use(['admin', 'form', 'layer','element'],function () {
+        var $ = layui.$;
+        var form = layui.form;
+        var layer = layui.layer;
+        var setter = layui.setter;
+        var laytpl = layui.laytpl;
+        var admin = layui.admin ,view = layui.view,element = layui.element;
+        form.verify({
+            search_ngines: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(value ==''){
+                    return '请选择搜索引擎';
+                }
+            }
+            ,keywords:function (value,item) {
+                if(value == ''){
+                    return '请填写关键字';
+                }
+
+            }
+            ,web_url:function (value,item) {
+                if(value == ''){
+                    return '请填写网址';
+                }
+                // if(!/^((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value)){
+                //     return '请填写正确的网址';
+                // }
+            }
+            ,admin_web_url:function (value,item) {
+                // if(value !== ''){
+                //     // if(!/^((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value)){
+                //     //     return '请填写正确的网址';
+                //     // }
+                // }
+            }
+            
+        });
+        var data = { //数据
+          "title":"搜索引擎"
+          ,"list":setter.search_ngines
+        }
+        var getTpl = ngines_select.innerHTML
+        ,view = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+          view.innerHTML = html;
+        });
+
+        $(document).on('click','.countreduce',function(){
+            var min = 1;
+            var value = parseInt($("input[name='cycle']").val());
+            if( (value-1) >=min)
+            {
+                $("input[name='cycle']").val(value-1);
+            }else {
+                layer.msg('合作周期最少'+min+'个月');
+            }
+        });
+        $(document).on('click','.countadd',function(){
+            var value = parseInt($("input[name='cycle']").val());
+            $("input[name='cycle']").val( value+1 );
+        });
+
+    })
+</script>

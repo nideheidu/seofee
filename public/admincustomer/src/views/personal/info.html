@@ -1,0 +1,129 @@
+
+<title>设置我的资料</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>个人中心</cite></a>
+    <a><cite>我的资料</cite></a>
+  </div>
+</div>
+  
+<div class="layui-fluid" lay-filter="layuiadmin-app-user-info" id="layuiadmin-app-user-info">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header">设置我的资料</div>
+        <div class="layui-card-body" pad15>
+          <blockquote class="layui-elem-quote" style="background-color: #ffffff">
+            请完善您的资料，方便我们对您有更好的服务！
+          </blockquote>
+            <div class="layui-form-item">
+              <label class="layui-form-label">会员账号</label>
+              <div class="layui-input-inline">
+                <input type="text" name="username" id="username" disabled  class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">手机</label>
+              <div class="layui-input-inline">
+                <input type="text" name="mobile" id="mobile" value="" lay-verify="phone"  autocomplete="off" class="layui-input">
+              </div>
+              <!--<div class="layui-form-mid layui-word-aux">请认真填写，填写后不可修改</div>-->
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">邮箱</label>
+              <div class="layui-input-inline">
+                <input type="text" name="email" id="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
+              </div>
+
+            </div>
+            <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">联系人</label>
+              <div class="layui-input-inline">
+                <input type="text" name="contacts" id="contacts" value="" lay-verify="" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">QQ号码</label>
+              <div class="layui-input-inline">
+                <input type="text" name="qq_number" id="qq_number" value="" lay-verify="" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">公司名称</label>
+              <div class="layui-input-inline">
+                <input type="text" id="company_name" value="" lay-verify="" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">认证信息</label>
+              <div class="layui-input-block">
+                <a class="layui-btn layui-btn layui-btn-disabled"><i class="layui-icon layui-icon-auz"></i> 个人认证</a>
+                <a class="layui-btn layui-btn layui-btn-disabled"><i class="layui-icon layui-icon-auz"></i> 企业认证</a>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+layui.use(['admin','table','form','setter','jquery'],function () {
+    var view = layui.view
+        ,admin = layui.admin
+        ,form = layui.form
+        ,setter = layui.setter
+        ,request = setter.request
+        ,$ = layui.jquery;
+    var _this=this;
+    admin.req({
+        url: '/v1/get_user_info.html'
+        ,type:"get"
+        ,done: function( res ){
+            if(res.data){
+                form.render(null, 'layuiadmin-app-user-info');
+                $('#username').val(res.data.username);
+                $('#mobile').val(res.data.phone);
+                $('#email').val(res.data.email);
+                $('#contacts').val(res.data.contacts);
+                $('#qq_number').val(res.data.qq_number);
+                $('#company_name').val(res.data.company_name);
+            }
+        }
+    });
+    //监听提交
+    form.on('submit(setmyinfo)', function (data) {
+        console.log(data);
+        var field = data.field; //获取提交的字段
+        //提交 Ajax 成功后，关闭当前弹层并重载表格
+        field['username']=$('#username').val();
+        field['phone']=$('#mobile').val();
+        field['email']=$('#email').val();
+        field['contacts']=$('#contacts').val();
+        field['qq_number']=$('#qq_number').val();
+        field['company_name']=$('#company_name').val();
+        admin.req({
+            url: '/v1/user/save_info.html' //实际使用请改成服务端真实接口
+            ,type:'post'
+            ,data: field
+            ,done: function( res ){
+                if(res.code==0){
+                    layer.msg('保存成功');
+                }else{
+                    layer.msg('保存出错');
+                }
+            }
+        });
+
+    });
+});
+</script>
